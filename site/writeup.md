@@ -4,7 +4,7 @@ Anyone who uses Claude Code ends up writing instructions for it, and there's ple
 
 Giving a reason came back inconclusive. No wording factor survives correction on average, though single rules do move in a post hoc look. For skills, the listing budget controls whether a description reaches the model. A long description on a never-used skill that sorts after the budget is spent doesn't arrive. The last study raised the budget, which also showed every other skill's description, and that skill went from a load rate of 0.292 to 0.990, +69.8 points [+53.7, +85.8].
 
-Every number here is on the [numbers page](results/NUMBERS.md) unless it links to its own report, and anything exploratory or post hoc says so. The [explorer](https://abhaymettu.github.io/because-study/) shows the rules, arms and transcripts behind the numbers, and the [paper](paper/because.pdf), [doi:10.5281/zenodo.23896686](https://doi.org/10.5281/zenodo.23896686), has the full methods.
+Every number here is on the [numbers page](results/NUMBERS.md) unless it links to its own report, and anything exploratory or post hoc says so. The [explorer](https://abhaymettu.github.io/because-study/) shows the rules, arms and transcripts behind the numbers, and the [paper](paper/because.pdf), [doi:10.5281/zenodo.23898121](https://doi.org/10.5281/zenodo.23898121), has the full methods.
 
 ## Reasons came back inconclusive
 
