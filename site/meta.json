@@ -19,7 +19,8 @@
   ],
   "links": [
     {"label": "Explorer", "href": "https://abhaymettu.github.io/because-study/"},
-    {"label": "Paper", "href": "https://github.com/abhaymettu/because-study/blob/main/paper/because.pdf"}
+    {"label": "Paper", "href": "https://github.com/abhaymettu/because-study/blob/main/paper/because.pdf"},
+    {"label": "DOI", "href": "https://doi.org/10.5281/zenodo.23896686"}
   ],
   "site": {
     "eyebrow": "Preregistered experiments · four studies · Claude Code 2.1.303 · MIT",

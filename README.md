@@ -8,7 +8,7 @@ Giving a reason for a rule came back inconclusive. No wording factor survives co
 
 Points are percentage points, of compliance in Study 1 and of skill loading in Studies 2, 2b and 2c. Brackets are 95% intervals. Every result on this page is in [`results/NUMBERS.md`](results/NUMBERS.md), except the listing, audit, pool and review figures, which link to their own reports. Anything exploratory or post hoc says so where it appears.
 
-The [explorer](https://abhaymettu.github.io/because-study/) shows the rules, arms and transcripts behind the numbers, and the [paper](paper/because.pdf) has the full methods.
+The [explorer](https://abhaymettu.github.io/because-study/) shows the rules, arms and transcripts behind the numbers, and the [paper](paper/because.pdf), [doi:10.5281/zenodo.23896686](https://doi.org/10.5281/zenodo.23896686), has the full methods.
 
 ## What the studies found
 
