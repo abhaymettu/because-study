@@ -146,7 +146,7 @@ def study2b(res, out, reversal):
 def study2c(res, out, reversal):
     grid = res["grid"]
     cells = {w: (grid[f"default/{w}"], grid[f"raised/{w}"]) for w in ("minimal", "trigger")}
-    slope(cells, set(cells), "The CLI's own budget", "Budget raised to 100,000", out / "study2c-budget.svg", [ACROSS, "All runs at 300 skills with a late name. Only the budget differs between the columns."])
+    slope(cells, set(cells), "The CLI's own budget", "Budget raised to 100,000", out / "study2c-budget.svg", [ACROSS, "All runs at 300 skills with a late name. Only the budget setting differs, and raising it also shows every other skill's description."])
 
 
 def main():

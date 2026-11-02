@@ -1,4 +1,18 @@
 {
+ "study2c_post_hoc": {
+  "load_when_description_missed_at_own_budget": {
+   "minimal": [
+    13,
+    43
+   ],
+   "trigger": [
+    28,
+    96
+   ]
+  },
+  "E3_targets_tied_at_zero": 6,
+  "E3_exact_sign_flip_p": 0.0625
+ },
  "study1": {
   "sensitivity_write_tool_repo_only": {
    "verdicts_changed": 41,

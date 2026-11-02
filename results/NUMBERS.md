@@ -141,6 +141,7 @@ The same contrasts within each prompt type (secondary, no correction, no signifi
 
 ## Exploratory and sensitivity (`results/exploratory.json`), never to be stated as registered
 
+- Study 2c, post hoc: at the CLI's own budget, runs whose description did not arrive loaded at 13 of 43 for minimal and 28 of 96 for trigger. E3 has 6 of 12 targets tied at zero, and an exact sign-flip test gives p 0.0625.
 - `write_tool` on repo paths only: 41 verdicts change; real +0.0 [-5.3, +5.3], placebo +0.9 [-1.4, +3.1].
 - Rule identity: focal compliance from 0.09 to 0.93, SD 0.29.
 - Having the rule at all, shown minus no rule: +54.2 [+33.1, +75.2].
@@ -234,6 +235,8 @@ Description reached the model when the budget was raised: 1.000.
 | E1_keyword (12 targets) | +50.7 [+25.9, +75.5] | 0.001 |  |
 | E1_generic (10 targets) | +86.7 [+71.0, +102.4] | 0.000 |  |
 | E1_indirect (9 targets) | +81.5 [+52.5, +110.4] | 0.000 |  |
+
+Total cost at API-equivalent prices: $37.35.
 
 | Budget / wording | load rate | n | description reached model | other skill only | no skill | cost per run |
 |---|---|---|---|---|---|---|

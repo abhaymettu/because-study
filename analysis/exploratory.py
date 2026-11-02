@@ -234,11 +234,26 @@ def reversal_cells():
     }
 
 
+def study2c_post_hoc():
+    """Counts and a sign-flip test nobody registered, read after the family: load when the description missed, and how E3 holds at the tie."""
+    from itertools import product
+
+    from analysis.study2 import load, per_target
+    rows, _ = load("data/study2c")
+    default = [r for r in rows if r["budget"] is None and not r["described"]]
+    missed = {w: [int(sum(r["y"] for r in default if r["wording"] == w)), sum(r["wording"] == w for r in default)] for w in ("minimal", "trigger")}
+    gaps = np.array(list(per_target(rows, lambda r: r["budget"] is not None, lambda r: r["wording"] == "trigger", lambda r: r["wording"] == "minimal").values()))
+    nonzero = gaps[gaps != 0]
+    flips = [abs(np.sum(nonzero * np.array(s))) for s in product((1, -1), repeat=len(nonzero))]
+    p = float(np.mean([f >= abs(nonzero.sum()) - 1e-12 for f in flips]))
+    return {"load_when_description_missed_at_own_budget": missed, "E3_targets_tied_at_zero": int(np.sum(gaps == 0)), "E3_exact_sign_flip_p": p}
+
+
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("--out", default="results/exploratory.json")
     a = p.parse_args()
-    res = {"study1": study1(), "study2_where_calls_go": study2_where_calls_go(), "study2_below_and_by_wording": study2_below_and_by_wording(), "reversal_cells": reversal_cells()}
+    res = {"study2c_post_hoc": study2c_post_hoc(), "study1": study1(), "study2_where_calls_go": study2_where_calls_go(), "study2_below_and_by_wording": study2_below_and_by_wording(), "reversal_cells": reversal_cells()}
     Path(a.out).write_text(json.dumps(res, indent=1, default=float))
     s = res["study1"]
     pct = lambda r: f"{100 * r['estimate']:+.1f} [{100 * r['ci'][0]:+.1f}, {100 * r['ci'][1]:+.1f}]"

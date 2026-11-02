@@ -86,6 +86,7 @@ def listing_check(lc):
 def study2c(c):
     out = ["## Study 2c (`results/study2c.json`)", "", f"Runs: {plain(c['runs'])}. Registered reading: {c['reading']}.", f"Description reached the model when the budget was raised: {rate(c['description_reached_model_when_raised'])}.", "", *HEAD]
     out += [row(k, r) for k, r in c["family"].items()] + [row(f"{k} ({r['g']} targets)", r) for k, r in c["secondary"].items()]
+    out += ["", f"Total cost at API-equivalent prices: ${c['cost']['api_equivalent_usd']:.2f}."]
     out += ["", "| Budget / wording | load rate | n | description reached model | other skill only | no skill | cost per run |", "|---|---|---|---|---|---|---|"]
     for k, g in c["grid"].items():
         out.append(f"| {k} | {rate(g['recall'])} | {g['n']} | {rate(g['description_reached_model'])} | {rate(g['other_skill_only'])} | {rate(g['no_skill'])} | ${g['cost_per_run']:.3f} |")
@@ -142,7 +143,10 @@ def main():
         out.append(f"| {k} | {rate(g['recall'])} | {g['n']} | {rate(g['description_reached_model'])} | {rate(g['recall_described'])} | {rate(g['recall_not_described'])} |")
     e = ex["study1"]
     w = e["sensitivity_write_tool_repo_only"]
+    pc = ex["study2c_post_hoc"]
+    miss = pc["load_when_description_missed_at_own_budget"]
     out += ["", "## Exploratory and sensitivity (`results/exploratory.json`), never to be stated as registered", "",
+            f"- Study 2c, post hoc: at the CLI's own budget, runs whose description did not arrive loaded at {miss['minimal'][0]} of {miss['minimal'][1]} for minimal and {miss['trigger'][0]} of {miss['trigger'][1]} for trigger. E3 has {pc['E3_targets_tied_at_zero']} of 12 targets tied at zero, and an exact sign-flip test gives p {pc['E3_exact_sign_flip_p']:.4f}.",
             f"- `write_tool` on repo paths only: {w['verdicts_changed']} verdicts change; real {pts(w['real_vs_filler'])}, placebo {pts(w['placebo_vs_filler'])}.",
             f"- Rule identity: focal compliance from {e['rule_identity']['lowest']:.2f} to {e['rule_identity']['highest']:.2f}, SD {e['rule_identity']['sd']:.2f}.",
             f"- Having the rule at all, shown minus no rule: {pts(e['having_the_rule_at_all']['effect'])}.",

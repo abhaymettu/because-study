@@ -2,7 +2,7 @@
 
 If you write `CLAUDE.md` files or skills for Claude Code, this repo tells you which edits change what the agent does. It holds four preregistered randomized experiments, with the data, the checkers and the harness to rerun them.
 
-Giving a reason for a rule came back inconclusive. No wording factor survives correction on average, though single rules do move in a post hoc look. For skills, the deciding thing is whether the description reaches the model, and the listing budget controls that. A long description on a never-used skill that sorts after the budget is spent does not arrive, and a preregistered test that raised the budget and held everything else fixed took that skill from a load rate of 0.292 to 0.990, +69.8 points [+53.7, +85.8].
+Giving a reason for a rule came back inconclusive. No wording factor survives correction on average, though single rules do move in a post hoc look. For skills, the listing budget controls whether a description reaches the model. A long description on a never-used skill that sorts after the budget is spent does not arrive, and a preregistered test that raised the budget, which also showed every other skill's description, took that skill from a load rate of 0.292 to 0.990, +69.8 points [+53.7, +85.8].
 
 ![Line chart of skill load rate at 300 skills with late names. At the CLI's own budget, the minimal description loads at 53% [38, 68] and the long trigger list at 29% [12, 46]. With the budget raised to 100,000 characters, minimal loads at 82% [67, 98] and the trigger list at 99% [97, 100].](docs/figures/study2c-budget.svg)
 
@@ -40,7 +40,7 @@ Single rules do move. Nobody registered this look, so everything in the table be
 | Capitals on `final_no_contractions` | +7.2 | 2.7 | .007 | .481 |
 | No clause on `func_lines` | -14.6 | 5.7 | .011 | .744 |
 
-Adding position, file length and user pressure makes 99 cells, and five more survive there. The largest is a user in a hurry on `one_blank`, at -24.5 (SE 3.4). [`results/NUMBERS.md`](results/NUMBERS.md) has the rest. The worked example adds specification as well as form and has no length-matched control, so +26.9 is more than a change of form.
+Adding position, file length and user pressure makes 99 cells, and five more survive there. The largest is a user in a hurry on `one_blank`, at -24.5 (SE 3.4, post hoc). [`results/NUMBERS.md`](results/NUMBERS.md) has the rest. The worked example adds specification as well as form and has no length-matched control, so +26.9 is more than a change of form.
 
 ### With the description in view, a trigger list loads at least as well
 
@@ -104,7 +104,7 @@ The registered family has four contrasts, and all four pass Holm.
 
 - E1, the trigger list, raised minus the CLI's own budget, is +69.8 [+53.7, +85.8].
 - E2, minimal, the same contrast, is +29.2 [+6.1, +52.2].
-- E3, trigger minus minimal with the budget raised, is +16.7 [+0.7, +32.7].
+- E3, trigger minus minimal with the budget raised, is +16.7 [+0.7, +32.7]. That pass is thin. Six of the 12 targets tie at zero, and an exact sign-flip test, post hoc, gives p 0.0625.
 - E4, the interaction, is +40.6 [+22.7, +58.6].
 
 The registered reading that fired is "the budget causes the reversal: with the budget raised a long trigger list recovers and is within 10 points of a short description or above it." This is the cleanest result in the repo, because the budget is the manipulated cause and the reading was frozen before the first run.
@@ -187,7 +187,7 @@ opts = {**opts, "command": my_command, "read_stream": my_read_stream}
 - I picked the nine rules off the ceiling in pilots, so the preregistered tests are claims about rules like these. That selection also brings some regression to the mean.
 - The repos are synthetic, and I wrote the skill targets.
 - The listing sizes belong to this library. Its descriptions run from 81 to 675 characters with a median of 217, so the 140-character "long" list is shorter than the median. The characters left at a late skill's turn depend on what came before it.
-- The `aa-` and `zz-` prefixes are artificial, and a real library has mixed names and usage.
+- The `aa-` and `zz-` prefixes are artificial, and a real library has mixed names and usage. The size of Study 2c's effect belongs to a library of this size and to `zz-` names with no usage.
 - A target's name stays informative with no description, so a load past the budget can come from the name alone.
 - Real reasons are plausible rationales that I wrote. The agent cannot check them.
 - The "user in a hurry" factor also tells the agent to keep its work minimal, so it mixes behavior change with compliance. Net of unshown rules it is -2.7 [-13.9, +8.5].
@@ -199,7 +199,7 @@ opts = {**opts, "command": my_command, "read_stream": my_read_stream}
 
 Everything that changed after a freeze is in [`docs/DEVIATIONS.md`](docs/DEVIATIONS.md) with its date and reason. The registered analysis is still what I report.
 
-The strongest timing evidence in the repo is for Study 2c. GitHub Actions created a run on the tagged commit `c22f089` at 2026-11-02T07:46:31Z, before the first run, which you can verify once the repo is public. That run failed at its Pages step, and its time still stands. The tag came after the history rewrite below, so that commit hash is stable. [`data/study2c/batch.log`](data/study2c/batch.log) shows the runs after it. Its first line is at 01:46:48 CST, or 07:46:48 UTC, and the earliest start, by finish time minus duration, is about 07:46:40 UTC. That log is my own record. For Study 1, GitHub reports the repo created at 03:52:50 UTC, one second after the freeze commit date. The rest of the order of events rests on commit dates and push history, which you cannot fully verify from outside, and I used no timestamping service.
+The strongest timing evidence in the repo is for Study 2c. GitHub's activity log records the push of the tagged commit `c22f089` at 2026-11-02T07:46:29Z, and GitHub Actions created a run on it at 07:46:31Z, both before the first run, which you can verify once the repo is public. That run failed at its Pages step, and its time still stands. The tag came after the history rewrite below, so that commit hash is stable. [`data/study2c/batch.log`](data/study2c/batch.log) shows the runs after it. Its first line is at 01:46:48 CST, or 07:46:48 UTC, and the earliest start, by finish time minus duration, is about 07:46:40 UTC. That log is my own record. For Study 1, GitHub reports the repo created at 03:52:50 UTC, one second after the freeze commit date. The rest of the order of events rests on commit dates and push history, which you cannot fully verify from outside, and I used no timestamping service.
 
 The history was rewritten once, before the repo went public, to remove account and device identifiers from the sample captures. `git filter-repo` removed one `metadata` field from every kept capture, so commit and tag hashes changed. The preregistration files hash to the same git blobs at the new tags as at the old ones.
 
@@ -223,7 +223,7 @@ A literature review on 2026-11-01 ([Review 1](docs/REVIEW-1-novelty-design.md)) 
 
 Practitioner tests exist. An [Inferal blog post](https://inferal-com.pages.dev/blog/instruction-adherence-research) reports that a consequences strategy did not improve adherence, from 9 to 10 runs per strategy on one project with Sonnet. [Scott Spence's sandboxed evals](https://scottspence.com/posts/measuring-claude-code-skill-activation-with-sandboxed-evals) measure skill activation and test hooks instead of description wording. [CLAUDE.md Under Test](https://leanpub.com/claude-md-under-test) ran 39 trials on Claude Code 2.1.246 on rule presence and burial, with 0 of 22 attempts with the rule against 17 of 17 without. Its public description, which is the part I read, lists no reason arm.
 
-Position and file size repeat tests by [McMillan](https://www.alphaxiv.org/abs/2605.10039), who ran both on Claude Code and found nulls. Neither survives correction here. [SkillClash](https://www.alphaxiv.org/abs/2610.25064) reports that worked examples inside skills drive which rules get followed when two skills clash, which bears on the +26.9 here. The effect of library size on skill loading belongs to [2610.18522](https://www.alphaxiv.org/abs/2610.18522). The part I did not find elsewhere is the target skill's own description randomized on real Claude Code, crossed with library size. Review 3's Novelty section lists the other papers it read.
+Position and file size repeat tests by [McMillan](https://www.alphaxiv.org/abs/2605.10039), who ran both on Claude Code and found nulls. Neither survives correction here. [SkillClash](https://www.alphaxiv.org/abs/2610.25064) reports that worked examples inside skills drive which rules get followed when two skills clash, which bears on the post hoc +26.9 here. The effect of library size on skill loading belongs to [2610.18522](https://www.alphaxiv.org/abs/2610.18522). The part I did not find elsewhere is the target skill's own description randomized on real Claude Code, crossed with library size. Review 3's Novelty section lists the other papers it read.
 
 ## Reviews and the paper
 
@@ -233,7 +233,7 @@ Three reviews are in `docs/`: [novelty and design](docs/REVIEW-1-novelty-design.
 
 I also ran the Study 1 design on `claude-haiku-5-5`. I read it for sign only and claim nothing beyond the sign. Its rule pool was selected on Sonnet.
 
-On 299 of 300 runs, with one excluded by the leak scan, real against filler is -0.9 [-5.2, +3.4] and placebo against filler is +0.3 [-3.3, +3.9]. The signs are mixed and both sit near zero, so neither favors a reason. The frozen `reading()` returns its practical-null row on this batch. I do not claim that, because the registration reads Haiku for sign only.
+On 299 of 300 runs, with one excluded by the leak scan, real against filler is -0.9 [-5.2, +3.4] and placebo against filler is +0.3 [-3.3, +3.9]. Real is negative and placebo is positive, and both intervals cross zero. The frozen `reading()` returns its practical-null row on this batch. I do not claim that, because the registration reads Haiku for sign only.
 
 ## Credits and license
 
