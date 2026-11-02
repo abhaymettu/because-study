@@ -42,7 +42,7 @@ def load(batch):
         name = target_name(row)
         rows.append({
             "run": row["run_id"], "stem": row["stem"], "wording": row["wording"], "library": row["library"],
-            "prefix": row["name_prefix"], "prompt": row["prompt_type"], "y": float(loaded(doc["trace"], name)),
+            "prefix": row["name_prefix"], "prompt": row["prompt_type"], "budget": row.get("list_budget"), "y": float(loaded(doc["trace"], name)),
             "described": bool(rec["capture"].get("probe_hit")),
             "any_skill": any(t == "Skill" for t, _ in doc["trace"]["calls"]), "cost": rec["cost_usd"] or 0,
             "turns": rec["turns"] or 0,

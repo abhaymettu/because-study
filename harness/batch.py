@@ -52,6 +52,8 @@ def start_proxy(capture_dir):
 def run_row(row, opts, port, capture, out, keep_capture=False):
     if row.get("study") == 2:
         work_plan = study2_plan(row)
+        if row.get("list_budget"):
+            opts = {**opts, "env": {"SLASH_COMMAND_TOOL_CHAR_BUDGET": str(row["list_budget"])}}
         return run_agent(row["run_id"], None, None, work_plan["prompt"], opts, port, capture, out, keep_capture=keep_capture,
                          setup=lambda d, e: study2_repo(work_plan, d, e), probe=work_plan["probe"])
     text, _, _ = render_file(row)

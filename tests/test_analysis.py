@@ -7,8 +7,9 @@ import numpy as np
 from analysis.study1 import by_rule, contrast, holm, randomization_p, reading, rule_level_estimates, run_level
 from analysis.study2 import contrast as s2_contrast, loaded, visible
 from analysis.study2b import reading as s2b_reading
+from analysis.study2c import reading as s2c_reading
 from analysis.synthetic import RULES, assignment, simulate
-from study2.design import assign_followup, target_name
+from study2.design import RAISED_BUDGET, assign_budget, assign_followup, target_name
 
 OBS = assignment()
 
@@ -181,6 +182,29 @@ class Study2b(unittest.TestCase):
         self.assertEqual(sum(r["library"] == 50 and r["stem"] == "sql-review" and r["wording"] == "trigger" for r in rows), 4)
         self.assertEqual(len({target_name(r) for r in rows}), 576)
         self.assertTrue(all(len(r["distractors"]) == r["library"] for r in rows))
+
+
+class Study2c(unittest.TestCase):
+    def family(self, e1, e4, e3_low):
+        row = lambda est, low=0.0: {"estimate": est, "p_holm": 0.01 if est else 0.5, "ci": [low, est + 0.1]}
+        return {"E1_trigger_raised_vs_default": row(e1), "E3_trigger_vs_minimal_raised": row(0.05, e3_low), "E4_interaction": row(e4)}
+
+    def test_the_decision_table(self):
+        self.assertIn("causes the reversal", s2c_reading(self.family(0.6, 0.4, -0.05), 1.0))
+        self.assertIn("not shown to close", s2c_reading(self.family(0.6, 0.0, -0.05), 1.0))
+        self.assertIn("not shown to close", s2c_reading(self.family(0.6, 0.4, -0.2), 1.0))
+        self.assertEqual(s2c_reading(self.family(0.0, 0.4, -0.05), 1.0), "inconclusive")
+
+    def test_a_budget_that_did_not_take_reads_nothing(self):
+        self.assertIn("manipulation failed", s2c_reading(self.family(0.6, 0.4, -0.05), 0.9))
+
+    def test_the_assignment_is_balanced_and_never_reuses_a_name(self):
+        rows = assign_budget("study2c", 8)
+        self.assertEqual(len(rows), 384)
+        self.assertEqual(sum(r["stem"] == "sql-review" and r["wording"] == "trigger" and r["list_budget"] == RAISED_BUDGET for r in rows), 8)
+        self.assertEqual(sum(r["stem"] == "sql-review" and r["wording"] == "minimal" and r["list_budget"] is None for r in rows), 8)
+        self.assertEqual(len({target_name(r) for r in rows}), 384)
+        self.assertTrue(all(int(r["run_id"].rsplit("-", 1)[1]) >= 20000 and r["name_prefix"] == "zz" and len(r["distractors"]) == 300 for r in rows))
 
 
 if __name__ == "__main__":

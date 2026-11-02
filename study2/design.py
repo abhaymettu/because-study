@@ -19,6 +19,8 @@ NAME_PREFIXES = ("aa", "zz")
 PROMPTS = ("keyword", "generic", "indirect", "decoy")
 FOLLOWUP_WORDINGS = ("minimal", "short_trigger", "trigger")
 FOLLOWUP_PROMPTS = ("keyword", "generic", "indirect")
+BUDGET_WORDINGS = ("minimal", "trigger")
+RAISED_BUDGET = 100000  # any 300 skills from the library need at most about 79,000 characters
 PADDING = "This skill is one of several kept in this project's skill folder for general use by anyone working here."
 REPO_README = "# Workbench\n\nExports and small files people drop here when they need a second pair of eyes.\n"
 
@@ -56,6 +58,21 @@ def assign_followup(study, per_cell=((300, 12), (50, 4)), start=10000):
             "prompt_type": rng.choice(FOLLOWUP_PROMPTS), "distractors": rng.sample(names, library),
         }
         for i, (stem, library, wording) in enumerate(cells)
+    ]
+
+
+def assign_budget(study, per_cell, start=20000):
+    """Study 2c: the same kind of 300-skill library at the CLI's own budget and at one every description fits in."""
+    rng = random.Random(f"assign:{study}")
+    names = sorted(d["name"] for d in DISTRACTORS)
+    cells = [(t["stem"], wording, budget) for t in TARGETS for wording in BUDGET_WORDINGS for budget in (None, RAISED_BUDGET) for _ in range(per_cell)]
+    rng.shuffle(cells)
+    return [
+        {
+            "run_id": f"{study}-{start + i:05d}", "study": 2, "stem": stem, "wording": wording, "name_prefix": "zz", "library": 300, "list_budget": budget,
+            "prompt_type": rng.choice(FOLLOWUP_PROMPTS), "distractors": rng.sample(names, 300),
+        }
+        for i, (stem, wording, budget) in enumerate(cells)
     ]
 
 

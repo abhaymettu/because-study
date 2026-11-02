@@ -242,7 +242,7 @@ def run_agent(run_id, repo_name, instruction_text, prompt, opts, proxy_port, cap
     dest = RUN_ROOT / hashlib.sha256(run_id.encode()).hexdigest()[:10]
     shutil.rmtree(dest, ignore_errors=True)
     dest.mkdir()
-    env = scrubbed_env(opts.get("config_dir"), proxy_port)
+    env = {**scrubbed_env(opts.get("config_dir"), proxy_port), **opts.get("env", {})}
     if setup:
         work, base = setup(dest, env)
     else:
