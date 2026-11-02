@@ -13,7 +13,7 @@ import subprocess
 import time
 from pathlib import Path
 
-RUN_ROOT = Path("/private/tmp/because-runs")
+RUN_ROOT = Path("/private/tmp/wk")
 NEUTRAL_HOME = RUN_ROOT / ".home"
 TEXT_SUFFIXES = (".py", ".txt", ".md", ".toml", ".cfg", ".json", ".ini", "Makefile", "VERSION", ".gitignore")
 HOME = str(Path.home())
@@ -132,7 +132,7 @@ def collect_trace(work, base, env, stream):
     tracked = set(git("ls-tree", "-r", "--name-only", base).splitlines())
     current = set()
     for root, dirs, names in os.walk(work):
-        dirs[:] = [d for d in dirs if d not in (".git", "__pycache__")]
+        dirs[:] = [d for d in dirs if d not in (".git", "__pycache__", ".claude")]
         for name in names:
             current.add(os.path.relpath(os.path.join(root, name), work))
     before, after = {}, {}
@@ -154,7 +154,7 @@ def collect_trace(work, base, env, stream):
             for block in event["message"].get("content", []):
                 if block.get("type") == "tool_use":
                     inp = block.get("input", {})
-                    target = inp.get("command") or inp.get("file_path") or inp.get("pattern") or ""
+                    target = inp.get("command") or inp.get("file_path") or inp.get("pattern") or inp.get("skill") or ""
                     calls.append([block["name"], target])
                     if block["name"] == "Bash":
                         commands.append(target)
@@ -189,7 +189,6 @@ def scan_captures(capture_dir, keep_first_to=None, email=None):
         blob = re.sub(r'"signature": "[^"]*"', "", json.dumps(body)).lower()
         if email:
             blob = blob.replace(email.lower(), "")
-        blob = blob.replace("/private/tmp/because-runs", "")
         for needle in LEAK_NEEDLES:
             if needle in blob:
                 leaks.add(needle)
@@ -213,14 +212,27 @@ def scan_captures(capture_dir, keep_first_to=None, email=None):
     }
 
 
-def run_agent(run_id, repo_name, instruction_text, prompt, opts, proxy_port, capture_dir, out_dir, keep_capture=False):
+def _status(timed_out, result):
+    """Running out of turns is the agent's behavior, like a timeout, so it stays in the data. Only errors rerun."""
+    if timed_out:
+        return "timeout"
+    if result and result.get("subtype") == "error_max_turns":
+        return "max_turns"
+    return "ok" if result and not result.get("is_error") else "error"
+
+
+def run_agent(run_id, repo_name, instruction_text, prompt, opts, proxy_port, capture_dir, out_dir, keep_capture=False, setup=None):
     """One run. Writes the transcript and the trace; the returned record holds what scoring and costing need."""
     RUN_ROOT.mkdir(parents=True, exist_ok=True)
-    dest = RUN_ROOT / run_id
+    # The agent sees this path, so it names neither the study nor the run.
+    dest = RUN_ROOT / hashlib.sha256(run_id.encode()).hexdigest()[:10]
     shutil.rmtree(dest, ignore_errors=True)
     dest.mkdir()
     env = scrubbed_env(opts.get("config_dir"), proxy_port)
-    work, base = build_repo(repo_name, opts["fixtures"], dest, env, instruction_text)
+    if setup:
+        work, base = setup(dest, env)
+    else:
+        work, base = build_repo(repo_name, opts["fixtures"], dest, env, instruction_text)
     for stale in capture_dir.glob("*.json"):
         stale.unlink()
 
@@ -256,7 +268,7 @@ def run_agent(run_id, repo_name, instruction_text, prompt, opts, proxy_port, cap
     init = next((e for e in stream if e.get("type") == "system" and e.get("subtype") == "init"), {})
     record = {
         "run_id": run_id,
-        "status": "timeout" if timed_out else ("ok" if result and not result.get("is_error") else "error"),
+        "status": _status(timed_out, result),
         "error_text": (result or {}).get("result", "")[:300] if result and result.get("is_error") else stderr[:300],
         "rc": rc,
         "duration_s": round(duration, 1),

@@ -11,7 +11,7 @@ def main():
     p.add_argument("study")
     p.add_argument("n", type=int)
     p.add_argument("--pool")
-    p.add_argument("--k", type=int, default=8)
+    p.add_argument("--k", type=int, default=11)
     a = p.parse_args()
     out = ROOT / "data" / a.study
     out.mkdir(parents=True, exist_ok=True)

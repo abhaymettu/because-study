@@ -1,0 +1,164 @@
+[
+ {
+  "library": 10,
+  "model": "claude-sonnet-5-5",
+  "listed": 10,
+  "with_description": 10,
+  "prefix_of_alphabet": true,
+  "last_described_name": "tc-tracker",
+  "description_chars": 2310
+ },
+ {
+  "library": 25,
+  "model": "claude-sonnet-5-5",
+  "listed": 25,
+  "with_description": 25,
+  "prefix_of_alphabet": true,
+  "last_described_name": "universal-scraping-architect",
+  "description_chars": 4935
+ },
+ {
+  "library": 50,
+  "model": "claude-sonnet-5-5",
+  "listed": 50,
+  "with_description": 50,
+  "prefix_of_alphabet": true,
+  "last_described_name": "youtube-full",
+  "description_chars": 11083
+ },
+ {
+  "library": 75,
+  "model": "claude-sonnet-5-5",
+  "listed": 75,
+  "with_description": 75,
+  "prefix_of_alphabet": true,
+  "last_described_name": "write-a-skill",
+  "description_chars": 16142
+ },
+ {
+  "library": 100,
+  "model": "claude-sonnet-5-5",
+  "listed": 100,
+  "with_description": 100,
+  "prefix_of_alphabet": true,
+  "last_described_name": "x-twitter-growth",
+  "description_chars": 20445
+ },
+ {
+  "library": 150,
+  "model": "claude-sonnet-5-5",
+  "listed": 150,
+  "with_description": 97,
+  "prefix_of_alphabet": true,
+  "last_described_name": "notebooklm",
+  "description_chars": 20482
+ },
+ {
+  "library": 200,
+  "model": "claude-sonnet-5-5",
+  "listed": 200,
+  "with_description": 92,
+  "prefix_of_alphabet": false,
+  "last_described_name": "iso27001-audit-prep",
+  "description_chars": 19555
+ },
+ {
+  "library": 300,
+  "model": "claude-sonnet-5-5",
+  "listed": 300,
+  "with_description": 83,
+  "prefix_of_alphabet": true,
+  "last_described_name": "competitive-teardown",
+  "description_chars": 17884
+ },
+ {
+  "library": 388,
+  "model": "claude-sonnet-5-5",
+  "listed": 388,
+  "with_description": 79,
+  "prefix_of_alphabet": false,
+  "last_described_name": "eval",
+  "description_chars": 16320
+ },
+ {
+  "library": 10,
+  "model": "claude-haiku-5-5",
+  "listed": 10,
+  "with_description": 10,
+  "prefix_of_alphabet": true,
+  "last_described_name": "tc-tracker",
+  "description_chars": 2310
+ },
+ {
+  "library": 25,
+  "model": "claude-haiku-5-5",
+  "listed": 25,
+  "with_description": 25,
+  "prefix_of_alphabet": true,
+  "last_described_name": "universal-scraping-architect",
+  "description_chars": 4935
+ },
+ {
+  "library": 50,
+  "model": "claude-haiku-5-5",
+  "listed": 50,
+  "with_description": 50,
+  "prefix_of_alphabet": true,
+  "last_described_name": "youtube-full",
+  "description_chars": 11083
+ },
+ {
+  "library": 75,
+  "model": "claude-haiku-5-5",
+  "listed": 75,
+  "with_description": 75,
+  "prefix_of_alphabet": true,
+  "last_described_name": "write-a-skill",
+  "description_chars": 16142
+ },
+ {
+  "library": 100,
+  "model": "claude-haiku-5-5",
+  "listed": 100,
+  "with_description": 100,
+  "prefix_of_alphabet": true,
+  "last_described_name": "x-twitter-growth",
+  "description_chars": 20445
+ },
+ {
+  "library": 150,
+  "model": "claude-haiku-5-5",
+  "listed": 150,
+  "with_description": 97,
+  "prefix_of_alphabet": true,
+  "last_described_name": "notebooklm",
+  "description_chars": 20482
+ },
+ {
+  "library": 200,
+  "model": "claude-haiku-5-5",
+  "listed": 200,
+  "with_description": 92,
+  "prefix_of_alphabet": false,
+  "last_described_name": "iso27001-audit-prep",
+  "description_chars": 19555
+ },
+ {
+  "library": 300,
+  "model": "claude-haiku-5-5",
+  "listed": 300,
+  "with_description": 83,
+  "prefix_of_alphabet": true,
+  "last_described_name": "competitive-teardown",
+  "description_chars": 17884
+ },
+ {
+  "library": 388,
+  "model": "claude-haiku-5-5",
+  "listed": 388,
+  "with_description": 79,
+  "prefix_of_alphabet": false,
+  "last_described_name": "eval",
+  "description_chars": 16320
+ }
+]

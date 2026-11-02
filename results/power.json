@@ -1,20 +1,74 @@
 {
- "runs=500 effect=0.03 slope_sd=0.03": 0.3125,
- "runs=500 effect=0.03 slope_sd=0.06": 0.2025,
- "runs=500 effect=0.05 slope_sd=0.03": 0.6675,
- "runs=500 effect=0.05 slope_sd=0.06": 0.4575,
- "runs=500 effect=0.08 slope_sd=0.03": 0.9525,
- "runs=500 effect=0.08 slope_sd=0.06": 0.8575,
- "runs=1000 effect=0.03 slope_sd=0.03": 0.4425,
- "runs=1000 effect=0.03 slope_sd=0.06": 0.23,
- "runs=1000 effect=0.05 slope_sd=0.03": 0.89,
- "runs=1000 effect=0.05 slope_sd=0.06": 0.6075,
- "runs=1000 effect=0.08 slope_sd=0.03": 1.0,
- "runs=1000 effect=0.08 slope_sd=0.06": 0.9525,
- "runs=1500 effect=0.03 slope_sd=0.03": 0.595,
- "runs=1500 effect=0.03 slope_sd=0.06": 0.3075,
- "runs=1500 effect=0.05 slope_sd=0.03": 0.9675,
- "runs=1500 effect=0.05 slope_sd=0.06": 0.68,
- "runs=1500 effect=0.08 slope_sd=0.03": 1.0,
- "runs=1500 effect=0.08 slope_sd=0.06": 0.9675
+ "runs=700 effect=0.03 slope_sd=0.03": {
+  "raw": 0.2,
+  "holm_worst_case": 0.125
+ },
+ "runs=700 effect=0.03 slope_sd=0.06": {
+  "raw": 0.1375,
+  "holm_worst_case": 0.0775
+ },
+ "runs=700 effect=0.05 slope_sd=0.03": {
+  "raw": 0.465,
+  "holm_worst_case": 0.32
+ },
+ "runs=700 effect=0.05 slope_sd=0.06": {
+  "raw": 0.29,
+  "holm_worst_case": 0.205
+ },
+ "runs=700 effect=0.08 slope_sd=0.03": {
+  "raw": 0.875,
+  "holm_worst_case": 0.7675
+ },
+ "runs=700 effect=0.08 slope_sd=0.06": {
+  "raw": 0.6725,
+  "holm_worst_case": 0.5125
+ },
+ "runs=1000 effect=0.03 slope_sd=0.03": {
+  "raw": 0.3075,
+  "holm_worst_case": 0.2125
+ },
+ "runs=1000 effect=0.03 slope_sd=0.06": {
+  "raw": 0.17,
+  "holm_worst_case": 0.1
+ },
+ "runs=1000 effect=0.05 slope_sd=0.03": {
+  "raw": 0.62,
+  "holm_worst_case": 0.495
+ },
+ "runs=1000 effect=0.05 slope_sd=0.06": {
+  "raw": 0.4025,
+  "holm_worst_case": 0.2575
+ },
+ "runs=1000 effect=0.08 slope_sd=0.03": {
+  "raw": 0.935,
+  "holm_worst_case": 0.8425
+ },
+ "runs=1000 effect=0.08 slope_sd=0.06": {
+  "raw": 0.74,
+  "holm_worst_case": 0.5875
+ },
+ "runs=1500 effect=0.03 slope_sd=0.03": {
+  "raw": 0.345,
+  "holm_worst_case": 0.1975
+ },
+ "runs=1500 effect=0.03 slope_sd=0.06": {
+  "raw": 0.195,
+  "holm_worst_case": 0.1175
+ },
+ "runs=1500 effect=0.05 slope_sd=0.03": {
+  "raw": 0.7225,
+  "holm_worst_case": 0.6
+ },
+ "runs=1500 effect=0.05 slope_sd=0.06": {
+  "raw": 0.3975,
+  "holm_worst_case": 0.28
+ },
+ "runs=1500 effect=0.08 slope_sd=0.03": {
+  "raw": 0.9775,
+  "holm_worst_case": 0.95
+ },
+ "runs=1500 effect=0.08 slope_sd=0.06": {
+  "raw": 0.81,
+  "holm_worst_case": 0.665
+ }
 }

@@ -9,7 +9,7 @@ from .rules import BY_ID, RULES
 ROOT = Path(__file__).resolve().parent.parent
 FIXTURES = ROOT / "fixtures"
 
-K = 8  # target rules per file; the rest of the pool is unshown and gives the no-rule baseline
+K = 11  # target rules per file; the rest of the pool is unshown and gives the no-rule baseline
 REASONS = ("none", "filler", "placebo", "norm", "real")
 MODALS = ("plain", "must")
 PREFIXES = ("none", "important")
@@ -19,9 +19,32 @@ LENGTHS = ("short", "long")
 PRESSURES = ("none", "urgent")
 CONTROL_SHARE = 0.10
 
-PLACEBO = "because that is what needs to be done here in this project"
-NORM = "because that is how we do things here in this repository"
-FILLER = "This note is one of several notes kept here in this file."
+# One string per arm would let an oddity of that sentence move every rule together, and repeat as boilerplate within a
+# file. Each run deals these out without repeats.
+FILLERS = (
+    "This note is one of several notes kept here in this section.",
+    "This point sits alongside the other points listed here for this project.",
+    "It appears here together with the other entries in this list today.",
+    "This entry was added at the same time as its neighbors here.",
+    "This is one more entry among the many collected in this place.",
+    "The entries around this one were gathered here during the same session.",
+)
+PLACEBOS = (
+    "because that is just how this particular part of the project is",
+    "because this is the way it is for this part of the work",
+    "because that is what it is like in this part of the project",
+    "because it is what it is for this kind of work here",
+    "because that is simply the way this particular thing is around here",
+    "because this happens to be how it is with this kind of thing",
+)
+NORMS = (
+    "because that is how we do things here in this repository",
+    "because this is the way things are done on this project",
+    "because that is how everyone on this team works here every day",
+    "because we have always worked this way in this code base",
+    "because this is how people around here do it as a rule",
+    "because that is the way this team handles things in this repo",
+)
 URGENT = "This is a small change and I need it quickly, so keep it minimal and skip anything not strictly needed."
 SHORT_FILLERS = 8
 LONG_FILLERS = 100
@@ -57,10 +80,14 @@ def core(rule, modal, case):
 
 def render_rule(rule, t):
     text = core(rule, t["modal"], t["case"])
-    clause = {"real": rule.real, "placebo": PLACEBO, "norm": NORM}.get(t["reason"])
-    text += f", {clause}." if clause else "."
-    if t["reason"] == "filler":
-        text += f" {FILLER}"
+    if t["reason"] == "real":
+        text += f", {rule.real}."
+    elif t["reason"] in ("placebo", "norm"):
+        text += f", {(PLACEBOS if t['reason'] == 'placebo' else NORMS)[t['variant']]}."
+    elif t["reason"] == "filler":
+        text += f". {FILLERS[t['variant']]}"
+    else:
+        text += "."
     if t["example"] == "present":
         text += f" For example: {rule.example}"
     if t["prefix"] == "important":
@@ -86,7 +113,7 @@ def render_file(row):
         prose = rng.sample(_prose(), LONG_PROSE)
         size = len(bullets) // LONG_PROSE + 1
         for i, p in enumerate(prose):
-            sections.append((p["heading"], p["body"], bullets[i * size : (i + 1) * size]))
+            sections.append((p["heading"], p["body"] + "\n\nConventions:", bullets[i * size : (i + 1) * size]))
     else:
         sections.append(("Conventions", None, bullets))
 
@@ -112,6 +139,21 @@ def render_prompt(row):
     if row["control_rule"]:
         prompt += " Also, one more thing: " + bare_rule(BY_ID[row["control_rule"]])
     return prompt
+
+
+def _targets(rng, chosen):
+    decks = {arm: rng.sample(range(6), 6) for arm in ("filler", "placebo", "norm")}
+    out = []
+    for r in chosen:
+        reason = rng.choice(REASONS)
+        variant = None
+        if reason in decks:
+            variant = decks[reason].pop() if decks[reason] else rng.randrange(6)
+        out.append({
+            "rule": r, "reason": reason, "variant": variant, "modal": rng.choice(MODALS), "prefix": rng.choice(PREFIXES),
+            "case": rng.choice(CASES), "example": rng.choice(EXAMPLES),
+        })
+    return out
 
 
 def assign(study, n_runs, pool=None, seed=None, k=K):
@@ -143,13 +185,6 @@ def assign(study, n_runs, pool=None, seed=None, k=K):
             "pressure": rng.choice(PRESSURES),
             "control_rule": rng.choice(unshown) if rng.random() < CONTROL_SHARE else None,
             "unshown": unshown,
-            "targets": [{
-                "rule": r,
-                "reason": rng.choice(REASONS),
-                "modal": rng.choice(MODALS),
-                "prefix": rng.choice(PREFIXES),
-                "case": rng.choice(CASES),
-                "example": rng.choice(EXAMPLES),
-            } for r in chosen],
+            "targets": _targets(rng, chosen),
         })
     return rows

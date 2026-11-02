@@ -1,0 +1,1554 @@
+[
+{
+"name": "a11y-audit",
+"description": "Use for any accessibility audit or a11y fix (WCAG 2.2 A/AA, color contrast, compliance report, CI check) in React, Next.js, Vue, Angular, Svelte or HTML. Scans with a11y_scanner.py and checks contrast with contrast_checker.py, then fixes and re-verifies."
+},
+{
+"name": "ab-test-setup",
+"description": "Use before planning or launching any A/B, split or multivariate test, or when asked if a result is significant. Sizes the test with sample_size_calculator.py and writes the hypothesis, metric and stop rule first, so it is not called early on noise."
+},
+{
+"name": "access-lifecycle",
+"description": "Use when preparing or running a user access review, checking that leavers lost their access, finding orphaned or ownerless service accounts, answering an auditor's access-control request for SOC 2, ISO 27001, PCI DSS, HIPAA or NIST 800-53, or checking whether a finished review campaign will hold up. Diffs the HR roster against account exports, tests the campaign for coverage, self-review, unremoved revokes and rubber-stamping, and maps every exception to the controls it breaks."
+},
+{
+"name": "ad-creative",
+"description": "Use for any ad copy request (RSA headlines, Meta, LinkedIn or TikTok ads, bulk variations), before writing. Checks every line against platform character limits and policy with ad_copy_validator.py. Campaign strategy and budgets: paid-ads."
+},
+{
+"name": "adversarial-reviewer",
+"description": "Use before merging a PR or when a self-review feels too agreeable and the change needs a genuinely critical read. Reviews the diff through hostile reviewer personas that catch blind spots the author and a friendly reviewer share."
+},
+{
+"name": "aeo",
+"description": "Use when content should be cited by ChatGPT, Perplexity, Claude or Gemini (answer engine optimization), before rewriting it. Scores E-E-A-T and structure with aeo_audit.py, rewrites with aeo_optimizer.py and logs citations with citation_tracker.py."
+},
+{
+"name": "agent-decision-receipts",
+"description": "Use when an autonomous agent takes a side-effecting action (deploy, delete, pay, grant access) that may need proving later, or for EU AI Act Art. 12 record-keeping. Builds a tamper-evident signed receipt with build_action_manifest.py and verifies it."
+},
+{
+"name": "agent-designer",
+"description": "Use when designing a multi-agent system (supervisor, swarm, pipeline), writing agent tool schemas, or reading agent run logs for cost, latency or failure bottlenecks. Not for Claude Code workflow files (workflow-builder)."
+},
+{
+"name": "agent-harness",
+"description": "Use when an agent should drive a goal in one of this repo's domains to a verified close, before starting the work. Compiles the goal into a task plan with goal_compiler.py and runs it through loop_controller.py, which verifies each task, caps retries and escalates."
+},
+{
+"name": "agent-launcher-orchestrator",
+"description": "Use when someone wants to build, launch, grade or schedule a Claude Managed Agent in their own Anthropic account ('build me an agent', 'run this nightly'). Reads the session goal, routes with goal_router.py and compiles the loop with loop_compiler.py."
+},
+{
+"name": "agent-memory",
+"description": "Use when an agent keeps relearning the same correction, CLAUDE.md has grown unreadable, or you need to trace where a remembered rule came from. Promotes facts through four tiers only on recurrence across sessions and days, with memory_promote.py and a human adopt step."
+},
+{
+"name": "agent-protocol",
+"description": "Use when C-suite advisor agents need to call each other or run a multi-role meeting. Defines invocation syntax, loop prevention, isolation and response formats."
+},
+{
+"name": "agent-regression-evals",
+"description": "Use before shipping any agent, prompt, model or tool change, or when a pass-rate drop needs a verdict. Runs repeated trials, gates candidate vs baseline with paired statistics in regression_gate.py, checks tool-call trajectories and finds flaky cases."
+},
+{
+"name": "agent-workflow-designer",
+"description": "Use when architecting a multi-step LLM or agent pipeline, choosing single vs multi-agent, or fixing context bloat and broken handoffs. Scaffolds the pattern, handoff contracts and failure handling with workflow_scaffolder.py."
+},
+{
+"name": "agenthub",
+"description": "Use when a task should be attempted by several agents in parallel and the best result kept (code speed, copy variants, research angles). Spawns N agents in git worktrees, ranks results by metric or judge with result_ranker.py and merges the winner."
+},
+{
+"name": "agile-product-owner",
+"description": "Use for backlog work: writing user stories and acceptance criteria, splitting epics, estimating or prioritizing for a sprint. Generates stories with user_story_generator.py."
+},
+{
+"name": "ai-act-readiness",
+"description": "Use for /compliance-os:ai-act-readiness, or EU AI Act readiness questions during AI-system intake or before EU deployment."
+},
+{
+"name": "ai-decision-authority",
+"description": "Use before letting AI or an agent act on a marketing or GTM task without human review, or when writing an AI review policy. Places each workflow in AI-primary, collaborative or human-primary by stakes and reversibility."
+},
+{
+"name": "ai-security",
+"description": "Use when assessing an AI/ML system or LLM agent for prompt injection, jailbreaks, model inversion, data poisoning or tool abuse. Maps findings to MITRE ATLAS and scores robustness with ai_threat_scanner.py."
+},
+{
+"name": "aims-audit",
+"description": "Use for /compliance-os:aims-audit, or ISO 42001 readiness before stage 1 or an internal audit cycle."
+},
+{
+"name": "analytics-tracking",
+"description": "Use for any GA4, Google Tag Manager, event-tracking or conversion-tracking setup, audit or broken-event debug, before touching tags. Generates the event taxonomy and tracking plan with tracking_plan_generator.py. Campaign performance analysis: campaign-analytics."
+},
+{
+"name": "andreessen",
+"description": "Use when the user wants a blunt market-first verdict on an idea, venture or career bet ('is there a market', 'are we at PMF', 'pmarca mode'), or a 3x5-card daily plan. Scores with market_first_evaluator.py and pmf_signal_scorer.py; leads with the strongest counterargument."
+},
+{
+"name": "api-design-reviewer",
+"description": "Use for any PR or spec that adds or changes REST endpoints, before approving it. Lints conventions with api_linter.py, detects breaking changes with breaking_change_detector.py and scores the design with api_scorecard.py."
+},
+{
+"name": "api-test-suite-builder",
+"description": "Use when asked to write API, integration or contract tests for REST endpoints. Builds the suite from the routes: happy paths, auth, validation errors and edge cases per endpoint."
+},
+{
+"name": "app-store-optimization",
+"description": "Use for any App Store or Google Play listing, keyword, ranking or review question, before writing metadata. Scores the listing with aso_scorer.py and checks keywords, competitors, title and subtitle limits and reviews with its 8 ASO scripts."
+},
+{
+"name": "apple-hig-expert",
+"description": "Use when designing or reviewing iOS, macOS, watchOS or visionOS UI against Apple's Human Interface Guidelines, including Liquid Glass, contrast and tap targets. Checks it with hig_checker.py."
+},
+{
+"name": "ar-loop",
+"description": "Use for /ar-loop, or to run an autoresearch experiment on a schedule (10 min to monthly) with CronCreate."
+},
+{
+"name": "ar-resume",
+"description": "Use for /ar-resume, or to continue a paused autoresearch experiment from its branch and results history."
+},
+{
+"name": "ar-run",
+"description": "Use for /ar-run, or to run one manual autoresearch iteration: edit, evaluate, keep or discard."
+},
+{
+"name": "ar-status",
+"description": "Use for /ar-status, or to see an autoresearch experiment's results, active loops and progress."
+},
+{
+"name": "arquiteto-de-empresa",
+"description": "Use when a founder wants to document or design a whole company as version-controlled markdown (company as code, a company wiki agents can read, an OKF bundle). Runs a 12-phase interview, scaffolds with scaffold_bundle.py and checks it with okf_linter.py."
+},
+{
+"name": "atlassian-admin",
+"description": "Use for Atlassian org administration: Jira or Confluence users and groups, permissions, SSO, marketplace apps or security policy. Audits permissions with permission_audit_tool.py."
+},
+{
+"name": "atlassian-templates",
+"description": "Use when creating or changing Jira or Confluence templates, blueprints or page layouts for reuse across the org. Scaffolds them with template_scaffolder.py."
+},
+{
+"name": "autoresearch-agent",
+"description": "Use when a file should be improved against a measurable metric (speed, bundle size, pass rate, prompt or headline score), before hand-tuning it. Loops edit, run_experiment.py, keep or git reset on a fixed evaluator; needs an eval command and a git repo."
+},
+{
+"name": "aws-solution-architect",
+"description": "Use when designing or costing an AWS architecture (serverless, Lambda, API Gateway, DynamoDB, ECS, Aurora, CloudFormation, migration to AWS). Designs it with architecture_designer.py, generates stacks with serverless_stack.py and finds savings with cost_optimizer.py."
+},
+{
+"name": "azure-cloud-architect",
+"description": "Use when designing or costing an Azure architecture (AKS, App Service, Functions, Cosmos DB, Bicep or ARM, Azure DevOps, migration to Azure). Designs it with architecture_designer.py, generates Bicep with bicep_generator.py and finds savings with cost_optimizer.py."
+},
+{
+"name": "behuman",
+"description": "Use when the user asks for less robotic, more human replies ('be real', 'talk like a person', 'mirror mode'), or the conversation is emotionally heavy (grief, job loss, fear). Drops lists and hedging for a direct, warm voice. Not for code or factual lookups."
+},
+{
+"name": "board",
+"description": "Use to post or read messages on the AgentHub coordination board between competing agents."
+},
+{
+"name": "board-deck-builder",
+"description": "Use when building a board deck, investor update or QBR from all C-suite perspectives. Structures the narrative and how to deliver bad news."
+},
+{
+"name": "board-meeting",
+"description": "Use for /c-level-agents:boardroom or a strategic question that needs a structured multi-executive deliberation. Runs six phases: context, isolated C-suite views, critic, synthesis, founder review and decision."
+},
+{
+"name": "board-prep",
+"description": "Use before a board meeting, investor update or fundraising pitch where the numbers will be challenged. Drills numbers cold, anticipates the hard questions and builds a narrative that admits weakness without losing the room."
+},
+{
+"name": "boardroom",
+"description": "Use for /c-level-agents:boardroom, or a decision spanning several executive domains (a pricing change, raise vs cut). Runs a 6-phase C-suite deliberation and writes a board memo."
+},
+{
+"name": "book-to-skill",
+"description": "Use when turning a book, docs folder or spec collection (PDF, EPUB, DOCX, HTML, Markdown) into an agent skill, before summarizing it by hand. Extracts with extract_document.py, compiles chapters, glossary and cheatsheet, validates with book_skill_validator.py and enforces a rights gate."
+},
+{
+"name": "boost-asio-pro",
+"description": "Use for any C++ networking code with Boost.Asio or standalone Asio (TCP/UDP, SSL, timers, strands, io_context, co_spawn, awaitable, completion handlers), before writing or reviewing it. Applies lifetime, strand and cancellation rules that avoid the classic async bugs."
+},
+{
+"name": "brand-guidelines",
+"description": "Use when writing or enforcing brand guidelines (colors, typography, logo rules, imagery, tone of voice), or checking an asset against them. Builds the color system, type scale and tone matrix, including Anthropic's identity."
+},
+{
+"name": "brief",
+"description": "Use for /c-level-agents:brief, or to frame a strategic question (options, assumptions, success criteria) as a one-page brief before deliberation."
+},
+{
+"name": "browser-automation",
+"description": "Use for browser automation, scraping, form filling or structured extraction from web pages. Builds scrapers with scraping_toolkit.py and form flows with form_automation_builder.py. Browser testing: playwright-pro."
+},
+{
+"name": "browserstack",
+"description": "Use when running Playwright tests on BrowserStack or across a browser matrix ('browserstack', 'cross-browser', 'test on safari or firefox', 'browser compatibility')."
+},
+{
+"name": "business-growth-skills",
+"description": "Use when a growth request needs routing between customer-success-manager, sales-engineer, revenue-operations and contract-and-proposal-writer."
+},
+{
+"name": "business-investment-advisor",
+"description": "Use when deciding whether a capital expense is worth it (equipment, property, an acquisition, hiring, technology), or for ROI, IRR, NPV, payback, build vs buy or lease vs buy."
+},
+{
+"name": "business-name-fit",
+"description": "Use when naming a company, brand or product, or checking whether a name works abroad, before committing to one. Tests a culturally rooted name for pronunciation, bad meanings and trust in each target market, and suggests alternatives."
+},
+{
+"name": "business-operations-skills",
+"description": "Use when an internal operations request needs routing (process, vendors, capacity, internal comms, SOPs, procurement): 'where's the bottleneck', 'vendor health'. Lists the BizOps skills and routes to one."
+},
+{
+"name": "c-level-agents",
+"description": "Use when the founder wants a virtual executive team or a /c-level-agents command. Lists the 13 C-suite agents and 21 commands and routes multi-role decisions."
+},
+{
+"name": "c-level-skills",
+"description": "Use when looking for which C-level advisor skill fits a question (14 C-suite roles, board meetings, culture, M&A). Lists them and routes to one."
+},
+{
+"name": "caio-review",
+"description": "Use for /c-level-agents:caio-review, or to challenge a plan involving AI (no eval set, API vs fine-tune vs self-host, EU AI Act class)."
+},
+{
+"name": "campaign-analytics",
+"description": "Use for any campaign performance, ROAS, CPA, attribution or funnel question, before answering from intuition. Runs multi-touch attribution, funnel and ROI math on the user's numbers with attribution_analyzer.py, funnel_analyzer.py and campaign_roi_calculator.py."
+},
+{
+"name": "capa-officer",
+"description": "Use for CAPA work in a medical device QMS: root cause analysis (5-Why, fishbone), corrective action plans, effectiveness checks or CAPA metrics. Tracks CAPAs with capa_tracker.py and analyzes causes with root_cause_analyzer.py."
+},
+{
+"name": "capacity-planner",
+"description": "Use when sizing an ops or support team, building a headcount plan or checking utilization risk. Models queues with Erlang C in capacity_modeler.py, analyzes utilization with utilization_analyzer.py and orders hires with hiring_sequencer.py."
+},
+{
+"name": "capture",
+"description": "Use whenever the user unloads a messy brain dump of ideas, tasks and plans ('capture this', 'brain dump', a long unstructured paste) and wants it organized. Sorts it with dump_classifier.py into projects, tasks and connections with nothing lost."
+},
+{
+"name": "caveman",
+"description": "> Ultra-compressed communication mode. Cuts token usage ~75% by dropping filler, articles, and pleasantries while keeping full technical accuracy. Use when user says \"caveman mode\", \"talk like caveman\", \"use caveman\", \"less tokens\", \"be brief\", or invokes /caveman."
+},
+{
+"name": "cco-review",
+"description": "Use for /c-level-agents:cco-review, or to challenge a plan touching retention, segmentation or CS headcount."
+},
+{
+"name": "cdo-review",
+"description": "Use for /c-level-agents:cdo-review, or to challenge a plan touching training-data rights, data architecture or data monetization."
+},
+{
+"name": "ceo-advisor",
+"description": "Use for CEO-level questions: company strategy, board and investor management, fundraising, org design or culture. Models scenarios with financial_scenario_analyzer.py and strategy with strategy_analyzer.py."
+},
+{
+"name": "cfo-advisor",
+"description": "Use for startup finance decisions: unit economics (LTV, CAC), burn and runway, fundraising and dilution, or board financials. Runs unit_economics_analyzer.py, burn_rate_calculator.py and fundraising_model.py."
+},
+{
+"name": "cfo-review",
+"description": "Use for /c-level-agents:cfo-review, or to challenge a plan that commits real money (a hiring wave, a raise, a channel budget)."
+},
+{
+"name": "challenge",
+"description": "Use before committing serious resources to a plan, or when feedback has been suspiciously positive. Runs a pre-mortem: assume it failed in 12 months and work back to the assumptions, dependencies and execution risks."
+},
+{
+"name": "change-management",
+"description": "Use when rolling out a reorg, pivot, tool switch, leadership change or product kill. Plans it with ADKAR, communication templates and resistance patterns."
+},
+{
+"name": "changelog-generator",
+"description": "Use when cutting a release, writing CHANGELOG.md or deciding the next version from commits, before writing notes by hand. Lints commits with commit_linter.py, picks the semver bump with version_bumper.py and renders notes with generate_changelog.py."
+},
+{
+"name": "channel-economics",
+"description": "Use for a direct vs partner channel review: fully loaded cost to serve, channel ROI and the best channel mix under constraints. Runs cost_to_serve_calculator.py, channel_roi_analyzer.py and channel_mix_optimizer.py."
+},
+{
+"name": "chaos-engineering",
+"description": "Use before running a chaos experiment, gameday or fault injection, or after one to write it up. Designs it with steady state and abort criteria in experiment_designer.py, sizes the blast radius with blast_radius_calculator.py and drafts the postmortem."
+},
+{
+"name": "chief-ai-officer-advisor",
+"description": "Use for AI strategy decisions: API vs fine-tune vs build, EU AI Act or US state risk classification, when self-hosting pays off, or AI hiring order. Runs model_buildvsbuy_calculator.py, ai_risk_classifier.py and ai_cost_economics.py."
+},
+{
+"name": "chief-customer-officer-advisor",
+"description": "Use for retention strategy, customer segmentation or CS team sizing decisions (GRR vs NRR, churn causes, pooled vs named CSMs). Runs retention_decomposition_analyzer.py, customer_segmentation_designer.py and cs_coverage_calculator.py."
+},
+{
+"name": "chief-data-officer-advisor",
+"description": "Use for data strategy decisions: training models on customer data, warehouse vs lakehouse vs mesh, valuing data for a raise or M&A, or data hiring order. Runs ai_training_data_audit.py, data_product_strategy_picker.py and data_asset_valuator.py."
+},
+{
+"name": "chief-of-staff",
+"description": "Use when a founder question needs routing to the right C-suite advisor, or a cross-functional decision needs a board meeting convened. Loads company context, synthesizes the answers and tracks decisions."
+},
+{
+"name": "chro-advisor",
+"description": "Use for people strategy: hiring plans, comp bands, org structure, performance or retention. Models hiring with hiring_plan_modeler.py and benchmarks pay with comp_benchmarker.py."
+},
+{
+"name": "churn-prevention",
+"description": "Use when designing a cancel flow, save offers, exit surveys or dunning emails, or cutting failed-payment churn. Sizes the revenue at stake with churn_impact_calculator.py first. Health scores and expansion: customer-success-manager."
+},
+{
+"name": "ci-cd-pipeline-builder",
+"description": "Use when setting up or refactoring CI/CD for a repo, before writing workflow YAML. Detects the stack with stack_detector.py and generates the pipeline with pipeline_generator.py."
+},
+{
+"name": "ciso-advisor",
+"description": "Use for security leadership decisions: a security program, budget justification in dollars, SOC 2 vs ISO 27001 vs HIPAA roadmap, or board security reporting. Quantifies risk with risk_quantifier.py and tracks compliance with compliance_tracker.py."
+},
+{
+"name": "ciso-review",
+"description": "Use for /c-level-agents:ciso-review, or to challenge a plan touching customer data, compliance or production access."
+},
+{
+"name": "claude-coach",
+"description": "Use when the user wants to get better at using Claude ('coach me', 'teach me Claude tricks', 'make me a power user'). Rates their prompts with prompt_rater.py and surfaces one relevant power-user tip per turn after activation."
+},
+{
+"name": "clinical-research",
+"description": "Use when designing a prospective clinical study: choosing primary and secondary endpoints, estimating sample size and power, or scoring feasibility before submission. Runs endpoint_selector.py, sample_size_estimator.py and phase_gate_scorer.py; outputs are estimates for a biostatistician to confirm."
+},
+{
+"name": "cloud-security",
+"description": "Use when checking AWS, Azure or GCP for security misconfigurations: IAM privilege escalation, public buckets, open security groups, IaC gaps. Runs cloud_posture_check.py and maps findings to MITRE ATT&CK."
+},
+{
+"name": "cmmc-readiness",
+"description": "Use when a defense contractor or subcontractor is preparing for a CMMC 2.0 Level 2 self-assessment or C3PAO assessment, calculating or checking an SPRS score against NIST SP 800-171 Rev 2, deciding what can go on a POA&M, tracking POA&M closeout before Conditional status expires, or scoping assets, enclaves and cloud providers that handle CUI. Scores all 110 requirements with the 32 CFR 170.24 weights, blocks gaps that can never be deferred, and classifies the asset inventory into CMMC asset categories."
+},
+{
+"name": "cmo-advisor",
+"description": "Use for marketing leadership decisions: positioning, PLG vs sales-led vs community-led, budget allocation or marketing team design. Simulates growth with growth_model_simulator.py and budgets with marketing_budget_modeler.py."
+},
+{
+"name": "cmo-review",
+"description": "Use for /c-level-agents:cmo-review, or to challenge positioning, ICP, messaging or channel mix before a launch."
+},
+{
+"name": "code-reviewer",
+"description": "Use for any code review: a pull request, a diff, a commit, or a pasted function, handler or file in TypeScript, JavaScript, Python, Go, Swift, Kotlin, C#/.NET, Java, C, C++, Rust, Ruby, PHP or Dart/Flutter. Applies per-language rule packs (security such as SQL injection and missing auth, async and resource handling, error handling, performance) and scripts that score a PR's risk and complexity, then gives a merge verdict with blocking and non-blocking findings. Use whenever the user asks to review, check or look over code, says 'code review', 'review this PR', 'review this diff' or 'is this safe to merge', or asks what is wrong with a snippet, even a single function."
+},
+{
+"name": "code-to-prd",
+"description": "Use when asked to write a PRD or product spec from an existing codebase (reverse-engineer requirements, document pages, fields, routes and endpoints). Maps the code with codebase_analyzer.py and scaffolds the PRD with prd_scaffolder.py."
+},
+{
+"name": "code-tour",
+"description": "Use when asked for a CodeTour .tour file or a step-by-step code walkthrough (onboarding, architecture, PR review, how X works). Writes persona-targeted steps that link to real files and line numbers, checked to exist."
+},
+{
+"name": "codebase-onboarding",
+"description": "Use when someone is new to a repo or a tech lead needs an architecture brief, before writing docs by hand. Maps the codebase with codebase_analyzer.py and produces onboarding docs."
+},
+{
+"name": "coding-agent-rollout",
+"description": "Use when rolling Claude Code out to a team or reviewing a rollout: shared or managed settings, MCP and plugin approval, layered CLAUDE.md, adoption. Lints settings with settings_linter.py, inventories MCP servers and plugins, and audits CLAUDE.md layering."
+},
+{
+"name": "cold-email",
+"description": "Use for any cold outreach or SDR email or follow-up sequence to prospects who did not opt in, before drafting. Scores the sequence for length, personalization and spam risk with email_sequence_analyzer.py. Opted-in nurture: email-sequence."
+},
+{
+"name": "collab-proof",
+"description": "Use for /collab-proof or a session retrospective on what Claude contributed versus what the user drove. Builds an evidence-backed split of the session's decisions and work."
+},
+{
+"name": "commercial-forecaster",
+"description": "Use when building a bookings, ARR, pipeline or NRR forecast, or a commit, best-case and pipeline board number. Forecasts with bookings_forecaster.py, projects cohorts with cohort_arr_projector.py and scores stage confidence with funnel_confidence_scorer.py, showing every conversion assumption."
+},
+{
+"name": "commercial-policy",
+"description": "Use when writing or revising discount rules: discount matrix, approver thresholds, exception flows and the deal framework sales works under. Builds the matrix with discount_matrix_builder.py, routes exceptions with exception_router.py and checks the policy with policy_linter.py."
+},
+{
+"name": "commercial-skills",
+"description": "Use when a commercial request needs routing (pricing, deal review, discounts, partners, channels, policy, RFPs, forecasts): 'review this deal', 'should we discount'. Lists the commercial skills and routes to one."
+},
+{
+"name": "commit-craft",
+"description": "Use when committing a mix of changes, before a push, or when asked to split work into commits or write commit messages. Plans a reviewable series, blocks staged secrets and .env files, and lints messages with commit_planner.py, secret_gate.py and message_linter.py."
+},
+{
+"name": "company-os",
+"description": "Use when choosing or setting up how the company runs: EOS, Scaling Up or OKRs, accountability chart, scorecard, meeting rhythm, quarterly rocks."
+},
+{
+"name": "competitive-intel",
+"description": "Use for competitor analysis, battlecards, win/loss review or positioning against alternatives. Builds a tracking system that feeds positioning, sales and roadmap."
+},
+{
+"name": "competitive-teardown",
+"description": "Use for a deep competitor teardown (pricing, reviews, hiring, SEO, UX) or a response to a competitor's move. Scores products across 12 dimensions with competitive_matrix_builder.py and produces SWOT and positioning maps."
+},
+{
+"name": "competitor-alternatives",
+"description": "Use when creating an 'X vs Y', '[product] alternative' or comparison page, before drafting. Builds the comparison matrix with comparison_matrix_builder.py and picks one of four page formats with a fair, sourced structure."
+},
+{
+"name": "compliance-os",
+"description": "Use when running several compliance frameworks at once: which apply, where controls overlap, a mock audit or one evidence checklist. Runs framework_selector.py, cross_framework_mapper.py, audit_simulator.py and evidence_pool_generator.py."
+},
+{
+"name": "compliance-readiness",
+"description": "Use for /compliance-os:compliance-readiness, or before adding a framework or planning the annual audit calendar."
+},
+{
+"name": "confluence-expert",
+"description": "Use when building or restructuring a Confluence space: page hierarchy, permissions, templates, Jira macros or a content audit. Generates structure with space_structure_generator.py and audits with content_audit_analyzer.py."
+},
+{
+"name": "content-creator",
+"description": "Use when someone asks for 'content creator' by name. Deprecated alias: hands writing to content-production and planning to content-strategy."
+},
+{
+"name": "content-humanizer",
+"description": "Use when a draft sounds like AI, generic or robotic, or needs the brand's voice, before editing it. Scores AI tells with humanizer_scorer.py and rewrites for rhythm, specifics and personality, then rescores."
+},
+{
+"name": "content-production",
+"description": "Use for any blog post, article or guide to write end to end, before drafting. Runs research, outline, draft and SEO passes, then gates the piece with content_scorer.py, seo_optimizer.py and content_quality_gates.py."
+},
+{
+"name": "content-strategy",
+"description": "Use when deciding what content to create (topics, clusters, a blog or content plan), before listing ideas. Maps topic clusters with topic_cluster_mapper.py and ties each piece to a funnel stage and search demand."
+},
+{
+"name": "context-engine",
+"description": "Use when starting a C-suite advisor session, when company context is missing or older than 90 days, or before company data goes to an external service. Loads and enriches ~/.claude/company-context.md and applies anonymization rules."
+},
+{
+"name": "contract-and-proposal-writer",
+"description": "Use when drafting a freelance contract, proposal, SOW, NDA or MSA for US, EU, UK or DACH jurisdictions. Writes structured Markdown with docx conversion steps; not legal advice."
+},
+{
+"name": "coo-advisor",
+"description": "Use for operations leadership: process design, OKR execution, operating cadence, bottlenecks or scaling playbooks. Tracks OKRs with okr_tracker.py and analyzes efficiency with ops_efficiency_analyzer.py."
+},
+{
+"name": "copy-editing",
+"description": "Use for any request to edit, proofread or tighten existing marketing copy, before changing words. Runs focused passes (clarity, voice, proof, specificity) and scores readability and AI tells with readability_scorer.py and ai_content_detector.py."
+},
+{
+"name": "copywriting",
+"description": "Use for any headline, tagline, CTA, landing, pricing or about-page copy request, before drafting. Scores candidate headlines with headline_scorer.py and applies a page-section framework, so the first draft is tested rather than guessed."
+},
+{
+"name": "coverage",
+"description": "Use when asked what's not tested or for test coverage gaps ('test coverage', 'coverage gaps', 'missing tests', 'what needs testing'). Maps untested pages and flows."
+},
+{
+"name": "cpo-advisor",
+"description": "Use for product leadership: product vision, PMF measurement, portfolio prioritization, product org design or board product reporting. Scores PMF with pmf_scorer.py and the portfolio with portfolio_analyzer.py."
+},
+{
+"name": "cpo-review",
+"description": "Use for /c-level-agents:cpo-review, or to challenge a roadmap, a PMF claim or a feature-kill decision."
+},
+{
+"name": "cro-advisor",
+"description": "Use for B2B revenue leadership: forecasting, quotas, sales model, NRR and churn, pricing or sales capacity. Forecasts with revenue_forecast_model.py and analyzes churn with churn_analyzer.py."
+},
+{
+"name": "cro-review",
+"description": "Use for /c-level-agents:cro-review, or to challenge a forecast, win-rate drop or sales-team scale-up."
+},
+{
+"name": "cross-eval",
+"description": "Use for /c-level-agents:cross-eval, or when a high-stakes memo needs independent review by several models before the boardroom."
+},
+{
+"name": "cs-onboard",
+"description": "Use when setting up the C-suite advisors for the first time, or when company context is missing or stale after a raise or pivot. Interviews the founder across 7 dimensions and writes ~/.claude/company-context.md."
+},
+{
+"name": "cto-advisor",
+"description": "Use for CTO-level decisions: tech debt, architecture direction, engineering team scaling, technology evaluation or DORA metrics. Analyzes debt with tech_debt_analyzer.py and team growth with team_scaling_calculator.py."
+},
+{
+"name": "cto-review",
+"description": "Use for /c-level-agents:cto-review, or to challenge an architecture commitment, a 10x scaling plan or rebuild vs buy."
+},
+{
+"name": "culture-architect",
+"description": "Use when defining company values, turning them into behaviors, assessing culture health or designing rituals. Treats culture as operating behavior, not posters."
+},
+{
+"name": "customer-success-manager",
+"description": "Use when reviewing customer accounts for health, churn risk or expansion. Scores health with health_score_calculator.py, churn with churn_risk_analyzer.py and upsell with expansion_opportunity_scorer.py."
+},
+{
+"name": "data-quality-auditor",
+"description": "Use before analysis or model training on any dataset, or when asked to profile data or hunt missing values and outliers. Profiles it with data_profiler.py, missing_value_analyzer.py and outlier_detector.py and writes a remediation plan."
+},
+{
+"name": "database-designer",
+"description": "Use when designing a database schema, choosing SQL vs NoSQL, modeling relationships or planning a data migration, before writing DDL. Applies normalization, index strategy and a database selection decision tree."
+},
+{
+"name": "database-schema-designer",
+"description": "Use when asked for an ERD, table relationships, normalization or a schema migration plan. Produces the ERD and normalized DDL with migration steps."
+},
+{
+"name": "deal-desk",
+"description": "Use before closing a deal that needs a discount beyond AE authority, has a redlined MSA or unclear per-deal economics. Scores it with deal_scorer.py, names approvers with discount_approval_router.py and flags risky terms with terms_redliner.py. Never auto-approves."
+},
+{
+"name": "decide",
+"description": "Use for /c-level-agents:decide, or right after the founder approves a boardroom memo, to log it as a durable decision."
+},
+{
+"name": "decision-logger",
+"description": "Use when logging a decision after a board meeting, reviewing past decisions or checking overdue actions. Keeps raw transcripts and approved decisions separately with decision_tracker.py."
+},
+{
+"name": "deep-learning-book",
+"description": "Use when studying or applying Goodfellow, Bengio and Courville's Deep Learning, or asking if its advice still holds. Indexes all 20 chapters with a 2016-to-2026 delta, plans reading paths with reading_path_planner.py and diagnoses training failures with training_diagnostics.py."
+},
+{
+"name": "deep-research",
+"description": "Use when a wrong answer is expensive: strategy research, comparing several products or markets, validating a hypothesis with outside data. Fans out searches and sub-agents, triangulates each claim across 3+ sources and saves every source with quotes. Quick facts: answer directly."
+},
+{
+"name": "deep-work",
+"description": "Use when someone wants to plan a deep work day, time-block their calendar or task list, budget or cut shallow work, protect focus hours, track deep-work sessions and streaks, run an end-of-day shutdown ritual, or says \"/deep-work\" or \"/time-block\". Classifies tasks deep vs shallow, builds an energy-first time-blocked schedule that refuses deep demand past the 4-hour ceiling, batches shallow work into at most two windows, and logs focus sessions against a weekly target."
+},
+{
+"name": "deepread",
+"description": "Use when the user asks to deeply read a book, article, PDF, or document set; extract claims and evidence; build a knowledge map; or learn through Feynman explanation and recall. Covers quick, deep, map, Feynman, and whole-book reading modes."
+},
+{
+"name": "demo-video",
+"description": "Use when asked for a demo video, product walkthrough, feature showcase or GIF from screenshots or scene descriptions. Orchestrates playwright, ffmpeg and edge-tts to render it."
+},
+{
+"name": "dependency-auditor",
+"description": "Use before a release, during a CVE investigation, before a major version bump or for a license review. Scans dependencies with dep_scanner.py, checks licenses with license_checker.py and plans safe upgrades with upgrade_planner.py."
+},
+{
+"name": "design-qa",
+"description": "Use when a UI screen, page or component is about to be called done, handed off or shipped, or when generated UI looks generic or half-finished. Gates the rendered result, not the design file - finds controls that do nothing, placeholder copy, removed focus rings, missing loading/empty/error states, low contrast, small targets, hidden focus and broken reflow measured in the real browser, and flags template defaults without blocking on taste."
+},
+{
+"name": "design-system",
+"description": "Use when setting up brand settings before the first markdown-to-HTML conversion, or changing them. Runs a 10-question onboarding with onboard.py (colors, fonts, style, TOC) and refuses palettes that fail WCAG AA via brand_palette_validator.py."
+},
+{
+"name": "docker-development",
+"description": "Use for any Dockerfile or docker-compose file to write, optimize or review, before editing it. Checks layers, caching, size and security with dockerfile_analyzer.py and validates compose files with compose_validator.py."
+},
+{
+"name": "dossier",
+"description": "Use for diligence or meeting prep on a specific company, person or organization ('prep me for a meeting with X', 'due diligence on Y'). Tests the user's stated hypothesis with balanced evidence (disconfirming_evidence_balance.py) and writes a .docx dossier."
+},
+{
+"name": "email-sequence",
+"description": "Use for any drip, nurture, onboarding, welcome or re-engagement email sequence to opted-in users, before writing emails. Plans timing, triggers and exits and scores the sequence with sequence_analyzer.py."
+},
+{
+"name": "email-template-builder",
+"description": "Use when adding or reworking transactional email (React Email templates, Resend, Postmark, SendGrid or SES, preview, i18n, dark mode, deliverability). Builds the template system and provider integration end to end."
+},
+{
+"name": "embedded-iot-mentor",
+"description": "Use for any embedded or IoT hardware project (ESP32, STM32, Arduino, Pico, firmware, PCB, MQTT, Home Assistant, sensor dashboards), before buying parts. Picks the MCU, board and toolchain, decides where readings go and gives a phased build plan with time and cost."
+},
+{
+"name": "engineering-advanced-skills",
+"description": "Use when looking for which advanced engineering skill fits a task (agents, RAG, MCP, CI/CD, databases, observability, release, reliability). Lists them and routes to one."
+},
+{
+"name": "engineering-skills",
+"description": "Use when looking for which engineering-team skill fits a task (architecture, frontend, backend, QA, DevOps, security, AI/ML, data, cloud). Lists them and routes to one; load only that skill."
+},
+{
+"name": "env-secrets-manager",
+"description": "Use when auditing .env files, planning credential rotation, chasing a missing env var in production or hardening a repo against leaked secrets. Scans for committed secrets and drift with env_auditor.py."
+},
+{
+"name": "epic-design",
+"description": "Use for any landing page, hero section or scroll-driven web design that should feel cinematic (parallax, scrollytelling, overlapping sections, text reveals, Apple-style animation), before coding. Inspects assets with inspect-assets.py, then builds with 45+ 2.5D techniques, no WebGL."
+},
+{
+"name": "eu-ai-act-specialist",
+"description": "Use for EU AI Act (Regulation 2024/1689) compliance work: classifying an AI system's risk tier, planning the Art. 43 conformity route and Annex IV file, or listing obligations by role. Runs ai_system_risk_classifier.py, conformity_assessment_planner.py and ai_act_obligation_tracker.py, citing Articles."
+},
+{
+"name": "eval",
+"description": "Use to score and pick a winner among finished AgentHub agents by metric or judge."
+},
+{
+"name": "execute",
+"description": "Use for /c-level-agents:execute, or to turn an approved decision into a 90-day plan with weekly milestones and owners."
+},
+{
+"name": "executive-mentor",
+"description": "Use when a founder or executive needs a plan stress-tested, a dreaded decision made, a hard board meeting prepared or an honest post-mortem. Adversarial thinking partner; scores options with decision_matrix_scorer.py and maps stakeholders with stakeholder_mapper.py."
+},
+{
+"name": "experiment-designer",
+"description": "Use when planning product experiments, writing testable hypotheses, estimating sample size, prioritizing tests, or interpreting A/B outcomes with practical statistical rigor."
+},
+{
+"name": "extract",
+"description": "Turn a proven pattern or debugging solution into a standalone reusable skill with SKILL.md, reference docs, and examples. Use when the user runs /si:extract or asks to package a recurring solution from memory into a skill."
+},
+{
+"name": "fable-goal",
+"description": "Use when the user wants a /goal prompt rather than the build itself ('/fable-goal', 'turn this into a goal prompt', 'write the prompt that builds X'). Turns their ramble into one copy-paste prompt checked by goal_prompt_self_check.py."
+},
+{
+"name": "fda-consultant-specialist",
+"description": "Use for FDA medical device questions: 510(k) vs De Novo vs PMA, predicates and substantial equivalence, QMSR (21 CFR 820), HIPAA or device cybersecurity. Runs fda_submission_tracker.py, qsr_compliance_checker.py and hipaa_risk_assessment.py."
+},
+{
+"name": "fda-qsr-audit-prep",
+"description": "Use for /compliance-os:fda-qsr-audit-prep, or before an FDA inspection, QMSR internal audit or Form 483 response."
+},
+{
+"name": "feature-flags-architect",
+"description": "Use before adding, rolling out or retiring a feature flag or kill switch, or when flag debt piles up. Plans the rollout with rollout_planner.py, finds stale flags with flag_debt_scanner.py and audits kill switches with kill_switch_audit.py."
+},
+{
+"name": "finance-skills",
+"description": "Use when a finance request needs routing between financial-analyst (ratios, DCF, variance, forecasts), saas-metrics-coach (ARR, churn, CAC, LTV, NRR) and month-end-close."
+},
+{
+"name": "financial-analyst",
+"description": "Use for financial statement analysis, DCF valuation, budget variance or rolling forecasts. Runs ratio_calculator.py, dcf_valuation.py, budget_variance_analyzer.py and forecast_builder.py."
+},
+{
+"name": "fix",
+"description": "Use when a Playwright test fails or is flaky ('fix test', 'flaky test', 'test passes sometimes', 'intermittent failure'). Diagnoses the cause and fixes it."
+},
+{
+"name": "focused-fix",
+"description": "Use when a whole feature or module is broken and needs fixing end to end ('make X work', 'the Y module is broken'). Maps every file and dependency of the area before changing anything. Single quick bug fixes do not need it."
+},
+{
+"name": "form-cro",
+"description": "Use when a lead, contact, demo or checkout form is underperforming or being designed, before changing fields. Scores field friction with form_field_analyzer.py. Signup forms: signup-flow-cro."
+},
+{
+"name": "founder-coach",
+"description": "Use when a founder is the bottleneck, can't delegate, is burning out or is moving from IC to CEO. Covers delegation, energy and calendar audits, blind spots and succession."
+},
+{
+"name": "founder-mode",
+"description": "Use for /c-level-agents:founder-mode, or any founder strategy question that hasn't been routed yet. Sends it to the right C-suite advisor or the boardroom."
+},
+{
+"name": "free-tool-strategy",
+"description": "Use when considering a free calculator, grader, checker or generator as a marketing asset, before building it. Estimates traffic, leads and ROI with tool_roi_estimator.py and scores the idea for search demand and fit."
+},
+{
+"name": "freeze",
+"description": "Use for /c-level-agents:freeze, or to put a cooling-off lock on an irreversible decision made under pressure."
+},
+{
+"name": "full-page-screenshot",
+"description": "Use when asked for a full-page or long screenshot of a web page. Captures SPA scroll containers, lazy images and very tall pages through Chrome DevTools Protocol with no extra dependencies."
+},
+{
+"name": "gc-review",
+"description": "Use for /c-level-agents:gc-review, or to challenge a term sheet, customer MSA, IP assignment or regulatory exposure before signing."
+},
+{
+"name": "gcp-cloud-architect",
+"description": "Use when designing or costing a Google Cloud architecture (Cloud Run, GKE, Functions, Cloud SQL, BigQuery, migration to GCP). Designs it with architecture_designer.py, deploys with deployment_manager.py and finds savings with cost_optimizer.py."
+},
+{
+"name": "gdpr-audit-prep",
+"description": "Use for /compliance-os:gdpr-audit-prep, or before a GDPR review, post-breach audit or DPA investigation."
+},
+{
+"name": "gdpr-dsgvo-expert",
+"description": "Use for GDPR or DSGVO work: scanning a codebase for privacy risks, writing a DPIA or tracking data subject requests against the Art. 12(3) deadline. Runs gdpr_compliance_checker.py, dpia_generator.py and data_subject_rights_tracker.py; final calls go to the DPO."
+},
+{
+"name": "general-counsel-advisor",
+"description": "Use when reviewing a contract or term sheet (MSA, SaaS, NDA, DPA, employment), setting IP strategy or mapping regulatory exposure (HIPAA, GDPR, FDA, fintech). Scans with contract_risk_scanner.py and term_sheet_analyzer.py; not a substitute for licensed counsel."
+},
+{
+"name": "generate",
+"description": "Use when asked to write Playwright or e2e tests for a page, component or feature ('write tests', 'add tests for', 'e2e test')."
+},
+{
+"name": "git-worktree-manager",
+"description": "Use when running several branches or agents in parallel on one repo. Creates worktrees with isolated ports and env via worktree_manager.py and removes stale ones with worktree_cleanup.py."
+},
+{
+"name": "google-workspace-cli",
+"description": "Use for Google Workspace admin or automation from the gws CLI (Gmail, Drive, Sheets, Calendar, Docs, Chat, Tasks). Sets up auth with auth_setup_guide.py, diagnoses with gws_doctor.py, runs recipes with gws_recipe_runner.py and audits security with workspace_audit.py."
+},
+{
+"name": "grade-iterate",
+"description": "Use when a launched managed agent needs grading against a rubric and improving ('grade my agent', 'is it good enough'). Builds the outcome with outcome_builder.py, reads verdicts with verdict_reader.py and runs held-back evals from eval_scaffold.py."
+},
+{
+"name": "grants",
+"description": "Use for any NIH funding question ('find grants for my research', 'which NIH institute'). Maps the idea to institutes, study sections and NOSIs via RePORTER, matches mechanisms with mechanism_matcher.py and writes a .docx strategy. NIH only."
+},
+{
+"name": "grill-me",
+"description": "Interview the user relentlessly about a plan or design until reaching shared understanding, resolving each branch of the decision tree. Use when user wants to stress-test a plan, get grilled on their design, or mentions \"grill me\"."
+},
+{
+"name": "grill-with-docs",
+"description": "Use when a plan should be stress-tested against the project's own docs (CONTEXT.md glossary, docs/adr decisions), or the user says 'grill with docs'. Scans ADRs with adr_scanner.py and updates the docs inline as terms and decisions settle."
+},
+{
+"name": "handoff",
+"description": "Compact the current conversation into a handoff document for another agent to pick up, referencing existing artifacts (PRDs, plans, ADRs, issues, commits, diffs) by path or URL instead of duplicating them. Use whenever the user wants to hand off to a fresh agent, is ending a session mid-task, asks for a handoff doc or a summary of state, decisions and next steps for the next session, or starts a new session that picks up prior work."
+},
+{
+"name": "hard-call",
+"description": "Use for a decision where every option hurts (layoff vs down round, killing a loved product). Runs 10/10/10 and regret minimization."
+},
+{
+"name": "helm-chart-builder",
+"description": "Use for any Helm chart to create, review or harden (values.yaml, templates, subcharts, RBAC, pod security), before editing it. Analyzes the chart with chart_analyzer.py and validates values with values_validator.py."
+},
+{
+"name": "hivemind",
+"description": "Use when delegating grunt work to free opencode workers instead of spending Claude tokens: one worker or a scout, coder and tester swarm in worktrees. Triggers on 'spawn a worker', 'swarm', 'delegate to opencode' or /oc."
+},
+{
+"name": "hub-init",
+"description": "Use for /hub-init, or to start an AgentHub competition: task, agent count and evaluation criteria."
+},
+{
+"name": "hub-run",
+"description": "Use for /hub-run, or to run a whole AgentHub competition end to end: init, baseline, spawn, eval and merge."
+},
+{
+"name": "hub-status",
+"description": "Use for /hub-status, or to check AgentHub agent progress, branches and DAG state."
+},
+{
+"name": "human-gate",
+"description": "Use before shipping anything that needs human sign-off (a plan, spec, report, page, migration or irreversible action). Builds a review page with review_page_builder.py and runs human_gate.py, which refuses to close with an open blocker or no named reviewer."
+},
+{
+"name": "inbox-setup",
+"description": "Use when setting up email triage for the first time, before inbox-triage, or when priorities change. Interviews the user one question at a time and writes the knowledge base inbox-triage reads, validated with kb_validator.py."
+},
+{
+"name": "inbox-triage",
+"description": "Use when the user wants their inbox processed ('triage my inbox', 'check my email'). Classifies recent mail with the inbox-setup knowledge base, drafts replies it never sends (checked by draft_safety_validator.py) and reports."
+},
+{
+"name": "incident-commander",
+"description": "Use when declaring or running a production incident or outage, or writing its post-incident review. Classifies severity with incident_classifier.py, rebuilds the timeline with timeline_reconstructor.py and drafts the PIR with pir_generator.py. Security incidents: incident-response."
+},
+{
+"name": "incident-response",
+"description": "Use when a security incident is detected or suspected and needs triage, SEV1-SEV4 classification, escalation and forensic evidence collection. Runs incident_triage.py and follows the NIST SP 800-61 lifecycle. Outages: incident-commander."
+},
+{
+"name": "information-security-manager-iso27001",
+"description": "Use when designing or running an ISO 27001 ISMS in HealthTech or MedTech: risk assessment, control implementation, certification or security incidents. Assesses risk with risk_assessment.py and checks controls with compliance_checker.py."
+},
+{
+"name": "internal-comms",
+"description": "Use when announcing a reorg, tool rollout, policy change, leadership change, layoff or acquisition internally. Builds the announcement with change_announcement_builder.py and sequences it with comms_calendar_builder.py."
+},
+{
+"name": "internal-narrative",
+"description": "Use when preparing an all-hands, investor update, recruiting pitch or crisis message, or when stories told to different audiences drift apart. Keeps one company story and flags contradictions."
+},
+{
+"name": "interview",
+"description": "Use when someone has an agent idea to scope before launch ('help me scope an agent'). Interviews them about the one job and writes a build sheet with build_sheet_builder.py, checked by primitives_validator.py; no API key needed."
+},
+{
+"name": "interview-mapper",
+"description": "Use when coding or making sense of one interview transcript (customer, JTBD, expert, usability, exit). Extracts verbatim-grounded nuggets with extract_nuggets.py, verifies quotes with verify_quotes.py and checks conclusions hold across reruns with consensus.py."
+},
+{
+"name": "interview-system-designer",
+"description": "Use when designing a hiring loop, competency matrix, scoring rubric or question bank, or checking interviewer calibration. Plans the loop per role with interview_planner.py."
+},
+{
+"name": "intl-expansion",
+"description": "Use when expanding to a new country: market selection, entry mode, localization, regulation and regional go-to-market."
+},
+{
+"name": "isms-audit-expert",
+"description": "Use for ISO 27001 audit work: internal or surveillance audits, Annex A control evidence, Statement of Applicability, nonconformities, Stage 1 and 2 prep. Plans risk-based audits with isms_audit_scheduler.py."
+},
+{
+"name": "iso13485-audit-prep",
+"description": "Use for /compliance-os:iso13485-audit-prep, or before an ISO 13485 internal audit or DHF closure."
+},
+{
+"name": "iso27001-audit-prep",
+"description": "Use for /compliance-os:iso27001-audit-prep, or before an ISO 27001 internal, surveillance or stage 1 audit."
+},
+{
+"name": "iso42001-specialist",
+"description": "Use for ISO/IEC 42001 AI management system work: gap analysis against Clauses 4-10, the AI risk register and Annex A controls, or the internal audit plan. Runs aims_gap_analyzer.py, ai_risk_register_builder.py and aims_audit_scheduler.py."
+},
+{
+"name": "jira-expert",
+"description": "Use for Jira configuration and queries: JQL, workflows, custom fields, automation, dashboards. Builds JQL with jql_query_builder.py and checks workflows with workflow_validator.py."
+},
+{
+"name": "karpathy-coder",
+"description": "Use before committing or while reviewing a diff, or when code may be overbuilt. Checks it against Karpathy's four principles with complexity_checker.py, diff_surgeon.py and assumption_linter.py: surface assumptions, keep it simple, change surgically, verify goals."
+},
+{
+"name": "knowledge-ops",
+"description": "Use when writing, checking or cleaning up SOPs and runbooks. Generates them with sop_generator.py, checks 5W2H completeness and links with runbook_validator.py and ingests an existing knowledge base with kb_ingester.py."
+},
+{
+"name": "kubernetes-operator",
+"description": "Use when building a Kubernetes operator or CRD (controller-runtime, kubebuilder, operator-sdk, KOPF), before writing the controller. Validates CRDs with crd_validator.py, lints reconcile loops with reconcile_lint.py and scores OperatorHub capability level."
+},
+{
+"name": "landing",
+"description": "Use when asked for a premium single-file HTML landing page with 3D CSS, GSAP scroll effects and parallax. Locks positioning in a short intake, validates the palette with brand_palette_validator.py and the output with html_validator.py."
+},
+{
+"name": "landing-page-generator",
+"description": "Use when asked for a landing, marketing or campaign page as a Next.js TSX component with Tailwind. Scaffolds it with landing_page_scaffolder.py using PAS, AIDA or BAB copy, SEO meta and Core Web Vitals targets."
+},
+{
+"name": "launch-strategy",
+"description": "Use when planning a product or feature launch, Product Hunt day, beta or waitlist, before writing the plan. Scores readiness with launch_readiness_scorer.py and phases the launch by channel."
+},
+{
+"name": "linkedin-analytics",
+"description": "Use when someone asks why their LinkedIn reach dropped, which posts worked, whether a pattern is real or how to test one. Analyzes posts with post_performance_analyzer.py, mines patterns with pattern_miner.py and plans tests with experiment_planner.py."
+},
+{
+"name": "linkedin-content",
+"description": "Use when writing, editing or reviewing a LinkedIn post (story, how-to, carousel, video script, poll) or repurposing content into posts. Picks the format with format_picker.py and lints with post_linter.py."
+},
+{
+"name": "linkedin-engagement",
+"description": "Use for LinkedIn comments, connection notes, DMs or outreach plans, or checking outreach volume is safe. Plans targets with comment_target_planner.py, drafts notes with outreach_message_builder.py and checks limits with outreach_volume_guard.py."
+},
+{
+"name": "linkedin-profile",
+"description": "Use when auditing or rewriting a LinkedIn profile (headline, About, experience, Featured). Scores the headline with headline_scorer.py, audits completeness with profile_completeness_auditor.py and drafts About with about_section_builder.py."
+},
+{
+"name": "linkedin-skills",
+"description": "Use for any organic LinkedIn growth request (strategy, profile, posts, cadence, outreach, analytics). Checks it against LinkedIn's rules with linkedin_policy_gate.py and routes with linkedin_goal_router.py. No automation or scraping."
+},
+{
+"name": "linkedin-strategy",
+"description": "Use when someone needs a LinkedIn plan rather than a post: content pillars, positioning, a sustainable cadence or a newsletter decision. Runs positioning_brief.py, cadence_planner.py and newsletter_planner.py."
+},
+{
+"name": "litreview",
+"description": "Use when starting a literature review or a literature-based project. Plans the search (PICO, SPIDER) with framework_recommender.py, searches PubMed and OpenAlex with free_search.py and writes a .docx orientation guide. Single-paper lookups: query directly."
+},
+{
+"name": "llm-cost-optimizer",
+"description": "Use whenever an LLM feature is being built or its costs come up (model choice, prompt caching, token limits, per-feature spend). Sets routing, caching, max_tokens and cost logging before launch rather than after the bill."
+},
+{
+"name": "llm-wiki",
+"description": "Use when building or maintaining an Obsidian second brain that an LLM keeps up to date, or when ingesting a paper, article or book into it. Ingests with ingest_source.py, maintains index and links and checks the vault with lint_wiki.py."
+},
+{
+"name": "local-seo-manager",
+"description": "Use for any local business's Google Business Profile, Maps ranking, service-area pages, citations or review replies, before writing. Checks NAP consistency with nap_checker.py and generates LocalBusiness schema and area pages with its scripts."
+},
+{
+"name": "loop-library",
+"description": "Discover, find, compare, audit, repair, adapt, and design repeatable AI-agent loops with explicit triggers, actions, verification, stopping conditions, guardrails, and handoffs. Use when a user asks to analyze a codebase for potential loops, mine coding-thread history for work done more than once, turn repeated engineering work into a loop, find or recommend a published loop, create a recurring agent workflow or automation cadence, turn an outcome into a bounded copy-ready loop, or review an existing loop for weak checks, unsafe authority, unbounded repetition, stale state, or unclear stopping behavior."
+},
+{
+"name": "ma-playbook",
+"description": "Use when buying a company or preparing to be bought: due diligence, valuation, deal structure and integration."
+},
+{
+"name": "markdown-html-orchestrator",
+"description": "Use when the user wants a markdown file turned into a single-file interactive HTML page (document, code review or slide deck). Classifies it with doctype_classifier.py and routes to md-document, md-review or md-slides."
+},
+{
+"name": "market-research",
+"description": "Use for market sizing (TAM, SAM, SOM both top-down and bottom-up), survey sample sizes or segment scoring. Runs market_sizer.py, sample_size_planner.py and segmentation_scorer.py and never returns one unsourced number."
+},
+{
+"name": "marketing-context",
+"description": "Use at the start of any marketing project, or when ICP, positioning or brand voice are missing, before other marketing skills. Writes the shared context file the other skills read and validates it with context_validator.py."
+},
+{
+"name": "marketing-demand-acquisition",
+"description": "Use when planning demand generation, paid acquisition across Google, LinkedIn and Meta, or a marketing budget, before allocating spend. Computes blended and per-channel CAC with calculate_cac.py and sets MQL to SQL handoffs."
+},
+{
+"name": "marketing-ideas",
+"description": "Use when asked for marketing or growth ideas for a SaaS or software product. Picks from 139 tactics by stage, budget and channel instead of a generic list."
+},
+{
+"name": "marketing-ops",
+"description": "Use when a marketing request spans several skills (a campaign across content, SEO, CRO and channels) or it is unclear which skill fits. Routes and sequences the work and tracks it with campaign_tracker.py."
+},
+{
+"name": "marketing-psychology",
+"description": "Use when applying persuasion, cognitive biases or behavioral science to a page, offer or campaign. Picks from 70+ named mental models with how to apply each ethically."
+},
+{
+"name": "marketing-skills",
+"description": "Use when looking for which of the 44 marketing skills fits a task. Lists them by pod and routes to one; does no marketing work itself."
+},
+{
+"name": "marketing-strategy-pmm",
+"description": "Use for product positioning, ICP, competitive battlecards or a go-to-market plan, before drafting. Applies April Dunford's positioning method and produces the positioning statement, battlecards and launch plan."
+},
+{
+"name": "mcp-oauth-triage",
+"description": "Use when an MCP connector that used to authenticate now fails (tool calls 401 after a good token exchange, breaks after refresh, returns another account's data), before changing code. Classifies the fault with oauth_triage.py."
+},
+{
+"name": "mcp-server-builder",
+"description": "Use when exposing an API as an MCP server or scaffolding a new MCP server in Python or TypeScript, before hand-writing tool wrappers. Generates tools from OpenAPI with openapi_to_mcp.py and validates them with mcp_validator.py."
+},
+{
+"name": "md-document",
+"description": "Use when converting long-form markdown (spec, RFC, report, plan) into a single-file HTML page with sticky TOC, search and code-copy. Parses with markdown_parser.py and renders with html_renderer.py using the design-system brand."
+},
+{
+"name": "md-review",
+"description": "Use when converting a markdown code review with diff blocks and severity callouts into a two-column HTML review. Parses diffs with diff_parser.py and annotations with annotation_extractor.py; requires a named reviewer."
+},
+{
+"name": "md-slides",
+"description": "Use when converting a markdown deck into a single-file HTML presentation with keyboard navigation, presenter notes and print-to-PDF. Splits slides with slide_splitter.py and renders with deck_html_renderer.py."
+},
+{
+"name": "mdr-745-specialist",
+"description": "Use for EU MDR 2017/745 work: device classification under Annex VIII, technical file gaps (Annex II/III), clinical evaluation, PMS and PSUR cadence, notified body prep. Checks the file with mdr_gap_analyzer.py."
+},
+{
+"name": "meeting-analyzer",
+"description": "Use when the user shares meeting transcripts (.vtt, .srt, .txt, Otter, Granola, Zoom) or asks how they come across in meetings. Measures speaking ratio, filler words and avoidance patterns and gives coaching."
+},
+{
+"name": "meetings",
+"description": "Use when someone wants to decide whether a meeting is worth calling, price a meeting in dollars, build a timeboxed agenda with desired outcomes, or turn messy meeting notes into owned action items \u2014 or says \"should this be a meeting\", \"/cs-meeting-prep\", or \"/cs-meeting-actions\". Runs a cost gate (ASYNC / NOT-READY / MEET), builds a decision-first agenda, and extracts an owner + due-date checklist that flags every orphan."
+},
+{
+"name": "memory-engineering",
+"description": "Use before adding memory to an agent or when a memory store keeps growing (long context vs RAG vs graph vs agentic memory, what to expire). Prices the design with memory_cost_profiler.py and refuses one without a forgetting policy via forgetting_policy_linter.py."
+},
+{
+"name": "memory-review",
+"description": "Analyze auto-memory for promotion candidates, stale entries, consolidation opportunities, and health metrics. Use when the user runs /si:memory-review or asks what has been learned and what should be promoted or pruned."
+},
+{
+"name": "memory-status",
+"description": "Memory health dashboard showing line counts, topic files, capacity, stale entries, and recommendations. Use when the user runs /si:memory-status or asks how full or healthy the agent memory is."
+},
+{
+"name": "merge",
+"description": "Use to land the winning AgentHub branch, archive the others and clean up worktrees."
+},
+{
+"name": "migrate",
+"description": "Use when moving tests from Cypress or Selenium to Playwright ('migrate tests', 'convert tests', 'replace selenium')."
+},
+{
+"name": "migration-architect",
+"description": "Use before planning any database, schema, service or data migration, especially zero-downtime ones. Generates a phased plan, a compatibility check and rollback scripts with migration_planner.py, compatibility_checker.py and rollback_generator.py."
+},
+{
+"name": "minimalist",
+"description": "Use when asked to avoid over-engineering, cut dependencies or write the least code. Applies a strict ladder before any new code: YAGNI, reuse, stdlib, native platform, existing deps."
+},
+{
+"name": "monorepo-navigator",
+"description": "Use for Turborepo, Nx, pnpm-workspace or Lerna setup, affected-only builds, remote caching or a multi-repo to monorepo move. Maps packages and the dependency graph with monorepo_analyzer.py."
+},
+{
+"name": "month-end-close",
+"description": "Use when running, planning or speeding up a month-end (or quarter-end) close \u2014 building or reviewing the close checklist and calendar, reconciling a bank statement or sub-ledger to the general ledger, writing or reviewing flux (variance) explanations, or finding why the close takes too many days. Orders close tasks by dependency and finds the critical path, proves each reconciliation and ages what is left, and refuses to sign off material fluctuations explained with boilerplate."
+},
+{
+"name": "ms365-tenant-manager",
+"description": "Use for Microsoft 365 tenant administration (Entra ID users, Exchange Online, Teams, licenses, Conditional Access, compliance reports). Plans setup with tenant_setup.py, bulk-manages users with user_management.py and generates PowerShell with powershell_generator.py."
+},
+{
+"name": "named-persona-adversarial-review",
+"description": "Use when a PR has architectural or UX impact, or automated review feels generic, and you want it reviewed through named engineers' documented views (Torvalds, Thompson, Carmack, Beck, Jobs, Cagan). Cites the source for each persona's critique."
+},
+{
+"name": "notebooklm",
+"description": "Use for anything in Google NotebookLM: querying notebooks, adding sources, generating Audio or Video Overviews, reports, flashcards or slides. Drives the browser; needs browser automation."
+},
+{
+"name": "observability-designer",
+"description": "Use when adding metrics, logs and traces to a service, fixing noisy alerts or designing dashboards. Designs SLIs with slo_designer.py, tunes alerts with alert_optimizer.py and generates dashboards with dashboard_generator.py."
+},
+{
+"name": "office-hours",
+"description": "Use for /c-level-agents:office-hours, or when a founder question is too vague to route. Asks six YC-style questions before any advice."
+},
+{
+"name": "onboard",
+"description": "Use for /cs-onboard, or when the virtual C-suite lacks company context. Interviews the founder and writes ~/.claude/company-context.md."
+},
+{
+"name": "onboarding-cro",
+"description": "Use when activation, time-to-value or a first-run experience after signup needs work, before redesigning it. Finds the activation drop-off with activation_funnel_analyzer.py."
+},
+{
+"name": "org-health-diagnostic",
+"description": "Use for a whole-company health check before a board review or when functions seem at risk. Scores 8 dimensions on a traffic light with health_scorer.py."
+},
+{
+"name": "page-cro",
+"description": "Use when a homepage, landing, pricing or feature page is not converting, before rewriting it. Audits it section by section with conversion_audit.py and ranks fixes by expected impact."
+},
+{
+"name": "paid-ads",
+"description": "Use for paid campaign strategy on Google, Meta, LinkedIn or X: structure, targeting, bids, retargeting and budgets. Scores account health with ad_health_scorer.py and models ROAS with roas_calculator.py. Ad copy only: ad-creative."
+},
+{
+"name": "partnerships-architect",
+"description": "Use when deciding whether to sign a partner, at which tier (referral, reseller, OEM, SI, alliance), with what joint GTM and revshare. Runs partner_tier_classifier.py, revshare_modeler.py and joint_gtm_planner.py."
+},
+{
+"name": "passive-deal-screener",
+"description": "Use when a passive investor shares a private deal (syndication, preferred equity, bridge fund, private credit) to screen as an LP. Stress-tests it, computes fee drag with fee_drag_calculator.py and compares terms with benchmark_comparator.py."
+},
+{
+"name": "patent",
+"description": "Use for prior-art search, freedom-to-operate, patent landscape, acquisition diligence or litigation prior art. Picks the use case with sub_use_case_router.py, searches Google Patents, Espacenet and USPTO and writes a .docx; not legal advice."
+},
+{
+"name": "paywall-upgrade-cro",
+"description": "Use when designing or fixing an in-app paywall, upgrade modal, feature gate or trial-expiry screen. Applies upgrade-moment patterns for users who have already seen value. Public pricing page: page-cro."
+},
+{
+"name": "performance-profiler",
+"description": "Use for a slow endpoint, memory leak, CPU spike, large bundle or performance budget in Node.js, Python or Go, before optimizing. Measures before and after with performance_profiler.py, flamegraphs and k6 load tests."
+},
+{
+"name": "pm-skills",
+"description": "Use when a delivery request needs routing across the project-management skills (sprints, portfolio health, Jira, Confluence, comms), or to run a delivery loop. Routes with pm_goal_router.py, bridges Jira data with jira_snapshot_bridge.py and gates with delivery_loop_gate.py."
+},
+{
+"name": "popup-cro",
+"description": "Use when creating or fixing a popup, modal, exit-intent, slide-in or banner meant to convert. Sets trigger, frequency, offer and copy rules that avoid hurting the page."
+},
+{
+"name": "post-mortem",
+"description": "Use for /c-level-agents:post-mortem, or when a decision hits its 90-day review or kill criteria. Scores it against the original assumptions and dissent."
+},
+{
+"name": "postmortem",
+"description": "Use after a failed launch, missed quarter or bad hire. Runs a blameless 5-Whys with a change register."
+},
+{
+"name": "pr-review-expert",
+"description": "Use when asked to review a pull request or diff for correctness, security and quality. Reviews the change file by file with a severity-ranked checklist."
+},
+{
+"name": "pricing-strategist",
+"description": "Use when choosing or revisiting pricing: seat, usage, value-based, freemium or hybrid, Van Westendorp willingness-to-pay analysis, or Good/Better/Best tiers. Runs pricing_model_picker.py, wtp_analyzer.py and packaging_designer.py and returns a range, not one number."
+},
+{
+"name": "pricing-strategy",
+"description": "Use for SaaS pricing tiers, value metric, packaging, a pricing page or a price increase, before proposing numbers. Models revenue across tier options with pricing_modeler.py."
+},
+{
+"name": "process-mapper",
+"description": "Use when documenting an end-to-end business process (procurement, onboarding, handoffs) and finding where work waits. Maps it with process_documenter.py, measures stages with cycle_time_analyzer.py and finds bottlenecks with bottleneck_detector.py."
+},
+{
+"name": "procurement-optimizer",
+"description": "Use for a SaaS audit, category spend review or supplier consolidation. Categorizes spend with spend_categorizer.py, finds slow purchasing with purchasing_cycle_analyzer.py and sizes consolidation with supplier_consolidation.py."
+},
+{
+"name": "product-analytics",
+"description": "Use when defining product KPIs, building metric dashboards, running cohort or retention analysis, or interpreting feature adoption trends across product stages."
+},
+{
+"name": "product-discovery",
+"description": "Use when validating product opportunities, mapping assumptions, planning discovery sprints, or testing problem-solution fit before committing delivery resources."
+},
+{
+"name": "product-manager-toolkit",
+"description": "Use for PM tasks: RICE prioritization, customer interview synthesis, PRDs or go-to-market. Scores features with rice_prioritizer.py and analyzes interviews with customer_interview_analyzer.py."
+},
+{
+"name": "product-research",
+"description": "Use when planning or synthesizing user research: choosing the method, deciding how many participants, or turning coded notes into insights. Runs study_designer.py, saturation_planner.py and insight_synthesizer.py, which refuses single-source insights."
+},
+{
+"name": "product-skills",
+"description": "Use when a product request needs routing across the product-team skills (prioritization, OKRs, UX research, experiments, discovery, roadmaps), or to run the continuous discovery loop. Routes with product_goal_router.py and gates with discovery_cadence_tracker.py and ost_linter.py."
+},
+{
+"name": "product-strategist",
+"description": "Use for Head of Product work: quarterly OKRs, product vision, roadmap, team structure or aligning product strategy across teams. Cascades OKRs from company to team with okr_cascade_generator.py."
+},
+{
+"name": "programmatic-seo",
+"description": "Use when building many SEO pages from a template and data (location, integration, comparison or directory pages), before generating them. Designs URL patterns with url_pattern_generator.py and guards against thin-content penalties."
+},
+{
+"name": "promote",
+"description": "Graduate a proven pattern from auto-memory (MEMORY.md) to CLAUDE.md or .claude/rules/ for permanent enforcement. Use when the user runs /si:promote or asks to make a learned behavior permanent."
+},
+{
+"name": "prompt-engineer-toolkit",
+"description": "Use when a marketing team's AI prompts need testing, versioning or governance, before shipping a prompt. A/B tests prompts against cases with prompt_tester.py and keeps diffed versions with prompt_versioner.py."
+},
+{
+"name": "prompt-governance",
+"description": "Use when prompts run in production and need versioning, a registry, A/B tests, regression checks or an eval pipeline. Sets up the release process for prompts; single-prompt quality: senior-prompt-engineer."
+},
+{
+"name": "pulse",
+"description": "Use for what people are saying right now about a topic (trends, sentiment, complaints, tool comparisons) across Reddit, Hacker News and the web in a recent window. Returns a cited briefing with engagement signals."
+},
+{
+"name": "pw",
+"description": "Use for any Playwright or end-to-end browser testing work: writing tests, fixing flaky ones, migrating from Cypress or Selenium, CI setup, TestRail or BrowserStack. Routes to the matching /pw sub-skill and its 55 templates."
+},
+{
+"name": "pw-init",
+"description": "Use when setting up Playwright in a project ('set up playwright', 'add e2e tests', 'configure playwright', 'init playwright')."
+},
+{
+"name": "pw-review",
+"description": "Use when reviewing Playwright tests for quality ('review tests', 'audit tests', 'playwright best practices check')."
+},
+{
+"name": "qms-audit-expert",
+"description": "Use for ISO 13485 internal audits: planning the program, running an audit, classifying findings or preparing for an external audit. Optimizes the schedule with audit_schedule_optimizer.py."
+},
+{
+"name": "quality-documentation-manager",
+"description": "Use for QMS document control: numbering, versioning, change control or 21 CFR Part 11 e-signatures. Validates documents with document_validator.py and tracks versions with document_version_control.py."
+},
+{
+"name": "quality-manager-qmr",
+"description": "Use for QMR duties under ISO 13485 5.5.2: management review, quality policy and objectives, quality KPIs and cost of quality. Tracks reviews with management_review_tracker.py and monitors effectiveness with quality_effectiveness_monitor.py."
+},
+{
+"name": "quality-manager-qms-iso13485",
+"description": "Use when building or maintaining an ISO 13485 QMS for medical devices, or preparing for its certification audit. Covers QMS design, documentation and CAPA and runs qms_audit_checklist.py."
+},
+{
+"name": "ra-qm-skills",
+"description": "Use when a regulatory or quality request doesn't clearly match one skill (ISO 13485, MDR, FDA, ISO 14971, CAPA, ISO 27001, ISO 42001, EU AI Act, GDPR, SOC 2). Lists them and routes to one."
+},
+{
+"name": "rag-architect",
+"description": "Use when designing a RAG pipeline, choosing chunk size, embedding model or vector database, or measuring retrieval quality (precision@k, recall@k, NDCG). Gives sized recommendations and an evaluation plan against ground truth."
+},
+{
+"name": "red-green-proof",
+"description": "Turns a suspected bug into a proven one. Verify the cause against reality before claiming it, write a test that FAILS on the current code, apply the fix, watch it pass \u2014 then revert the fix and confirm the test goes red again, because a test that passes both ways proves nothing. Invoked bare after a debugging conversation, it takes the target from context rather than asking. Use when fixing a bug, investigating an incident, hardening a flaky area, or when asked to \"add tests that reveal the bug\". Triggers on \"/red-green-proof\", \"prove the bug\", \"red-green\", \"make the test fail first\", \"is that test load-bearing\", \"reveal the bug with a test\"."
+},
+{
+"name": "red-team",
+"description": "Use when planning or running an authorized red team engagement or attack path analysis. Plans the kill chain with engagement_planner.py: MITRE ATT&CK techniques, choke points, OPSEC risk and crown jewels."
+},
+{
+"name": "referral-program",
+"description": "Use when designing or fixing a referral, affiliate or ambassador program, before setting rewards. Models payout and ROI with referral_roi_calculator.py and designs the mechanics end to end."
+},
+{
+"name": "reflect",
+"description": "Use when the user says 'step back', 'zoom out', 'are we on track' or 'sanity check this', or work has gone deep into details without a check on direction. Reassesses direction, assumptions and bias across five dimensions."
+},
+{
+"name": "regulatory-affairs-head",
+"description": "Use for medical device market access strategy: FDA 510(k), De Novo or PMA packages, CE marking under MDR, pre-sub meetings, agency deficiency responses or multi-market plans. Analyzes pathways with regulatory_pathway_analyzer.py and tracks submissions with regulatory_tracker.py."
+},
+{
+"name": "remember",
+"description": "Explicitly save important knowledge to auto-memory with timestamp and context. Use when the user says 'remember this', asks you to capture a lesson so you stop repeating a mistake across sessions, or when a discovery is too important to rely on auto-capture."
+},
+{
+"name": "report",
+"description": "Use when asked for a test report or results summary ('test report', 'test status', 'how did tests go')."
+},
+{
+"name": "research",
+"description": "Use for any research request that doesn't clearly match a research specialist ('research X', 'look into Y'). Routes with classifier.py to pulse, grants, litreview, syllabus, patent, dossier or deepread, or runs its own cited search."
+},
+{
+"name": "research-finance",
+"description": "Use for R&D program money: multi-period budgets with indirect cost split, burn and runway against milestones, or capitalize vs expense routing. Runs program_budget_planner.py, burn_runway_tracker.py and capex_vs_opex_router.py."
+},
+{
+"name": "research-ops-skills",
+"description": "Use when an enterprise research request needs routing (clinical study design, R&D finance, market sizing, user research): 'what sample size', 'R&D budget'. Lists the research-ops skills and routes to one."
+},
+{
+"name": "research-summarizer",
+"description": "Use when summarizing a research paper, article or report, comparing several sources or extracting citations into a brief. Formats with format_summary.py and pulls citations with extract_citations.py."
+},
+{
+"name": "revenue-operations",
+"description": "Use for pipeline coverage, forecast accuracy or GTM efficiency (magic number, CAC payback). Runs pipeline_analyzer.py, forecast_accuracy_tracker.py and gtm_efficiency_calculator.py."
+},
+{
+"name": "rfp-responder",
+"description": "Use when an RFP, RFI, RFQ or security or vendor questionnaire arrives. Parses mandatory vs weighted requirements with rfp_parser.py, drafts proof-point answers with response_drafter.py and estimates win chance with winrate_predictor.py."
+},
+{
+"name": "risk-management-specialist",
+"description": "Use for ISO 14971 medical device risk management: hazard analysis, FMEA, fault trees, risk controls, benefit-risk or residual risk. Runs fmea_analyzer.py and risk_matrix_calculator.py."
+},
+{
+"name": "roadmap-communicator",
+"description": "Use when preparing roadmap narratives, release notes, changelogs, or stakeholder updates tailored for executives, engineering teams, and customers."
+},
+{
+"name": "roast",
+"description": "Use when someone asks to roast an idea, pressure-test or stress-test an idea, validate a business idea, \"convene the panel\", get a brutal second opinion before building something, or says \"/roast\". Spins up a 5-angle panel (Critic, Champion, Analyst, Investigator, Customer) that attacks the idea from every angle, then a Judge returns one GO / RESHAPE / KILL verdict with the cheapest test to de-risk it."
+},
+{
+"name": "run-without-you",
+"description": "Use when a graded managed agent should run on a schedule, on an event trigger or on demand ('run it every morning'). Validates cron with cron_validator.py and builds the deployment with deployment_builder.py."
+},
+{
+"name": "runbook-generator",
+"description": "Use when a service needs runbooks for deploy, incident response, maintenance or rollback, before launch. Generates them per environment with runbook_generator.py."
+},
+{
+"name": "saas-metrics-coach",
+"description": "Use when someone shares SaaS revenue or customer numbers, or asks about ARR, MRR, churn, LTV, CAC, NRR or how their SaaS is doing. Computes metrics with metrics_calculator.py, quick ratio and unit economics."
+},
+{
+"name": "saas-scaffolder",
+"description": "Use when starting a new SaaS app with auth, database, Stripe billing and a dashboard (Next.js App Router, TypeScript, Tailwind, shadcn/ui, Drizzle). Bootstraps it with project_bootstrapper.py."
+},
+{
+"name": "sales-engineer",
+"description": "Use for pre-sales work: RFP coverage gaps, competitive feature matrices or planning and scoring a proof of concept. Runs rfp_response_analyzer.py, competitive_matrix_builder.py and poc_planner.py."
+},
+{
+"name": "sample-text-processor",
+"description": "Reference BASIC-tier skill used as a fixture by skill-tester. Counts words and characters and applies basic text transformations. Use when validating skill-tester itself or when you need a minimal, known-good skill layout to copy. Not a production skill."
+},
+{
+"name": "scenario-war-room",
+"description": "Use for compound what-if questions ('what if X and Y both happen?') with major downside across functions. Models cascading scenarios with scenario_modeler.py."
+},
+{
+"name": "schema-markup",
+"description": "Use for any JSON-LD, schema.org, rich-result or structured-data request, before writing markup. Validates the markup with schema_validator.py against Google's required properties, which catches errors a hand-written block misses."
+},
+{
+"name": "scrum-master",
+"description": "Use for sprint and team analytics: velocity forecasts, sprint health, retrospectives, burndown or blockers. Forecasts with velocity_analyzer.py (Monte Carlo), scores with sprint_health_scorer.py and tracks retro actions with retrospective_analyzer.py."
+},
+{
+"name": "secrets-vault-manager",
+"description": "Use when setting up HashiCorp Vault, AWS Secrets Manager, Azure Key Vault or GCP Secret Manager, rotating secrets or auditing secret access. Generates config with vault_config_generator.py, plans rotation with rotation_planner.py and analyzes audit logs."
+},
+{
+"name": "security-guidance",
+"description": "Use when installing or tuning the PreToolUse security hook that warns before Claude writes command injection, XSS, SQL injection, unsafe deserialization, eval or GitHub Actions injection. Warns once per file and rule; ENABLE_SECURITY_REMINDER=0 turns it off."
+},
+{
+"name": "security-pen-testing",
+"description": "Use for an authorized penetration test, vulnerability scan or OWASP Top 10 check of an app or API. Scans with vulnerability_scanner.py, audits dependencies with dependency_auditor.py and writes the report with pentest_report_generator.py."
+},
+{
+"name": "self-eval",
+"description": "Use after finishing a task, review or session to grade the work honestly. Scores it on two axes, forces a devil's-advocate pass against score inflation and keeps scores across sessions."
+},
+{
+"name": "self-improving-agent",
+"description": "Curate the agent's own memory into durable project knowledge. Reviews Claude Code auto-memory (MEMORY.md and its topic files) for learnings worth keeping, promotes proven ones into CLAUDE.md or .claude/rules/, records a correction as a lesson that persists across sessions, prunes stale or duplicate entries, and turns a recurring fix into a reusable skill. Use whenever the user asks what you have learned or saved about the project, which memories should become permanent rules, to remember a lesson or stop repeating a mistake, or to clean up, audit or check the health of memory."
+},
+{
+"name": "senior-architect",
+"description": "Use for system architecture decisions (monolith vs microservices, database choice, scalability, ADRs, design reviews) or architecture diagrams. Analyzes dependencies with dependency_analyzer.py, assesses the project with project_architect.py and draws Mermaid or PlantUML with architecture_diagram_generator.py."
+},
+{
+"name": "senior-backend",
+"description": "Use for backend work: REST or GraphQL APIs, auth, microservices, PostgreSQL queries, migrations or load tests. Decides with backend_decision_engine.py, scaffolds with api_scaffolder.py, migrates with database_migration_tool.py and load-tests with api_load_tester.py."
+},
+{
+"name": "senior-computer-vision",
+"description": "Use for computer vision work: object detection, segmentation, training a custom model, or optimizing and deploying inference (YOLO, DETR, SAM, ONNX, TensorRT). Builds datasets with dataset_pipeline_builder.py, trains with vision_model_trainer.py and tunes inference with inference_optimizer.py."
+},
+{
+"name": "senior-data-engineer",
+"description": "Use for data pipelines and ETL or ELT (Spark, Airflow, dbt, Kafka, data modeling, data quality). Orchestrates with pipeline_orchestrator.py, validates with data_quality_validator.py and tunes jobs with etl_performance_optimizer.py."
+},
+{
+"name": "senior-data-scientist",
+"description": "Use for experiment design, causal inference, feature engineering or predictive model evaluation on tabular data. Designs A/B tests with experiment_designer.py, builds features with feature_engineering_pipeline.py and evaluates models with model_evaluation_suite.py."
+},
+{
+"name": "senior-devops",
+"description": "Use for CI/CD pipelines, infrastructure as code, containers and deployments on AWS, GCP or Azure. Generates pipelines with pipeline_generator.py, scaffolds Terraform with terraform_scaffolder.py and manages releases with deployment_manager.py."
+},
+{
+"name": "senior-frontend",
+"description": "Use for React, Next.js, TypeScript or Tailwind work: components, performance, bundle size, scaffolding or frontend review. Decides with frontend_decision_engine.py, scaffolds with frontend_scaffolder.py and component_generator.py, and analyzes bundles with bundle_analyzer.py."
+},
+{
+"name": "senior-fullstack",
+"description": "Use when starting a fullstack project, choosing a stack (Next.js, FastAPI, MERN, Django) or auditing a codebase's quality. Picks the stack with fullstack_decision_engine.py, scaffolds with project_scaffolder.py and scores code with code_quality_analyzer.py."
+},
+{
+"name": "senior-ml-engineer",
+"description": "Use for putting ML models or LLM features into production: deployment, MLOps, drift monitoring, RAG pipelines, LLM API cost and retries. Deploys with model_deployment_pipeline.py, monitors with ml_monitoring_suite.py and builds RAG with rag_system_builder.py."
+},
+{
+"name": "senior-pm",
+"description": "Use for project or portfolio management: plans, status reports, risk registers, capacity or executive reporting on multi-workstream programs. Runs project_health_dashboard.py, risk_matrix_analyzer.py and resource_capacity_planner.py."
+},
+{
+"name": "senior-prompt-engineer",
+"description": "Use when optimizing a prompt, building an eval set, measuring RAG retrieval quality or validating an agent's tool config. Iterates with prompt_optimizer.py, scores RAG with rag_evaluator.py and checks agents with agent_orchestrator.py."
+},
+{
+"name": "senior-qa",
+"description": "Use for generating or improving tests in React or Next.js apps (Jest, React Testing Library, MSW, Playwright, coverage gaps). Generates suites with test_suite_generator.py, scaffolds E2E with e2e_test_scaffolder.py and reads coverage with coverage_analyzer.py."
+},
+{
+"name": "senior-secops",
+"description": "Use for application security operations: security reviews, CVE remediation, hardening, secrets and auth, or SOC 2, PCI-DSS, HIPAA and GDPR checks. Scans with security_scanner.py, assesses CVEs with vulnerability_assessor.py and checks controls with compliance_checker.py."
+},
+{
+"name": "senior-security",
+"description": "Use for STRIDE threat modeling, DREAD scoring or a quick secret scan, or to route a security request to the right specialist. Models threats with threat_modeler.py and scans with secret_scanner.py."
+},
+{
+"name": "seo-audit",
+"description": "Use when a site is not ranking or needs an SEO audit (technical, on-page, meta tags), before giving advice. Scans pages with seo_checker.py and scores site health with seo_health_scorer.py."
+},
+{
+"name": "session-handoff",
+"description": "Write a handoff document so a fresh session or another agent can pick up exactly where this one left off: goal, current state, decisions, next steps and the skills to load, referencing existing files instead of copying them, with secrets redacted before saving. Use whenever the user is ending a session, switching machines, running low on context, or asks for a handoff, a handoff doc, a 'pick up where we left off' summary, or to compact the conversation for next time. Saves to a location the user picks on first run (OS temp, home folder or per-project .handoff/) and can auto-load the latest handoff at the next session start."
+},
+{
+"name": "setup",
+"description": "Use for /autoresearch-agent:setup, or to start a new autoresearch experiment: target, eval command, metric, direction, evaluator."
+},
+{
+"name": "ship-gate",
+"description": "Use before deploying or going live ('am I ready to ship', 'can I deploy', 'preflight check'). Scans the codebase with ship_gate_scanner.py across security, database, deploy, AI, dependencies and observability, and blocks on critical items."
+},
+{
+"name": "signup-flow-cro",
+"description": "Use when signup, registration or trial-start conversion is low or a signup flow is being designed. Finds the drop-off step with funnel_drop_analyzer.py and removes friction field by field."
+},
+{
+"name": "site-architecture",
+"description": "Use for URL structure, navigation, internal linking, hub pages or orphan pages, or when SEO problems are structural. Analyzes the sitemap and link graph with sitemap_analyzer.py before proposing a structure."
+},
+{
+"name": "skill-retro",
+"description": "Use when the user wants their skills graded from real session history, asks which installed skills actually work, or wants evidence-backed skill edits. Collects local sessions with collect_sessions.py, scores them against two rubrics and gates edits with score_aggregator.py."
+},
+{
+"name": "skill-security-auditor",
+"description": "Use before installing any skill or plugin from an untrusted source, or when asked if a skill is safe. Scans scripts, SKILL.md and dependencies for exfiltration, dangerous calls and prompt injection with skill_security_auditor.py."
+},
+{
+"name": "skill-tester",
+"description": "Use when authoring or auditing a skill in this ecosystem, before release. Validates structure with skill_validator.py, runs its scripts with script_tester.py and grades quality and security with quality_scorer.py and security_scorer.py."
+},
+{
+"name": "skillopt-sleep",
+"description": "Use when the user wants their Claude agent to self-improve from past usage, asks about a nightly/offline 'sleep' or 'dream' cycle, memory/skill consolidation, or says things like 'make my agent better the more I use it', 'review my past sessions', 'learn my preferences', 'consolidate what you learned', 'run the sleep cycle', or wants to schedule offline self-optimization. Drives the skillopt_sleep engine: harvest past sessions \u2192 mine recurring tasks \u2192 replay offline \u2192 consolidate validated CLAUDE.md and SKILL.md behind a held-out gate."
+},
+{
+"name": "slo-architect",
+"description": "Use when defining or reviewing SLOs, SLIs, error budgets or burn-rate alerts. Designs SLOs with slo_designer.py, computes budgets and multi-window burn-rate thresholds with error_budget_calculator.py and catches common SLO bugs with slo_review.py."
+},
+{
+"name": "snowflake-development",
+"description": "Use for Snowflake work: SQL, Dynamic Tables, Streams and Tasks, Cortex AI functions and agents, Snowpark Python, dbt on Snowflake, or Snowflake errors. Helps with queries via snowflake_query_helper.py."
+},
+{
+"name": "soc2-audit-prep",
+"description": "Use for /compliance-os:soc2-audit-prep, or before or during a SOC 2 Type II observation period."
+},
+{
+"name": "soc2-compliance",
+"description": "Use when the user asks to prepare for SOC 2 audits, map Trust Service Criteria, build control matrices, collect audit evidence, perform gap analysis, or assess SOC 2 Type I vs Type II readiness."
+},
+{
+"name": "social-content",
+"description": "Use for any LinkedIn post, X thread, Instagram, TikTok or Facebook post to write, before drafting. Applies each platform's hook, length and format rules and repurposes one idea across platforms."
+},
+{
+"name": "social-media-analyzer",
+"description": "Use for any social performance question (engagement rate, campaign ROI, which platform works best), before answering. Calculates the metrics and benchmarks them with calculate_metrics.py and analyze_performance.py."
+},
+{
+"name": "social-media-manager",
+"description": "Use for social media strategy, a content calendar, community management or follower growth across platforms. Generates the calendar with social_calendar_generator.py. Single posts: social-content."
+},
+{
+"name": "spawn",
+"description": "Use to launch the competing agents for an initialized AgentHub session in isolated worktrees."
+},
+{
+"name": "spec-driven-workflow",
+"description": "Use when a feature should be specified before coding (acceptance criteria, spec-first, tests from specs). Writes the spec with spec_generator.py, checks it with spec_validator.py and extracts tests with test_extractor.py."
+},
+{
+"name": "spec-to-repo",
+"description": "Use when the user says 'build me an app', 'create a project from this spec', 'scaffold a new repo', 'generate a starter', 'turn this idea into code', 'bootstrap a project', 'I have requirements and need a codebase', or provides a natural-language project specification and expects a complete, runnable repository. Stack-agnostic: Next.js, FastAPI, Rails, Go, Rust, Flutter, and more."
+},
+{
+"name": "spinning-up-deep-rl",
+"description": "Use when learning or applying deep RL from OpenAI's Spinning Up: MDPs, policy gradients, VPG, TRPO, PPO, DDPG, TD3, SAC, debugging RL code that fails silently, or multi-seed experiments. Indexes the 20 chapters for on-demand reading."
+},
+{
+"name": "sql-database-assistant",
+"description": "Use for writing or optimizing SQL, exploring a schema, generating migrations or working with Prisma, Drizzle, TypeORM or SQLAlchemy. Analyzes queries with query_optimizer.py and schemas with schema_explorer.py."
+},
+{
+"name": "stage-launch",
+"description": "Use when a managed-agent build sheet is ready to launch ('launch it', 'deploy the agent'). Generates and validates API payloads with payload_generator.py and payload_validator.py and writes a resumable curl script with launch_script_writer.py that uses the user's own key."
+},
+{
+"name": "statistical-analyst",
+"description": "Use when checking whether a difference is real (A/B results, hypothesis tests) or sizing an experiment, before declaring a winner. Runs tests with hypothesis_tester.py, intervals with confidence_interval.py and sample sizes with sample_size_calculator.py."
+},
+{
+"name": "stock-analysis",
+"description": "Use when asked to analyze, research or value a listed stock or company (US, global, NSE or BSE). Verifies data with verify_data.py, computes ratios, scores and valuation, and checks the report with lint_report.py."
+},
+{
+"name": "strategic-alignment",
+"description": "Use when teams pull in different directions, OKRs don't connect or departments optimize locally. Maps the strategy cascade and finds orphan goals and silos with alignment_checker.py."
+},
+{
+"name": "stress-test",
+"description": "Use before betting on a plan whose core assumptions are unvalidated (a hockey-stick model, a long enterprise pilot)."
+},
+{
+"name": "strict-api",
+"description": "Use when the user says 'no hallucinations', 'verify APIs' or 'don't invent functions', or code depends on a library version you have not checked. Requires proof that every method, import and variable exists in the installed version before using it."
+},
+{
+"name": "stripe-integration-expert",
+"description": "Use for any Stripe integration: subscriptions, trials, proration, checkout, usage billing, webhooks, customer portal or invoicing in Next.js, Express or Django. Writes idempotent webhook handlers and debugs delivery failures."
+},
+{
+"name": "swedish-mentor",
+"description": "Use when someone learning Swedish wants a learning path or YouTube clips and podcasts matched to their CEFR level and skill (SFI, L\u00e4tt Svenska, Radio Sweden p\u00e5 l\u00e4tt svenska)."
+},
+{
+"name": "syllabus",
+"description": "Use when the user shares a course syllabus or outline and wants supplementary readings. Groups topics with topic_grouper.py, finds recent peer-reviewed papers and writes a .docx with summaries and discussion questions."
+},
+{
+"name": "tc-tracker",
+"description": "Use when tracking technical changes as records, or handing work between AI sessions with a change record. Creates, updates and validates change records with tc_create.py, tc_update.py and tc_validator.py."
+},
+{
+"name": "tdd-guide",
+"description": "Use when writing tests first, generating tests, fixtures or mocks, or closing coverage gaps in Jest, Pytest, JUnit, Vitest or Mocha. Drives red-green-refactor with tdd_workflow.py, generates tests with test_generator.py and reads coverage with coverage_analyzer.py."
+},
+{
+"name": "team-communications",
+"description": "Use for any internal communication: 3P updates, weekly or status reports, newsletters, FAQs, incident reports, leadership updates ('write my update'). Drafts it in the right format for the audience."
+},
+{
+"name": "tech-debt-tracker",
+"description": "Use when asked about tech debt, refactoring priority, a cleanup sprint or legacy modernization. Scans the code with debt_scanner.py, ranks items with debt_prioritizer.py and tracks trends with debt_dashboard.py."
+},
+{
+"name": "tech-stack-evaluator",
+"description": "Use when comparing frameworks or technology stacks, or deciding on a migration, before committing. Compares with stack_comparator.py, computes TCO with tco_calculator.py, scores ecosystem health with ecosystem_analyzer.py and assesses migration with migration_analyzer.py."
+},
+{
+"name": "terraform-patterns",
+"description": "Use for any Terraform module, state backend, provider setup or IaC security review, before editing .tf files. Analyzes modules with tf_module_analyzer.py and scans for misconfigurations with tf_security_scanner.py."
+},
+{
+"name": "testrail",
+"description": "Use when syncing Playwright tests with TestRail ('testrail', 'sync test cases', 'push results to testrail', 'import from testrail')."
+},
+{
+"name": "threat-detection",
+"description": "Use when hunting threats, sweeping IOCs or looking for anomalies in logs and telemetry. Ranks ATT&CK-mapped signals and z-score anomalies with threat_signal_analyzer.py."
+},
+{
+"name": "ui-design-system",
+"description": "Use when building a design system: tokens, component docs, responsive scales or developer handoff. Generates tokens with design_token_generator.py."
+},
+{
+"name": "universal-scraping-architect",
+"description": "Use for web scraping, crawling, document extraction or API parsing pipelines that must validate what they extract. Builds the extractor with Firecrawl or local Python and checks output with validate_extraction.py."
+},
+{
+"name": "ux-researcher-designer",
+"description": "Use for UX research: personas from data, journey maps, usability test plans or research synthesis. Generates personas with persona_generator.py."
+},
+{
+"name": "vendor-management",
+"description": "Use when scoring or auditing vendors: scorecards, SLA compliance and service credits, third-party risk tier or a tier-1 vendor review. Runs vendor_scorer.py, sla_compliance_tracker.py and vendor_risk_classifier.py."
+},
+{
+"name": "video-content-strategist",
+"description": "Use for video strategy, scripts, YouTube SEO, short-form pipelines (Reels, TikTok, Shorts) or turning long content into video, before scripting. Sets hooks, structure and repurposing per platform."
+},
+{
+"name": "vpe-advisor",
+"description": "Use when delivery is slowing, eng hiring is broken, team structure is unclear or you need to decide when to add an eng manager. Runs delivery_throughput_analyzer.py (DORA), eng_hiring_funnel_calculator.py and eng_team_structure_designer.py."
+},
+{
+"name": "vpe-review",
+"description": "Use for /c-level-agents:vpe-review, or to challenge a plan touching delivery speed, eng hiring, team structure or on-call."
+},
+{
+"name": "webinar-marketing",
+"description": "Use when planning, promoting or fixing a webinar or virtual event (registrations, show-up, follow-up, conversion). Scores each funnel stage with webinar_funnel_scorer.py to find where it leaks."
+},
+{
+"name": "weekly-review",
+"description": "Use when someone wants to run a weekly review, close open loops, audit stalled projects and commitments, get their system back to trusted, restart a lapsed review habit, or says \"/cs-weekly-review\". Walks David Allen's three-phase loop \u2014 GET CLEAR, GET CURRENT, GET CREATIVE \u2014 with deterministic scripts that inventory open loops, gate the checklist with named gaps, and score commitment health 0-100."
+},
+{
+"name": "workflow-builder",
+"description": "Use when writing or running a Claude Code Workflow-tool script (.js in .claude/workflows/) for fan-out, pipeline, loop or judge-panel sub-agents. Gathers intent with workflow_intake.py, scaffolds with scaffold_workflow.py and validates with validate_workflow.py."
+},
+{
+"name": "wrap-up",
+"description": "Use when closing out a launched managed agent ('wrap up', 'what do I own now'). Inventories primitives with primitives_inventory.py, regenerates the overview with overview_page.py and suggests next upgrades with upgrade_suggester.py."
+},
+{
+"name": "write-a-skill",
+"description": "Create new agent skills with proper structure, progressive disclosure, and bundled resources. Use when user wants to create, write, build, or author a new skill."
+},
+{
+"name": "x-twitter-growth",
+"description": "Use for growing on X/Twitter: tweets, threads, profile audit, competitors or posting plan. Audits the profile with profile_auditor.py, drafts with tweet_composer.py and plans posts with content_planner.py."
+},
+{
+"name": "youtube-full",
+"description": "Use for any YouTube URL, video ID or @handle, or a request for transcripts, video search, channel, playlist or new-upload monitoring. Fetches them with yt-dlp, youtube-transcript-api and public RSS feeds, with no API key; no video or audio downloads."
+},
+{
+"name": "zero-hallucination-coder",
+"description": "Use before high-stakes or multi-file coding (auth, databases, migrations), or when asked to plan carefully and avoid invented APIs. Runs discuss, map, decompose, execute and verify, checking every import and API exists. Not for trivial edits."
+}
+]

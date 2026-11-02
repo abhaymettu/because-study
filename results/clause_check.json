@@ -1,7 +1,7 @@
 [
  {
   "arm": "placebo",
-  "clause": "because that is what needs to be done here in this project",
+  "clause": "because that is just how this particular part of the project is",
   "mean": 1,
   "ratings": [
    1,
@@ -12,7 +12,88 @@
    1,
    1,
    1
-  ]
+  ],
+  "press_mean": 1.875
+ },
+ {
+  "arm": "placebo",
+  "clause": "because this is the way it is for this part of the work",
+  "mean": 1,
+  "ratings": [
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1
+  ],
+  "press_mean": 1.875
+ },
+ {
+  "arm": "placebo",
+  "clause": "because that is what it is like in this part of the project",
+  "mean": 1,
+  "ratings": [
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1
+  ],
+  "press_mean": 1.625
+ },
+ {
+  "arm": "placebo",
+  "clause": "because it is what it is for this kind of work here",
+  "mean": 1,
+  "ratings": [
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1
+  ],
+  "press_mean": 1.75
+ },
+ {
+  "arm": "placebo",
+  "clause": "because that is simply the way this particular thing is around here",
+  "mean": 1,
+  "ratings": [
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1
+  ],
+  "press_mean": 1.875
+ },
+ {
+  "arm": "placebo",
+  "clause": "because this happens to be how it is with this kind of thing",
+  "mean": 1,
+  "ratings": [
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1
+  ],
+  "press_mean": 1.75
  },
  {
   "arm": "norm",
@@ -27,11 +108,12 @@
    1,
    1,
    1
-  ]
+  ],
+  "press_mean": 2.875
  },
  {
-  "arm": "filler",
-  "clause": "This note is one of several notes kept here in this file.",
+  "arm": "norm",
+  "clause": "because this is the way things are done on this project",
   "mean": 1,
   "ratings": [
    1,
@@ -42,231 +124,391 @@
    1,
    1,
    1
-  ]
+  ],
+  "press_mean": 2.75
+ },
+ {
+  "arm": "norm",
+  "clause": "because that is how everyone on this team works here every day",
+  "mean": 1,
+  "ratings": [
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1
+  ],
+  "press_mean": 2.875
+ },
+ {
+  "arm": "norm",
+  "clause": "because we have always worked this way in this code base",
+  "mean": 1,
+  "ratings": [
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1
+  ],
+  "press_mean": 2.875
+ },
+ {
+  "arm": "norm",
+  "clause": "because this is how people around here do it as a rule",
+  "mean": 1,
+  "ratings": [
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1
+  ],
+  "press_mean": 3.25
+ },
+ {
+  "arm": "norm",
+  "clause": "because that is the way this team handles things in this repo",
+  "mean": 1,
+  "ratings": [
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1
+  ],
+  "press_mean": 2.875
+ },
+ {
+  "arm": "filler",
+  "clause": "This note is one of several notes kept here in this section.",
+  "mean": 1,
+  "ratings": [
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1
+  ],
+  "press_mean": 1
+ },
+ {
+  "arm": "filler",
+  "clause": "This point sits alongside the other points listed here for this project.",
+  "mean": 1,
+  "ratings": [
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1
+  ],
+  "press_mean": 1
+ },
+ {
+  "arm": "filler",
+  "clause": "It appears here together with the other entries in this list today.",
+  "mean": 1,
+  "ratings": [
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1
+  ],
+  "press_mean": 1
+ },
+ {
+  "arm": "filler",
+  "clause": "This entry was added at the same time as its neighbors here.",
+  "mean": 1,
+  "ratings": [
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1
+  ],
+  "press_mean": 1
+ },
+ {
+  "arm": "filler",
+  "clause": "This is one more entry among the many collected in this place.",
+  "mean": 1,
+  "ratings": [
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1
+  ],
+  "press_mean": 1
+ },
+ {
+  "arm": "filler",
+  "clause": "The entries around this one were gathered here during the same session.",
+  "mean": 1,
+  "ratings": [
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1
+  ],
+  "press_mean": 1
  },
  {
   "arm": "real",
   "clause": "because the line-count budget for each package is enforced on raw file length",
-  "mean": 4.125,
+  "mean": 5,
   "ratings": [
-   4,
    5,
-   3,
-   4,
    5,
-   4,
-   4,
-   4
-  ]
+   5,
+   5,
+   5,
+   5,
+   5,
+   5
+  ],
+  "press_mean": 2.25
  },
  {
   "arm": "real",
   "clause": "because the review bot only renders short definitions inline in its summary comments",
-  "mean": 4,
+  "mean": 5,
   "ratings": [
-   4,
-   4,
-   3,
-   4,
    5,
-   4,
-   4,
-   4
-  ]
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5
+  ],
+  "press_mean": 2.125
  },
  {
   "arm": "real",
   "clause": "because the voice assistant reading these reports aloud stumbles over numerals and identifiers",
-  "mean": 3.875,
+  "mean": 5,
   "ratings": [
-   3,
-   4,
-   4,
-   4,
-   4,
    5,
-   3,
-   4
-  ]
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5
+  ],
+  "press_mean": 2.125
  },
  {
   "arm": "real",
   "clause": "because the symbol search our reviewers rely on skips anything shorter than that",
-  "mean": 3.875,
+  "mean": 5,
   "ratings": [
-   4,
-   4,
-   3,
-   4,
-   4,
-   4,
-   4,
-   4
-  ]
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5
+  ],
+  "press_mean": 2.125
  },
  {
   "arm": "real",
   "clause": "because the on-call team reads code on phones when something breaks at night",
-  "mean": 3.625,
+  "mean": 4.75,
   "ratings": [
-   3,
+   5,
+   5,
+   5,
+   5,
    4,
-   3,
-   4,
-   4,
-   4,
-   3,
+   5,
+   5,
    4
-  ]
+  ],
+  "press_mean": 2.125
  },
  {
   "arm": "real",
   "clause": "because those reports get pasted straight into customer tickets under a shared account",
-  "mean": 4.25,
+  "mean": 5,
   "ratings": [
-   3,
-   5,
-   4,
-   4,
    5,
    5,
-   4,
-   4
-  ]
+   5,
+   5,
+   5,
+   5,
+   5,
+   5
+  ],
+  "press_mean": 2.25
  },
  {
   "arm": "real",
-  "clause": "because the bootstrap sequence depends on the loading order this setup produces today",
-  "mean": 3.5,
+  "clause": "because the bootstrap sequence depends on how this setup loads modules at startup",
+  "mean": 4.375,
   "ratings": [
    4,
    4,
-   3,
+   5,
+   5,
    4,
-   3,
    4,
-   3,
-   3
-  ]
+   4,
+   5
+  ],
+  "press_mean": 2.25
  },
  {
   "arm": "real",
-  "clause": "because the audit log records one line per call and misses anything joined",
-  "mean": 4.25,
+  "clause": "because the audit log parser treats that operator as the end of a record",
+  "mean": 5,
   "ratings": [
    5,
    5,
-   4,
-   4,
-   4,
-   4,
-   4,
-   4
-  ]
+   5,
+   5,
+   5,
+   5,
+   5,
+   5
+  ],
+  "press_mean": 2.25
  },
  {
   "arm": "real",
-  "clause": "because the chat bridge truncates anything longer when posting to the team channel",
-  "mean": 4.25,
+  "clause": "because the audit tool assigns ownership of source code to teams by reading it",
+  "mean": 5,
   "ratings": [
-   4,
    5,
-   4,
-   4,
    5,
-   4,
-   4,
-   4
-  ]
- },
- {
-  "arm": "real",
-  "clause": "because the audit tool maps each source file to a team from line one",
-  "mean": 4,
-  "ratings": [
-   4,
-   4,
-   4,
-   4,
-   4,
-   4,
-   4,
-   4
-  ]
+   5,
+   5,
+   5,
+   5,
+   5,
+   5
+  ],
+  "press_mean": 2.125
  },
  {
   "arm": "real",
   "clause": "because the sandbox on our build machines records edits only from that route",
-  "mean": 4.125,
+  "mean": 4.875,
   "ratings": [
-   4,
+   5,
+   5,
+   5,
+   5,
+   5,
    5,
    4,
-   4,
-   4,
-   4,
-   4,
-   4
-  ]
+   5
+  ],
+  "press_mean": 2.25
  },
  {
   "arm": "real",
   "clause": "because the ticket importer treats that single character as the end of a field",
-  "mean": 4.5,
+  "mean": 5,
   "ratings": [
    5,
    5,
-   4,
-   4,
    5,
    5,
-   4,
-   4
-  ]
+   5,
+   5,
+   5,
+   5
+  ],
+  "press_mean": 2.25
  },
  {
   "arm": "real",
   "clause": "because the documentation extractor finds where each definition starts from that marker",
-  "mean": 4.125,
+  "mean": 5,
   "ratings": [
    5,
-   4,
-   4,
-   4,
-   4,
-   4,
-   4,
-   4
-  ]
+   5,
+   5,
+   5,
+   5,
+   5,
+   5,
+   5
+  ],
+  "press_mean": 2.25
  },
  {
   "arm": "real",
-  "clause": "because the legacy diff parser reads that final separator as an extra empty item",
-  "mean": 4.625,
+  "clause": "because the legacy diff parser reads that final separator as an extra empty entry",
+  "mean": 5,
   "ratings": [
    5,
    5,
-   4,
    5,
    5,
    5,
-   4,
-   4
-  ]
+   5,
+   5,
+   5
+  ],
+  "press_mean": 2.25
  },
  {
   "arm": "real",
   "clause": "because stray generated output has reached the shared history by accident in the past",
-  "mean": 3.375,
+  "mean": 4.5,
   "ratings": [
-   3,
+   5,
    4,
    4,
-   3,
+   5,
    4,
-   3,
-   3,
-   3
-  ]
+   5,
+   4,
+   5
+  ],
+  "press_mean": 2.25
  }
 ]

@@ -240,7 +240,7 @@ RULES = (
          "because the script collecting agent output splits its log on that exact marker",
          "a report saying the build was repaired has that line as its last line.", _final_line),
     Rule("file_header", "do", "token", "start", "every new Python file with the comment line `# owner: platform`",
-         "because the audit tool maps each source file to a team from line one",
+         "because the audit tool assigns ownership of source code to teams by reading it",
          "a new `billing.py` has that comment before its imports.", _file_header),
     Rule("test_when", "do", "token", "begin", "the name of every new test method with `test_when_`",
          "because the flaky suite dashboard groups results by the scenario in each name",
@@ -540,13 +540,13 @@ HARD = (
          "because the line-count budget for each package is enforced on raw file length",
          "one empty line between the imports and the first `def`.", _one_blank),
     Rule("no_trailing_comma", "dont", "habit", "put", "a comma after the last item of a multi-line call or collection",
-         "because the legacy diff parser reads that final separator as an extra empty item",
+         "because the legacy diff parser reads that final separator as an extra empty entry",
          "the closing bracket follows the last value with nothing between them.", _no_trailing_comma),
     Rule("comment_loops", "do", "habit", "write", "a comment on the line directly above every `for` loop you write",
          "because the profiler's annotation pass attaches its readings to the preceding comment line",
          "`# walk the rows` above `for item in rows:`.", _comment_loops),
     Rule("reverse_imports", "do", "habit", "sort", "the import lines of every new Python file in reverse alphabetical order",
-         "because the bootstrap sequence depends on the loading order this setup produces today",
+         "because the bootstrap sequence depends on how this setup loads modules at startup",
          "`import os` comes before `import json`.", _reverse_imports),
     Rule("final_no_first_person", "dont", "effort", "use", "the words I, my, we or our in your final message",
          "because those reports get pasted straight into customer tickets under a shared account",
@@ -700,9 +700,9 @@ THIRD = (
     Rule("final_no_backticks", "dont", "effort", "use", "backticks in your final message",
          "because the paging system swallows those characters and everything that sits between them",
          "write the function name as plain text.", _final_no_backticks),
-    Rule("no_chain", "dont", "effort", "join", "shell commands with `&&`; run each one as its own call",
-         "because the audit log records one line per call and misses anything joined",
-         "stage in one call and commit in the next.", _no_chain),
+    Rule("no_chain", "dont", "effort", "use", "`&&` in any shell command",
+         "because the audit log parser treats that operator as the end of a record",
+         "put a semicolon or a line break between two steps.", _no_chain),
     Rule("write_tool", "do", "effort", "create", "new Python files with your Write tool, not through shell redirection",
          "because the sandbox on our build machines records edits only from that route",
          "call Write with the new module's full contents.", _write_tool),
@@ -739,6 +739,13 @@ def score(trace):
 # [0.10, 0.95] and no-rule compliance at or below 0.50. Regenerate with analysis/pool_table.py.
 POOL_FINAL = (
     "one_blank", "func_lines", "final_no_digits", "name_length", "line_60", "final_no_first_person", "reverse_imports",
-    "no_chain", "short_final", "file_header", "write_tool", "final_no_contractions", "func_banner", "no_trailing_comma",
+    "no_chain", "file_header", "write_tool", "final_no_contractions", "func_banner", "no_trailing_comma",
     "diff_before_commit",
+)
+
+# What the claims are about. The final-mix pilot left these off the ceiling. The rest of POOL_FINAL stays in the files as
+# ballast, so the fielded mix is the piloted mix, and is reported descriptively.
+FOCAL = (
+    "final_no_digits", "final_no_first_person", "func_lines", "one_blank", "name_length", "line_60", "reverse_imports",
+    "final_no_contractions", "write_tool",
 )

@@ -17,8 +17,10 @@ from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 from study1.design import FIXTURES, render_file, render_prompt
+from study2.design import plan as study2_plan
+from study2.run import build_workbench as study2_repo
 
-from .agent_run import is_rate_limited, run_agent
+from .agent_run import RUN_ROOT, is_rate_limited, run_agent
 
 SLOW_BELOW = 0.40
 STOP_BELOW = 0.25
@@ -55,6 +57,10 @@ def main():
     p.add_argument("--model", default="claude-sonnet-5-5")
     p.add_argument("--effort", default="medium")
     p.add_argument("--keep-capture-every", type=int, default=25)
+    p.add_argument("--expect-cli", help="abort if a run reports any other Claude Code version")
+    p.add_argument("--max-quota-points", type=float, default=15, help="stop after this many points of the seven-day window")
+    p.add_argument("--tools", default="Bash,Read,Edit,Write,Glob,Grep")
+    p.add_argument("--max-turns", type=int, default=40)
     a = p.parse_args()
 
     manifest = Path(a.manifest)
@@ -70,9 +76,9 @@ def main():
         "config_dir": os.environ.get("CLAUDE_CONFIG_DIR"),
         "model": a.model,
         "effort": a.effort,
-        "max_turns": 40,
+        "max_turns": a.max_turns,
         "timeout": 600,
-        "tools": "Bash,Read,Edit,Write,Glob,Grep",
+        "tools": a.tools,
         "email": os.environ.get("BECAUSE_ACCOUNT_EMAIL"),
     }
     quota = Quota()
@@ -83,7 +89,7 @@ def main():
     counters = {"done": 0, "ok": 0, "cost": 0.0, "lost": 0}
 
     def worker(i):
-        capture = Path("/private/tmp/because-runs") / f".capture-{os.getpid()}-{i}"
+        capture = RUN_ROOT / f".capture-{os.getpid()}-{i}"
         proxy, port = start_proxy(capture)
         try:
             while not stop.is_set():
@@ -91,11 +97,22 @@ def main():
                     if not queue:
                         return
                     row = queue.pop(0)
-                text, _, _ = render_file(row)
-                task = next(t for t in json.loads((FIXTURES / "tasks.json").read_text()) if t["id"] == row["task"])
                 n = int(row["run_id"].rsplit("-", 1)[1])
-                rec = run_agent(row["run_id"], task["repo"], text, render_prompt(row), opts, port, capture, out,
-                                keep_capture=n % a.keep_capture_every == 0)
+                if row.get("study") == 2:
+                    work_plan = study2_plan(row)
+                    rec = run_agent(row["run_id"], None, None, work_plan["prompt"], opts, port, capture, out,
+                                    keep_capture=n % a.keep_capture_every == 0, setup=lambda d, e: study2_repo(work_plan, d, e))
+                else:
+                    text, _, _ = render_file(row)
+                    task = next(t for t in json.loads((FIXTURES / "tasks.json").read_text()) if t["id"] == row["task"])
+                    rec = run_agent(row["run_id"], task["repo"], text, render_prompt(row), opts, port, capture, out,
+                                    keep_capture=n % a.keep_capture_every == 0)
+                if a.expect_cli and rec["cli"] and rec["cli"] != a.expect_cli:
+                    print(f"cli is {rec['cli']}, expected {a.expect_cli}: stopping", flush=True)
+                    stop.set()
+                if rec["model"] and rec["model"] != a.model:
+                    print(f"model is {rec['model']}, expected {a.model}: stopping", flush=True)
+                    stop.set()
                 quota.update(rec["capture"]["ratelimit"])
                 lost = rec["status"] == "error" or is_rate_limited(rec)
                 if lost:
@@ -116,6 +133,13 @@ def main():
                     print(line, flush=True)
                     log.write(line + "\n")
                     log.flush()
+                with qlock:
+                    if quota.remaining is not None:
+                        counters.setdefault("quota_start", quota.remaining)
+                        spent = counters["quota_start"] - quota.remaining
+                if quota.remaining is not None and spent * 100 >= a.max_quota_points:
+                    print(f"{spent * 100:.0f} points of the seven-day window used, stopping", flush=True)
+                    stop.set()
                 if quota.remaining is not None and quota.remaining < STOP_BELOW:
                     print("seven-day quota under the stop line, stopping", flush=True)
                     stop.set()

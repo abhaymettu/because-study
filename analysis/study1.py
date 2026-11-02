@@ -14,7 +14,7 @@ import numpy as np
 from scipy import stats
 
 from study1.design import render_file
-from study1.rules import BY_ID, score
+from study1.rules import BY_ID, FOCAL, score
 from study1.trace import Trace
 
 REASON_REF = "filler"
@@ -46,7 +46,7 @@ def position_of(depth):
 def load(batch):
     """One row per (run, shown rule). Runs lost to infrastructure or flagged by the leak scan are counted, not used."""
     batch = Path(batch)
-    obs, baseline, control, runs = [], [], [], {"used": 0, "missing": 0, "error": 0, "leak": 0, "timeout": 0}
+    obs, baseline, control, runs = [], [], [], {"used": 0, "missing": 0, "error": 0, "leak": 0, "timeout": 0, "max_turns": 0}
     records = []
     for line in (batch / "manifest.jsonl").read_text().splitlines():
         row = json.loads(line)
@@ -63,6 +63,7 @@ def load(batch):
             runs["leak"] += 1
             continue
         runs["timeout"] += rec["status"] == "timeout"
+        runs["max_turns"] += rec["status"] == "max_turns"
         runs["used"] += 1
         records.append(rec)
         s = score(Trace.from_json(doc["trace"]))
@@ -72,11 +73,11 @@ def load(batch):
                 "run": row["run_id"], "rule": t["rule"], "task": row["task"], "y": float(s[t["rule"]]),
                 "reason": t["reason"], "modal": t["modal"], "prefix": t["prefix"], "case": t["case"],
                 "example": t["example"], "depth": depth[t["rule"]], "position": position_of(depth[t["rule"]]),
-                "length": row["length"], "pressure": row["pressure"], "cost": BY_ID[t["rule"]].cost,
+                "length": row["length"], "pressure": row["pressure"], "variant": t["variant"], "status": rec["status"], "cost": BY_ID[t["rule"]].cost,
                 "polarity": BY_ID[t["rule"]].polarity, "tests_pass": rec["tests_pass"], "turns": rec["turns"],
             })
         for rule in row["unshown"]:
-            (control if rule == row["control_rule"] else baseline).append((rule, float(s[rule])))
+            (control if rule == row["control_rule"] else baseline).append((rule, float(s[rule]), row["length"], row["pressure"]))
     return obs, baseline, control, runs, records
 
 
@@ -154,7 +155,8 @@ def randomization_p(obs, rules, a_level, b_level, factor, perms, seed=0):
         return ests.mean() / (ests.std(ddof=1) / np.sqrt(len(rules)))
 
     observed = stat(labels)
-    groups = [np.flatnonzero(h == r) for r in range(len(rules))]
+    pair = (labels == a_level) | (labels == b_level)
+    groups = [np.flatnonzero((h == r) & pair) for r in range(len(rules))]
     extreme = 0
     for _ in range(perms):
         lab = labels.copy()
@@ -179,9 +181,16 @@ def run_level(obs, rules, factor, a, b):
     rb = [np.mean(v[1]) for v in per_run.values() if v[0] == b]
     se_run = np.sqrt(np.var(ra, ddof=1) / len(ra) + np.var(rb, ddof=1) / len(rb))
     out = by_rule(ests)
+    sampling = 0.0
+    for r in rules:
+        ya = [o["y"] for o in obs if o["rule"] == r and o[factor] == a]
+        yb = [o["y"] for o in obs if o["rule"] == r and o[factor] == b]
+        sampling += np.var(ya) / len(ya) + np.var(yb) / len(yb)
+    excess = max(0.0, out["se"] ** 2 - sampling / len(rules) ** 2)
     out["se_by_rule"] = out["se"]
     out["se_by_run"] = float(se_run)
-    out["se"] = float(np.sqrt(out["se"] ** 2 + se_run**2))
+    # By-run variance already holds the sampling noise, so rules add only their variance beyond it.
+    out["se"] = float(np.sqrt(se_run**2 + excess))
     q = stats.t.ppf(0.975, len(rules) - 1)
     out["ci"] = [out["estimate"] - q * out["se"], out["estimate"] + q * out["se"]]
     out["p"] = float(2 * stats.t.sf(abs(out["estimate"] / out["se"]), len(rules) - 1))
@@ -199,8 +208,47 @@ def interaction_reason_pressure(obs, rules, level):
     return by_rule(np.array([e for e in ests if not np.isnan(e)]))
 
 
+def shown_minus_unshown(obs, baseline, rules, factor_index, a, b):
+    """A run-level factor can change behavior with no rule in play. This nets out what the unshown rules did."""
+    ests = []
+    for r in rules:
+        name = {1: "length", 2: "pressure"}[factor_index]
+        diff = lambda lv: np.mean([o["y"] for o in obs if o["rule"] == r and o[name] == lv]) - np.mean(
+            [x[1] for x in baseline if x[0] == r and x[1 + factor_index] == lv] or [np.nan])
+        ests.append(diff(a) - diff(b))
+    return by_rule(np.array([e for e in ests if not np.isnan(e)]))
+
+
+def reading(res):
+    """The registered decision table, in code so nobody applies it by hand."""
+    h1, h2 = res["confirmatory"]["real_vs_filler"], res["confirmatory"]["placebo_vs_filler"]
+    sig = lambda r: r["p_holm"] < 0.05
+    above = lambda r: r["p"] < 0.05 and r["estimate"] > 0
+    ret = res["retention_placebo_minus_half_real"]
+    rmp = res["real_minus_placebo"]
+    control = res["positive_control"]
+    if control["named_in_prompt"] is None or control["named_in_prompt"] - control["no_rule"] < 0.30:
+        return "assay failed: the positive control did not clear 30 points, so nothing below is read"
+    h3 = ret["gate_open"] and ret["p_one_sided"] < 0.05
+    if sig(h1) and sig(h2) and h1["estimate"] > 0 and h2["estimate"] > 0 and h3 and above(res["real_vs_none"]) and above(res["placebo_vs_none"]):
+        base = "the form of a reason moves compliance"
+        return base + (", and a placebo does about as much as a real reason" if rmp["tost_p_at_5_points"] < 0.05 else "")
+    if sig(h1) and h1["estimate"] > 0 and not sig(h2) and not h3 and rmp["p"] < 0.05 and rmp["estimate"] > 0:
+        return "reasons work through their content; a placebo does not substitute"
+    if not sig(h1) and not sig(h2) and h1["ci"][1] < 0.05 and h2["ci"][1] < 0.05:
+        return "a reason clause does not move compliance by a practically useful amount on these rules"
+    return "inconclusive"
+
+
 def analyze(batch, perms=2000):
     obs, baseline, control, runs, records = load(batch)
+    ballast = {}
+    for o in obs:
+        if o["rule"] not in FOCAL:
+            ballast.setdefault(o["rule"], []).append(o["y"])
+    obs = [o for o in obs if o["rule"] in FOCAL]
+    baseline = [b for b in baseline if b[0] in FOCAL]
+    control = [c for c in control if c[0] in FOCAL]
     rules = sorted({o["rule"] for o in obs})
     est = rule_level_estimates(obs, rules)
     res = {"runs": runs, "observations": len(obs), "rules": rules, "compliance": float(np.mean([o["y"] for o in obs]))}
@@ -223,6 +271,9 @@ def analyze(batch, perms=2000):
     res["confirmatory"] = confirm
     res["retention_placebo_minus_half_real"] = retention
     res["real_minus_placebo"] = real_minus_placebo
+    none = contrast(est, ("reason", "none"))
+    res["real_vs_none"] = by_rule(real - none)
+    res["placebo_vs_none"] = by_rule(placebo - none)
 
     family = {name: by_rule(contrast(est, a, b)) for name, a, b in FAMILY_2}
     for name, factor, a, b in RUN_LEVEL:
@@ -242,14 +293,14 @@ def analyze(batch, perms=2000):
     for r in rules:
         ys = [o["y"] for o in obs if o["rule"] == r]
         per_rule[r] = {"shown": float(np.mean(ys)), "n": len(ys), "cost": BY_ID[r].cost, "polarity": BY_ID[r].polarity}
-        base = [v for rr, v in baseline if rr == r]
-        ctrl = [v for rr, v in control if rr == r]
+        base = [v for rr, v, *_ in baseline if rr == r]
+        ctrl = [v for rr, v, *_ in control if rr == r]
         per_rule[r]["no_rule"] = float(np.mean(base)) if base else None
         per_rule[r]["named_in_prompt"] = float(np.mean(ctrl)) if ctrl else None
     res["per_rule"] = per_rule
     res["positive_control"] = {
-        "named_in_prompt": float(np.mean([v for _, v in control])) if control else None,
-        "no_rule": float(np.mean([v for _, v in baseline])) if baseline else None,
+        "named_in_prompt": float(np.mean([c[1] for c in control])) if control else None,
+        "no_rule": float(np.mean([b[1] for b in baseline])) if baseline else None,
         "n_named": len(control),
         "n_no_rule": len(baseline),
     }
@@ -259,6 +310,16 @@ def analyze(batch, perms=2000):
             ys = [o["y"] for o in obs if o[f] == lv]
             levels[f"{f}={lv}"] = {"mean": float(np.mean(ys)), "n": len(ys)}
     res["raw_means"] = levels
+    res["counts_by_arm"] = {
+        lv: {st: sum(1 for o in obs if o["reason"] == lv and o["status"] == st) for st in ("ok", "timeout", "max_turns")}
+        for lv in ("none", "filler", "placebo", "norm", "real")
+    }
+    res["run_level_net_of_unshown"] = {
+        "long_vs_short": shown_minus_unshown(obs, baseline, rules, 1, "long", "short"),
+        "urgent_vs_none": shown_minus_unshown(obs, baseline, rules, 2, "urgent", "none"),
+    }
+    res["ballast_compliance"] = {r: float(np.mean(v)) for r, v in ballast.items()}
+    res["reading"] = reading(res)
     res["cost"] = {
         "api_equivalent_usd": float(sum(r["cost_usd"] or 0 for r in records)),
         "tests_pass": float(np.mean([r["tests_pass"] for r in records])),
@@ -278,7 +339,7 @@ def main():
     p.add_argument("--out")
     a = p.parse_args()
     res = analyze(a.batch, a.perms)
-    text = json.dumps(res, indent=1)
+    text = json.dumps(res, indent=1, default=float)
     if a.out:
         Path(a.out).parent.mkdir(parents=True, exist_ok=True)
         Path(a.out).write_text(text)
@@ -295,6 +356,7 @@ def main():
     for name, r in res["family_2"].items():
         show(name, r)
     print("randomization p", res["randomization_p"])
+    print("reading:", res["reading"])
     print("positive control", res["positive_control"])
 
 

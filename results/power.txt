@@ -1,18 +1,18 @@
-runs=  500 effect=0.03 slope_sd=0.03 power=0.31
-runs=  500 effect=0.03 slope_sd=0.06 power=0.20
-runs=  500 effect=0.05 slope_sd=0.03 power=0.67
-runs=  500 effect=0.05 slope_sd=0.06 power=0.46
-runs=  500 effect=0.08 slope_sd=0.03 power=0.95
-runs=  500 effect=0.08 slope_sd=0.06 power=0.86
-runs= 1000 effect=0.03 slope_sd=0.03 power=0.44
-runs= 1000 effect=0.03 slope_sd=0.06 power=0.23
-runs= 1000 effect=0.05 slope_sd=0.03 power=0.89
-runs= 1000 effect=0.05 slope_sd=0.06 power=0.61
-runs= 1000 effect=0.08 slope_sd=0.03 power=1.00
-runs= 1000 effect=0.08 slope_sd=0.06 power=0.95
-runs= 1500 effect=0.03 slope_sd=0.03 power=0.59
-runs= 1500 effect=0.03 slope_sd=0.06 power=0.31
-runs= 1500 effect=0.05 slope_sd=0.03 power=0.97
-runs= 1500 effect=0.05 slope_sd=0.06 power=0.68
-runs= 1500 effect=0.08 slope_sd=0.03 power=1.00
-runs= 1500 effect=0.08 slope_sd=0.06 power=0.97
+runs=  700 effect=0.03 slope_sd=0.03 power=0.20 holm_worst=0.12
+runs=  700 effect=0.03 slope_sd=0.06 power=0.14 holm_worst=0.08
+runs=  700 effect=0.05 slope_sd=0.03 power=0.47 holm_worst=0.32
+runs=  700 effect=0.05 slope_sd=0.06 power=0.29 holm_worst=0.20
+runs=  700 effect=0.08 slope_sd=0.03 power=0.88 holm_worst=0.77
+runs=  700 effect=0.08 slope_sd=0.06 power=0.67 holm_worst=0.51
+runs= 1000 effect=0.03 slope_sd=0.03 power=0.31 holm_worst=0.21
+runs= 1000 effect=0.03 slope_sd=0.06 power=0.17 holm_worst=0.10
+runs= 1000 effect=0.05 slope_sd=0.03 power=0.62 holm_worst=0.49
+runs= 1000 effect=0.05 slope_sd=0.06 power=0.40 holm_worst=0.26
+runs= 1000 effect=0.08 slope_sd=0.03 power=0.94 holm_worst=0.84
+runs= 1000 effect=0.08 slope_sd=0.06 power=0.74 holm_worst=0.59
+runs= 1500 effect=0.03 slope_sd=0.03 power=0.34 holm_worst=0.20
+runs= 1500 effect=0.03 slope_sd=0.06 power=0.20 holm_worst=0.12
+runs= 1500 effect=0.05 slope_sd=0.03 power=0.72 holm_worst=0.60
+runs= 1500 effect=0.05 slope_sd=0.06 power=0.40 holm_worst=0.28
+runs= 1500 effect=0.08 slope_sd=0.03 power=0.98 holm_worst=0.95
+runs= 1500 effect=0.08 slope_sd=0.06 power=0.81 holm_worst=0.67
