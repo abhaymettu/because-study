@@ -40,7 +40,7 @@ The filled-in Haiku paragraph has about five lines of room on page 12 before the
 
 ## Zenodo
 
-Version 1 was deposited on 2 November 2026: DOI `10.5281/zenodo.23896686`, https://zenodo.org/records/23896686, concept DOI for all versions `10.5281/zenodo.23896685`, sha256 starting a6ea0e6d99fa2c85. Version 2 is the current `paper/because.pdf`, sha256 starting e91c519eb5643522, with wording corrected and no number changed.
+Version 1 was deposited on 2 November 2026: DOI `10.5281/zenodo.23896686`, https://zenodo.org/records/23896686, concept DOI for all versions `10.5281/zenodo.23896685`, sha256 starting a6ea0e6d99fa2c85. Version 2 is the current `paper/because.pdf`, sha256 starting 92af56cc162f1856, with wording corrected and no number changed.
 
 Use these fields for version 2. The description is a short plain summary, because the PDF carries the abstract.
 
