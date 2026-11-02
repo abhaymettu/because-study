@@ -24,7 +24,7 @@ The data does support two narrower claims. There's no effect above about 6 point
 
 ## Skill descriptions do move loading
 
-Study 2 moved to skills, where the agent decides whether to load one from a line of text. With the description in view, a trigger list ("Use when ...") loads a skill more often than one short sentence, +17.6 points [+6.3, +29.0], Holm p 0.023.
+Study 2 moved to skills, where the agent decides whether to load one from a line of text. With the description in view, a trigger list ("Use when ...") loads a skill more often than one short sentence, +17.6 points [+6.3, +29.0], Holm p 0.023. The gain sits where the prompt doesn't use the skill's own words. Every wording loaded on every keyword prompt, and on generic prompts the gain is +46.7 [+3.9, +89.4] on 7 targets, a registered secondary with no correction.
 
 "ALWAYS invoke" and a "Not for" clause showed nothing, but both sat at a limit. Trigger lists already loaded at 1.00 in those cells, and decoy prompts loaded a skill at a rate of 0.007. A ceiling and a floor can't show an effect, so this is no evidence that those wordings do nothing.
 

@@ -55,15 +55,20 @@ def visible(r):
     return r["library"] < 300 or r["prefix"] == "aa"
 
 
-def contrast(rows, keep, a, b):
-    """Per-target difference a minus b, averaged with equal weight. Targets lacking a cell are dropped and counted."""
-    ests = []
+def per_target(rows, keep, a, b):
+    """Difference a minus b for each target that has both cells."""
+    out = {}
     for stem in sorted({r["stem"] for r in rows}):
         ya = [r["y"] for r in rows if r["stem"] == stem and keep(r) and a(r)]
         yb = [r["y"] for r in rows if r["stem"] == stem and keep(r) and b(r)]
         if ya and yb:
-            ests.append(np.mean(ya) - np.mean(yb))
-    return by_rule(np.array(ests))
+            out[stem] = np.mean(ya) - np.mean(yb)
+    return out
+
+
+def contrast(rows, keep, a, b):
+    """Per-target differences averaged with equal weight. Targets lacking a cell are dropped and counted in g."""
+    return by_rule(np.array(list(per_target(rows, keep, a, b).values())))
 
 
 def analyze(batch):
@@ -82,7 +87,17 @@ def analyze(batch):
     secondary = {
         "padded_vs_minimal_visible": contrast(rows, lambda r: wants(r) and visible(r), is_w("padded"), is_w("minimal")),
         "library_300_vs_0_with_aa": contrast(rows, lambda r: wants(r) and r["prefix"] == "aa", lambda r: r["library"] == 300, lambda r: r["library"] == 0),
+        "library_50_vs_0_with_aa": contrast(rows, lambda r: wants(r) and r["prefix"] == "aa", lambda r: r["library"] == 50, lambda r: r["library"] == 0),
     }
+    in_view = per_target(rows, lambda r: wants(r) and visible(r), is_w("trigger"), is_w("minimal"))
+    past = per_target(rows, lambda r: wants(r) and r["library"] == 300 and r["prefix"] == "zz", is_w("trigger"), is_w("minimal"))
+    secondary["C1_minus_C5"] = by_rule(np.array([in_view[s] - past[s] for s in sorted(in_view.keys() & past.keys())]))
+    prompt_by_wording = {}
+    for prompt in ("keyword", "generic", "indirect"):
+        secondary[f"trigger_vs_minimal_visible_{prompt}"] = contrast(rows, lambda r, p=prompt: r["prompt"] == p and visible(r), is_w("trigger"), is_w("minimal"))
+        for w in ("minimal", "padded", "trigger", "trigger_not", "directive"):
+            ys = [r["y"] for r in rows if r["prompt"] == prompt and visible(r) and r["wording"] == w]
+            prompt_by_wording[f"{prompt}/{w}"] = {"recall": float(np.mean(ys)) if ys else None, "n": len(ys)}
     grid = {}
     for lib in (0, 50, 300):
         for prefix in ("aa", "zz"):
@@ -96,7 +111,7 @@ def analyze(batch):
             described[f"300/{prefix}/{w}"] = float(np.mean(ys)) if ys else None
     by_prompt = {p: float(np.mean([r["y"] for r in rows if r["prompt"] == p])) for p in sorted({r["prompt"] for r in rows})}
     return {
-        "runs": counts, "family": family, "secondary": secondary, "grid": grid, "description_reached_model": described, "by_prompt": by_prompt,
+        "runs": counts, "family": family, "secondary": secondary, "prompt_by_wording_visible": prompt_by_wording, "grid": grid, "description_reached_model": described, "by_prompt": by_prompt,
         "cost": {"api_equivalent_usd": float(sum(r["cost"] for r in rows)), "turns": float(np.mean([r["turns"] for r in rows]))},
     }
 

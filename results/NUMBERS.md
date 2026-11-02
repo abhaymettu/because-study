@@ -70,8 +70,13 @@ Runs: {'used': 598, 'missing': 0, 'error': 0, 'leak': 2, 'timeout': 0, 'max_turn
 | C3_not_clause_false_loads_visible | +0.0 [+0.0, +0.0] | 1.000 | 1.000 |
 | C4_aa_vs_zz_at_300 | +51.3 [+37.7, +64.8] | 0.000 | 0.000 |
 | C5_trigger_vs_minimal_described_gone | -27.1 [-67.1, +13.0] | 0.154 | 0.462 |
-| padded_vs_minimal_visible | -6.7 [-23.2, +9.8] | 0.390 |  |
-| library_300_vs_0_with_aa | -10.3 [-18.0, -2.5] | 0.014 |  |
+| padded_vs_minimal_visible (12 targets) | -6.7 [-23.2, +9.8] | 0.390 |  |
+| library_300_vs_0_with_aa (12 targets) | -10.3 [-18.0, -2.5] | 0.014 |  |
+| library_50_vs_0_with_aa (12 targets) | -9.2 [-29.0, +10.6] | 0.330 |  |
+| C1_minus_C5 (8 targets) | +40.1 [+7.3, +72.9] | 0.023 |  |
+| trigger_vs_minimal_visible_keyword (7 targets) | +0.0 [+0.0, +0.0] | 1.000 |  |
+| trigger_vs_minimal_visible_generic (7 targets) | +46.7 [+3.9, +89.4] | 0.037 |  |
+| trigger_vs_minimal_visible_indirect (8 targets) | +12.5 [-17.1, +42.1] | 0.351 |  |
 
 Load rate by prompt: {'decoy': 0.007246376811594203, 'generic': 0.6595744680851063, 'indirect': 0.7515923566878981, 'keyword': 0.8765432098765432}.
 Description reached the model at 300 skills: {'300/aa/minimal': 1.0, '300/aa/padded': 1.0, '300/aa/trigger': 1.0, '300/aa/trigger_not': 1.0, '300/aa/directive': 1.0, '300/zz/minimal': 0.6451612903225806, '300/zz/padded': 0.0, '300/zz/trigger': 0.0, '300/zz/trigger_not': 0.0, '300/zz/directive': 0.0}.
@@ -85,6 +90,14 @@ Description reached the model at 300 skills: {'300/aa/minimal': 1.0, '300/aa/pad
 | 300 / aa | 0.73 (n 26) | 0.61 (n 28) | 1.00 (n 18) | 1.00 (n 21) | 1.00 (n 28) |
 | 300 / zz | 0.61 (n 23) | 0.29 (n 28) | 0.24 (n 17) | 0.24 (n 21) | 0.36 (n 25) |
 
+Prompt type by wording, description in view (secondary).
+
+| Prompt | minimal | padded | trigger | trigger_not | directive |
+|---|---|---|---|---|---|
+| keyword | 1.00 (n 23) | 1.00 (n 23) | 1.00 (n 24) | 1.00 (n 23) | 1.00 (n 27) |
+| generic | 0.67 (n 24) | 0.66 (n 29) | 1.00 (n 16) | 1.00 (n 16) | 1.00 (n 20) |
+| indirect | 0.81 (n 21) | 0.61 (n 28) | 1.00 (n 25) | 1.00 (n 22) | 1.00 (n 25) |
+
 ## Study 2b (`results/study2b.json`)
 
 Runs: {'used': 534, 'missing': 41, 'error': 0, 'leak': 1, 'timeout': 0, 'max_turns': 0}. Registered reading: past the budget a short plain description beats a long trigger list; a short description that says when to use the skill beats a long one past the budget and costs under 10 points below it.
@@ -95,6 +108,23 @@ Runs: {'used': 534, 'missing': 41, 'error': 0, 'leak': 1, 'timeout': 0, 'max_tur
 | D2_short_trigger_vs_trigger_at_300 | +29.4 [+20.5, +38.4] | 0.000 | 0.000 |
 | D3_short_trigger_vs_minimal_at_300 | -0.3 [-9.2, +8.6] | 0.939 | 0.939 |
 | D4_short_trigger_vs_trigger_at_50 | +2.1 [-2.5, +6.7] | 0.339 | 0.678 |
+
+The same contrasts within each prompt type (secondary, no correction, no significance claim).
+
+| Contrast | Points [95% CI] | p | Holm p |
+|---|---|---|---|
+| D1_keyword (11 targets) | +32.1 [+8.0, +56.3] | 0.014 |  |
+| D2_keyword (11 targets) | +31.8 [+14.1, +49.5] | 0.003 |  |
+| D3_keyword (12 targets) | +6.4 [-15.0, +27.7] | 0.524 |  |
+| D4_keyword (7 targets) | +0.0 [+0.0, +0.0] | 1.000 |  |
+| D1_generic (12 targets) | +24.5 [+2.4, +46.6] | 0.033 |  |
+| D2_generic (12 targets) | +25.0 [+9.0, +41.0] | 0.005 |  |
+| D3_generic (12 targets) | +0.5 [-24.6, +25.5] | 0.966 |  |
+| D4_generic (5 targets) | +20.0 [-35.5, +75.5] | 0.374 |  |
+| D1_indirect (12 targets) | +28.8 [+15.6, +41.9] | 0.001 |  |
+| D2_indirect (11 targets) | +28.0 [+9.1, +46.8] | 0.008 |  |
+| D3_indirect (11 targets) | -1.9 [-23.9, +20.1] | 0.850 |  |
+| D4_indirect (8 targets) | +0.0 [+0.0, +0.0] | 1.000 |  |
 
 | Library / wording | load rate | n | description reached model | load when reached | load when not |
 |---|---|---|---|---|---|

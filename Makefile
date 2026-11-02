@@ -18,6 +18,7 @@ reproduce: setup
 	$(PY) -m analysis.study2b data/study2b --out results/study2b.json
 	$(PY) -m analysis.exploratory
 	$(PY) -m analysis.figures
+	$(PY) -m paper.counts > paper/counts.json
 	$(PY) -m analysis.numbers > results/NUMBERS.md
 
 # The harness, the checkers and the analyses with a stand-in agent, for a check in under a minute.

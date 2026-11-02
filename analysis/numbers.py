@@ -44,13 +44,18 @@ def main():
         out.append(f"| {k} | {v['shown']:.2f} | {v['no_rule']:.2f} | {v['named_in_prompt']:.2f} | {v['n']} |")
     out += ["", "Ballast rule compliance, not analyzed: " + ", ".join(f"{k} {v:.2f}" for k, v in s1["ballast_compliance"].items()) + ".",
             f"Cost: ${s1['cost']['api_equivalent_usd']:.2f} API-equivalent, mean {s1['cost']['turns']:.1f} turns, {s1['cost']['seconds']:.1f} s per run, tests pass {s1['cost']['tests_pass']:.3f}.", ""]
-    out += ["## Study 2 (`results/study2.json`)", "", f"Runs: {s2['runs']}.", "", *HEAD] + [row(k, r) for k, r in s2["family"].items()] + [row(k, r) for k, r in s2["secondary"].items()]
+    out += ["## Study 2 (`results/study2.json`)", "", f"Runs: {s2['runs']}.", "", *HEAD] + [row(k, r) for k, r in s2["family"].items()] + [row(f"{k} ({r['g']} targets)", r) for k, r in s2["secondary"].items()]
     out += ["", f"Load rate by prompt: {s2['by_prompt']}.", f"Description reached the model at 300 skills: {s2['description_reached_model']}.", "", "| Library / prefix | minimal | padded | trigger | trigger_not | directive |", "|---|---|---|---|---|---|"]
     for lib in (0, 50, 300):
         for pre in ("aa", "zz"):
             cells = [s2["grid"][f"{lib}/{pre}/{w}"] for w in ("minimal", "padded", "trigger", "trigger_not", "directive")]
             out.append(f"| {lib} / {pre} | " + " | ".join(f"{c['recall']:.2f} (n {c['n']})" for c in cells) + " |")
+    out += ["", "Prompt type by wording, description in view (secondary).", "", "| Prompt | minimal | padded | trigger | trigger_not | directive |", "|---|---|---|---|---|---|"]
+    for prompt in ("keyword", "generic", "indirect"):
+        cells = [s2["prompt_by_wording_visible"][f"{prompt}/{w}"] for w in ("minimal", "padded", "trigger", "trigger_not", "directive")]
+        out.append(f"| {prompt} | " + " | ".join(f"{c['recall']:.2f} (n {c['n']})" for c in cells) + " |")
     out += ["", "## Study 2b (`results/study2b.json`)", "", f"Runs: {s2b['runs']}. Registered reading: {s2b['reading']}.", "", *HEAD] + [row(k, r) for k, r in s2b["family"].items()]
+    out += ["", "The same contrasts within each prompt type (secondary, no correction, no significance claim).", "", *HEAD] + [row(f"{k} ({r['g']} targets)", r) for k, r in s2b["secondary"].items()]
     out += ["", "| Library / wording | load rate | n | description reached model | load when reached | load when not |", "|---|---|---|---|---|---|"]
     for k, c in s2b["grid"].items():
         out.append(f"| {k} | {c['recall']:.3f} | {c['n']} | {c['description_reached_model']:.3f} | {c['recall_described']:.3f} | {c['recall_not_described']:.3f} |")

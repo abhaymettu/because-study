@@ -35,6 +35,10 @@ def analyze(batch):
     }
     for name, adj in zip(family, holm([family[n]["p"] for n in family])):
         family[name]["p_holm"] = adj
+    secondary = {}
+    for prompt in ("keyword", "generic", "indirect"):
+        for name, lib, a, b in (("D1", 300, "minimal", "trigger"), ("D2", 300, "short_trigger", "trigger"), ("D3", 300, "short_trigger", "minimal"), ("D4", 50, "short_trigger", "trigger")):
+            secondary[f"{name}_{prompt}"] = contrast(rows, lambda r, p=prompt, n=lib: r["prompt"] == p and r["library"] == n, is_w(a), is_w(b))
     grid = {}
     for lib in (50, 300):
         for w in FOLLOWUP_WORDINGS:
@@ -44,7 +48,7 @@ def analyze(batch):
                 "recall_described": float(np.mean([r["y"] for r in cell if r["described"]] or [np.nan])),
                 "recall_not_described": float(np.mean([r["y"] for r in cell if not r["described"]] or [np.nan])),
             }
-    return {"runs": counts, "family": family, "grid": grid, "reading": reading(family),
+    return {"runs": counts, "family": family, "secondary": secondary, "grid": grid, "reading": reading(family),
             "cost": {"api_equivalent_usd": float(sum(r["cost"] for r in rows)), "turns": float(np.mean([r["turns"] for r in rows]))}}
 
 

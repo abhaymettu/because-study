@@ -28,7 +28,7 @@ This test is an analogue of Langer, Blank and Chanowitz (1978), the copier study
 
 ### With the description in view, a trigger list loads a skill more often
 
-A trigger list ("Use when ...") beats one short sentence by +17.6 points [+6.3, +29.0], Holm p 0.023.
+A trigger list ("Use when ...") beats one short sentence by +17.6 points [+6.3, +29.0], Holm p 0.023. The gain sits where the prompt does not use the skill's own words. Every wording loaded on every keyword prompt, and on generic prompts the gain is +46.7 [+3.9, +89.4] on 7 targets, a registered secondary with no correction.
 
 "ALWAYS invoke" and a "Not for" clause both show +0.0, but both sat at a limit. Trigger lists already loaded at 1.00 in those cells, and decoy prompts loaded a skill at a rate of 0.007. A ceiling and a floor cannot show an effect, so this is no evidence of no effect.
 
@@ -36,7 +36,7 @@ A trigger list ("Use when ...") beats one short sentence by +17.6 points [+6.3, 
 
 Claude Code 2.1.303 gives the skill listing a budget of 30,000 characters. We measured this with no model judgment, and a replay of the rule predicts all 4,915 listing entries we compared ([`docs/LISTING-MECHANISM.md`](docs/LISTING-MECHANISM.md)). Under the budget, every skill keeps its description. Past it, skills rank by past use on the account, ties go by name, and each skill keeps its description only if the description still fits. The environment variable `SLASH_COMMAND_TOOL_CHAR_BUDGET` changes the budget.
 
-At 300 skills, an early name adds +51.3 points [+37.7, +64.8] over a late one. The long trigger list that wins below the budget loses past it. Study 2's registered test of that reversal was too wide to read, at -27.1 [-67.1, +13.0], so we preregistered Study 2b to settle it, with late names and no usage history.
+At 300 skills, an early name adds +51.3 points [+37.7, +64.8] over a late one. The long trigger list that wins below the budget loses past it. Study 2's registered test of that reversal was too wide to read, at -27.1 [-67.1, +13.0], so we preregistered Study 2b to settle it, with late names and no usage history. It holds within keyword, generic and indirect prompts alike (secondary).
 
 ![Skill load rate at 50 and 300 skills for three wordings. All three load near the top at 50 skills, and the long trigger list falls furthest at 300.](docs/figures/study2b-reversal.svg)
 

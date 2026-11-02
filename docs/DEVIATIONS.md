@@ -36,6 +36,10 @@ before each run. The batch that produced the data loaded the code as frozen plus
 
 **Mixed model restricted to focal rules.** `analysis/export_long.py` exported every shown rule as frozen. The registration's claims are about focal rules, so the export now keeps only those. This is a robustness check and decides nothing.
 
+## Studies 2 and 2b, registered secondaries
+
+**2026-11-02 00:55 CST. Secondaries the registrations name were missing from the frozen code, and were added after the family results were read.** `PREREG-STUDY2.md` asks for C1 minus C5 with its interval, a library-size trend within `aa-`, and prompt type by wording. `PREREG-STUDY2B.md` asks for its contrasts within each prompt type. `analysis/study2.py` and `analysis/study2b.py` as frozen computed none of these except library 300 versus 0. They now do, in the form the registrations describe, with no correction. No family result changes, and these decide nothing.
+
 ## Study 2b, frozen at `prereg-study2b`
 
 **2026-11-01 23:54 CST. The batch stopped at 535 of 576 runs on its registered quota stop.** The six-point counter reads the whole account, and Study 1 was running at the same time, which the registration did not anticipate. The registration says whatever exists is analyzed, so the remaining 41 were not run. One further run is excluded by the leak scan, a false positive on the needle `agent-memory/`, which appears in a public skill's text.
