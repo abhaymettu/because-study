@@ -1,6 +1,6 @@
 """Run a manifest's rows through isolated agents, resumable, watching the weekly quota.
 
-    python3 -m harness.batch data/pilot/manifest.jsonl --workers 3 [--limit N]
+    python3 -m harness.batch data/pilot/manifest.jsonl --workers 3 [--limit N] [--dry-run]
 
 A row whose trace exists is skipped, so an interrupted batch continues where it stopped. Rows lost to infrastructure
 (rate limit, API error) leave no trace and rerun; the rerun is blind to arm because it is decided from the error alone.
@@ -73,6 +73,7 @@ def main():
     p.add_argument("--max-quota-points", type=float, default=15, help="stop after this many points of the seven-day window")
     p.add_argument("--tools", default="Bash,Read,Edit,Write,Glob,Grep")
     p.add_argument("--max-turns", type=int, default=40)
+    p.add_argument("--dry-run", action="store_true", help="print what would run and exit, starting no agent")
     a = p.parse_args()
 
     manifest = Path(a.manifest)
@@ -82,6 +83,8 @@ def main():
     if a.limit:
         todo = todo[: a.limit]
     print(f"{len(rows)} in manifest, {len(todo)} to run", flush=True)
+    if a.dry_run:
+        return
 
     opts = {
         "fixtures": FIXTURES,

@@ -26,20 +26,36 @@ found one fault. `write_tool` failed a run for `cat >>` onto a file the repo alr
 checker now ignores a redirect onto a file that existed at the base commit. The registered audit of 100 observations still runs on
 the finished batch. Every verdict is computed from traces, so all runs are rescored by rerunning the analysis.
 
-**Harness edits after the tag, none of which touch a run's behavior.** The leak scan's `agent-memory` needle became `agent-memory/`,
+**Harness edits after the tag. None touches the behavior of a Study 1, 2 or 2b run.** The leak scan's `agent-memory` needle became `agent-memory/`,
 because a public skill in the Study 2 library has that name. `run_agent` gained a `probe` parameter for Study 2. `run_row`,
 `read_claude_stream` and the `command` option were factored out so a stand-in or another agent can use the same path. Kept
 request samples now drop `metadata`, which holds account and device ids (see below). The wrapper shell is written once rather than
-before each run. The batch that produced the data loaded the code as frozen plus the first two edits.
+before each run. The batch that produced the data loaded the code as frozen plus the first two edits. Later edits: `RUN_ROOT` now honors `BECAUSE_RUN_ROOT` and falls back to `/tmp/wk` where `/private/tmp` does not exist, and `TMPDIR` follows its parent (2026-11-01 23:04 CST). At their default values on a Mac these give the frozen `/private/tmp/wk` and `/private/tmp/`, so they have no effect there. `run_agent` gained an `env` option, and `run_row` uses it to pass `SLASH_COMMAND_TOOL_CHAR_BUDGET` for rows with a `list_budget`, which only Study 2c and its pilot have (2026-11-02 01:46 CST). `analysis/study2.py` `load()` gained a `budget` column in the same commit, which the Study 2 and 2b analyses do not read. `harness/batch.py` gained `--dry-run`, which prints the row counts and starts no agent (2026-11-02 02:02 CST).
 
 **2026-11-01 23:56 CST. Scope of "you write" written down after the registered audit, before any contrast.** See `docs/audit/report.md`. No checker changed. A sensitivity with `write_tool` on repo paths only is in `results/exploratory.json`.
+
+**The registered audit used three readers.** `PREREG.md` line 175 names one fresh model reader. Three were used, each on part of the 100 items, because the items were too large for one. Items showed the checker's verdict, as that line allows.
+
+**Exploratory analyses that were not run.** Of those `PREREG.md` lists, relative depth, rule by task, paraphrase variation, two-way wording interactions and spillover were not run. Neither were effects on tests passing and on turn count, which appear only as overall rates. Cost class and polarity were not tested. `results/exploratory.json` holds only a descriptive mean of real vs filler for each, and no surface reports it. None of this was required by the registration.
+
+**Haiku replication stopped once and resumed, 2026-11-02.** The batch stopped at 177 of 300 at 01:07 CST on a 4-point sizing limit set at launch, which is not a registered stop. That counter reads the whole account, and a review was running at the same time. It was resumed with the same command at about 01:42 CST.
+
+**Batch logs are tracked from here on, since `PREREG.md` line 103 says reruns are logged (2026-11-02 02:02 CST).** The confirmatory batches' `batch.log` files left `.gitignore`. Pilot logs stay out, since their leak flags print local needle strings.
 
 **Mixed model restricted to focal rules.** `analysis/export_long.py` exported every shown rule as frozen. The registration's claims are about focal rules, so the export now keeps only those. This is a robustness check and decides nothing.
 
 ## Studies 2 and 2b, registered secondaries
 
-**2026-11-02 00:55 CST. Secondaries the registrations name were missing from the frozen code, and were added after the family results were read.** `PREREG-STUDY2.md` asks for C1 minus C5 with its interval, a library-size trend within `aa-`, and prompt type by wording. `PREREG-STUDY2B.md` asks for its contrasts within each prompt type. `analysis/study2.py` and `analysis/study2b.py` as frozen computed none of these except library 300 versus 0. They now do, in the form the registrations describe, with no correction. No family result changes, and these decide nothing.
+**2026-11-02 00:53 CST. Secondaries the registrations name were missing from the frozen code, and were added after the family results were read.** `PREREG-STUDY2.md` asks for C1 minus C5 with its interval, a library-size trend within `aa-`, and prompt type by wording. `PREREG-STUDY2B.md` asks for its contrasts within each prompt type. `analysis/study2.py` and `analysis/study2b.py` as frozen computed none of these except library 300 versus 0. They now do, in the form the registrations describe, with no correction. No family result changes, and these decide nothing.
 
 ## Study 2b, frozen at `prereg-study2b`
 
 **2026-11-01 23:54 CST. The batch stopped at 535 of 576 runs on its registered quota stop.** The six-point counter reads the whole account, and Study 1 was running at the same time, which the registration did not anticipate. The registration says whatever exists is analyzed, so the remaining 41 were not run. One further run is excluded by the leak scan, a false positive on the needle `agent-memory/`, which appears in a public skill's text.
+
+## Study 2c, frozen at `prereg-study2c`
+
+**2026-11-02 02:02 CST. An additive edit to the analysis after the tag, before any outcome was read.** Each cell of `grid` in `analysis/study2c.py` gained `target_mean` and `ci`, the mean across targets and its 95% interval, so the budget figure can draw intervals. No family row, secondary or reading changes, which was checked by running the frozen and edited code on a synthetic batch.
+
+## Docstrings
+
+**2026-11-02 02:02 CST.** The docstring of `study2/design.py` no longer calls the listing alphabetical. Nothing that runs changed.

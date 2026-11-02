@@ -9,11 +9,12 @@ analyses rerun on every committed trace and must match the committed results.
 
 import argparse
 import json
+import math
 import sys
 import tempfile
 from pathlib import Path
 
-from analysis import study1, study2, study2b
+from analysis import study1, study2, study2b, study2c
 from study1.rules import POOL_FINAL, score
 from study1.trace import Trace
 
@@ -56,22 +57,37 @@ def compare_study2(row, old, new):
 
 
 def numbers(tree, prefix=""):
-    """Every point estimate in a results document, by path. P-values from permutations vary with their count, so they stay out."""
+    """Every number in a results document, by path, list items included. P-values from permutations vary with their count, so they stay out."""
     out = {}
     if isinstance(tree, dict):
         for k, v in tree.items():
             if k not in ("randomization_p", "cost"):
                 out.update(numbers(v, f"{prefix}/{k}"))
-    elif isinstance(tree, float):
+    elif isinstance(tree, list):
+        for i, v in enumerate(tree):
+            out.update(numbers(v, f"{prefix}/{i}"))
+    elif isinstance(tree, (int, float)) and not isinstance(tree, bool):
         out[prefix] = tree
     return out
+
+
+def same_number(a, b):
+    return (math.isnan(a) and math.isnan(b)) or abs(a - b) <= 1e-9
 
 
 def compare_results(res, path):
     want = numbers(json.loads(path.read_text()))
     got = numbers(json.loads(json.dumps(res, default=float)))
-    wrong = [k for k in want if k not in got or abs(want[k] - got[k]) > 1e-9]
-    return len(want) - len(wrong), len(want), wrong
+    wrong = [k for k in want if k not in got or not same_number(want[k], got[k])]
+    return len(want) - len(wrong), want, wrong
+
+
+def describe(want):
+    """What the compared count is made of, so the printed total says what was checked."""
+    intervals = sum("/ci/" in k for k in want)
+    ticks = sum("/per_rule/" in k for k in want)
+    counts = sum(isinstance(v, int) for v in want.values())
+    return f"{len(want) - intervals - ticks - counts} point estimates, SEs and p-values, {intervals} interval bounds, {ticks} per-rule ticks, {counts} counts"
 
 
 def main():
@@ -82,18 +98,18 @@ def main():
     a = p.parse_args()
     data, results = Path(a.data).resolve(), Path(a.results)
     failed = False
-    for name, compare, n in (("study1", compare_study1, a.runs), ("study2", compare_study2, a.runs // 2), ("study2b", compare_study2, a.runs // 2)):
+    for name, compare, n in (("study1", compare_study1, a.runs), ("study2", compare_study2, a.runs // 2), ("study2b", compare_study2, a.runs // 2), ("study2c", compare_study2, a.runs // 2)):
         runs, agree, total = replay_runs(data / name, n, compare)
         print(f"{name}: replayed {runs} runs through the harness, {agree} of {total} verdicts match the committed traces")
         failed |= agree != total
-    for name, analyze in (("study1", lambda b: study1.analyze(b, perms=100)), ("study2", study2.analyze), ("study2b", study2b.analyze)):
+    for name, analyze in (("study1", lambda b: study1.analyze(b, perms=100)), ("study2", study2.analyze), ("study2b", study2b.analyze), ("study2c", study2c.analyze)):
         path = results / f"{name}.json"
         if not path.exists():
             print(f"{name}: no committed results yet")
             continue
         res = analyze(data / name)
-        same, total, wrong = compare_results(res, path)
-        print(f"{name}: reran the registered analysis, {same} of {total} estimates match {path.name}")
+        same, want, wrong = compare_results(res, path)
+        print(f"{name}: reran the registered analysis, {same} of {len(want)} numbers match {path.name} ({describe(want)})")
         if "reading" in res:
             print(f"reading: {res['reading']}")
         failed |= bool(wrong)

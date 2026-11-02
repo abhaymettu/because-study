@@ -3,7 +3,9 @@
 Needs a login. Writes a few zz-mech-<tag>-* entries to skillUsage in the account's global config (real Skill calls).
 
     BECAUSE_ACCOUNT_EMAIL=... python3 -m analysis.listing_mechanism
-    python3 -m analysis.listing_mechanism replay    (no model calls)
+    python3 -m analysis.listing_mechanism replay    (no model calls, needs the pilot captures and listing_rule.json, which are not in the repo)
+
+A reader's offline check is analysis/listing_check.py.
 """
 
 import gzip
@@ -171,6 +173,9 @@ def invoke(skills, name):
 def replay():
     """No model calls: predict the pilot captures and the two earlier result files from their inputs."""
     from study2.design import BY_STEM, assign, description, plan
+
+    if not Path("data/s2pilot/captures").exists():
+        sys.exit("replay needs the pilot captures, which are not in the repo. The offline check is: python3 -m analysis.listing_check data/study2 data/study2b")
 
     def frontmatter(text):
         return json.loads(re.search(r"^description: (.*)$", text, re.M).group(1))

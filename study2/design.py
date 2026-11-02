@@ -1,7 +1,8 @@
 """Study 2: does a skill's description decide whether it loads, and when can it no longer matter?
 
-Claude Code lists skills alphabetically within a character budget. Past the budget a skill keeps only its name, so the
-target's place in the alphabet is randomized along with its wording.
+Claude Code lists every skill's name, and keeps descriptions while a character budget lasts: skills used before come first,
+then names in alphabetical order, and a description that does not fit is skipped while a shorter one further down can still fit
+(docs/LISTING-MECHANISM.md). The target's place in that order is randomized along with its wording.
 """
 
 import json

@@ -8,7 +8,9 @@ RUNLOG.md
 WORKLOG.md
 results/power.txt.tmp
 harness/needles.local
-data/*/batch.log
 data/*/out.txt
+data/rerun/
 explorer/dist/
 .playwright-mcp/
+data/p*/batch.log
+data/s2*pilot/batch.log

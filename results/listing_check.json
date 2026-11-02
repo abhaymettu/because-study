@@ -1,0 +1,148 @@
+{
+ "rule": "docs/LISTING-MECHANISM.md, coded in analysis.listing_mechanism.predict",
+ "batches": {
+  "data/study2": {
+   "total": 600,
+   "hits": 600,
+   "misses": [],
+   "start_usage": {
+    "month-end-close": 1
+   },
+   "run_order_from": "batch.log",
+   "hits_earlier_runs_only": 596,
+   "misses_earlier_runs_only": [
+    "study2-00018",
+    "study2-00088",
+    "study2-00091",
+    "study2-00154"
+   ],
+   "hits_no_usage": 583,
+   "chars_left_at_target_turn_at_300_skills": {
+    "aa": {
+     "runs": 162,
+     "median": 17142.5,
+     "p90": 17636.9,
+     "max": 18056
+    },
+    "zz": {
+     "runs": 149,
+     "median": 29.0,
+     "p90": 68.0,
+     "max": 84
+    }
+   }
+  },
+  "data/study2b": {
+   "total": 535,
+   "hits": 535,
+   "misses": [],
+   "start_usage": {
+    "month-end-close": 5,
+    "sql-database-assistant": 1,
+    "changelog-generator": 1
+   },
+   "run_order_from": "batch.log",
+   "hits_earlier_runs_only": 464,
+   "misses_earlier_runs_only": [
+    "study2b-10016",
+    "study2b-10030",
+    "study2b-10032",
+    "study2b-10049",
+    "study2b-10052",
+    "study2b-10053",
+    "study2b-10054",
+    "study2b-10058",
+    "study2b-10062",
+    "study2b-10064",
+    "study2b-10069",
+    "study2b-10076",
+    "study2b-10083",
+    "study2b-10086",
+    "study2b-10098",
+    "study2b-10113",
+    "study2b-10115",
+    "study2b-10117",
+    "study2b-10119",
+    "study2b-10124",
+    "study2b-10130",
+    "study2b-10147",
+    "study2b-10148",
+    "study2b-10150",
+    "study2b-10154",
+    "study2b-10156",
+    "study2b-10157",
+    "study2b-10176",
+    "study2b-10177",
+    "study2b-10183",
+    "study2b-10187",
+    "study2b-10191",
+    "study2b-10193",
+    "study2b-10195",
+    "study2b-10206",
+    "study2b-10208",
+    "study2b-10210",
+    "study2b-10214",
+    "study2b-10223",
+    "study2b-10233",
+    "study2b-10247",
+    "study2b-10248",
+    "study2b-10257",
+    "study2b-10259",
+    "study2b-10266",
+    "study2b-10278",
+    "study2b-10300",
+    "study2b-10322",
+    "study2b-10327",
+    "study2b-10346",
+    "study2b-10354",
+    "study2b-10357",
+    "study2b-10359",
+    "study2b-10360",
+    "study2b-10372",
+    "study2b-10374",
+    "study2b-10387",
+    "study2b-10388",
+    "study2b-10417",
+    "study2b-10430",
+    "study2b-10436",
+    "study2b-10445",
+    "study2b-10448",
+    "study2b-10458",
+    "study2b-10460",
+    "study2b-10461",
+    "study2b-10472",
+    "study2b-10482",
+    "study2b-10486",
+    "study2b-10492",
+    "study2b-10500"
+   ],
+   "hits_no_usage": 426,
+   "chars_left_at_target_turn_at_300_skills": {
+    "zz": {
+     "runs": 402,
+     "median": 24.5,
+     "p90": 63.0,
+     "max": 92
+    }
+   }
+  },
+  "data/study2c": {
+   "total": 384,
+   "hits": 384,
+   "misses": [],
+   "start_usage": {},
+   "run_order_from": "batch.log",
+   "hits_earlier_runs_only": 384,
+   "misses_earlier_runs_only": [],
+   "hits_no_usage": 361,
+   "chars_left_at_target_turn_at_300_skills": {
+    "zz": {
+     "runs": 192,
+     "median": 24.0,
+     "p90": 67.0,
+     "max": 80
+    }
+   }
+  }
+ }
+}

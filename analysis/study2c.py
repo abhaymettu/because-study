@@ -46,7 +46,9 @@ def analyze(batch):
     for name, arm in (("default", default), ("raised", raised)):
         for w in BUDGET_WORDINGS:
             cell = [r for r in rows if arm(r) and r["wording"] == w]
+            across = by_rule(np.array([np.mean([r["y"] for r in cell if r["stem"] == s]) for s in sorted({r["stem"] for r in cell})]))
             grid[f"{name}/{w}"] = {
+                "target_mean": across["estimate"], "ci": across["ci"],
                 "recall": float(np.mean([r["y"] for r in cell])), "n": len(cell), "description_reached_model": float(np.mean([r["described"] for r in cell])),
                 "other_skill_only": float(np.mean([r["any_skill"] and not r["y"] for r in cell])), "no_skill": float(np.mean([not r["any_skill"] and not r["y"] for r in cell])),
                 "cost_per_run": float(np.mean([r["cost"] for r in cell])), "turns": float(np.mean([r["turns"] for r in cell])),

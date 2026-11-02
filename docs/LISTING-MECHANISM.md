@@ -32,7 +32,7 @@ All four targets sort last among the project skills. Replay of the stored captur
 
 `zz-ledger-reconcile` had usage because s2pilot-00001 invoked it 52 seconds earlier.
 
-`results/listing_rule.json` looked like evidence that a zz name always keeps its description. It was written at 21:56:54, after the pilot had invoked `zz-ledger-reconcile` and `zz-log-triage` at 21:54. Those two are the only stems it tested, so every zz row was promoted by usage. A longer target cost a distractor a slot for the same reason: the target was charged first.
+`results/listing_rule.json`, which is not in the repo, looked like evidence that a zz name always keeps its description. It was written at 21:56:54, after the pilot had invoked `zz-ledger-reconcile` and `zz-log-triage` at 21:54. Those two are the only stems it tested, so every zz row was promoted by usage. A longer target cost a distractor a slot for the same reason: the target was charged first.
 
 ## Evidence
 
@@ -47,7 +47,7 @@ All four targets sort last among the project skills. Replay of the stored captur
 Earlier result files replay the same way, using only their stored inputs:
 
 - `results/listing_budget.json`: 18 of 18 rows match on count and on the prefix flag, including the False rows at 200 and 388. Those two are the skip in step 4. No usage is needed, because the file predates the pilot.
-- `results/listing_rule.json`: 40 of 40 rows match on target and on distractor count with pilot usage, and 22 of 40 without it.
+- `results/listing_rule.json`: 40 of 40 rows match on target and on distractor count with pilot usage, and 22 of 40 without it. The file is not in the repo. The tally is in `results/listing_replay.json`.
 
 **Usage is the cause (measured).** Same library, same prompt, three never-used probes with descriptions of about 500 characters:
 
@@ -96,16 +96,16 @@ from analysis.listing_mechanism import described, listing_block
 target_described = described(listing_block(request), target)  # True, False, or None if not listed
 ```
 
-This reads what the model was actually sent, so it needs no model of the CLI and survives a version change. It anchors on the start of a line inside the listing block, where a search of the whole request could also match other text (**inferred**, no such false match was seen). The stored pilot captures hold this request, so the field can be backfilled with no new calls (**measured**, on all 16).
+This reads what the model was actually sent, so it needs no model of the CLI and survives a version change. It anchors on the start of a line inside the listing block, where a search of the whole request could also match other text (**inferred**, no such false match was seen). The pilot captures hold this request, so the field could be backfilled with no new calls (**measured**, on all 16). Those captures are not in the repo. Each later run records the same fact as `capture.probe_hit`.
 
-## What this means for Study 2
+## What this means for the studies
 
-- **Runs are not independent (measured).** Any Skill call raises that name's priority for every later run on the account. So a zz target's condition depends on whether an earlier run invoked the same name, and therefore on run order. By the formula the score never decays to 0, so one call outranks every never-used skill indefinitely (**binary**, decay not tested live).
-- **`zz` at library 300 does not mean the description is gone (measured).** Contrast C5 in `analysis/study2.py` is named `trigger_vs_minimal_described_gone`, but a minimal wording can fit the leftover, as `zz-release-notes` did. Wording therefore changes whether the description is present, inside the contrast meant to hold it absent.
-- **`PREREG-STUDY2.md` and `study2/design.py` state the rule as alphabetical.** That wording is incomplete.
-- **Isolating usage per run was not tested.** Neither was any fix. `results/listing_rule.json` should not be cited as evidence for a rule.
+These are the facts the registered designs had to work around. The registrations hold what each one did about them.
 
-The Study 1 batch uses the same config, and these tests did not assess whether it is affected.
+- **Runs are not independent (measured).** Any Skill call raises that name's priority for every later run on the account. Target names are unique per run from Study 2 on, so no target carries usage. Distractors do: by the Study 2b freeze, three of them held rank, and `PREREG-STUDY2B.md` names them. By the formula the score never decays to 0 (**binary**, decay not tested live). Study 2c cleared study entries from the account's record before its pilot (`PREREG-STUDY2C.md`).
+- **`zz` at library 300 does not mean the description is gone (measured).** A minimal wording can fit the leftover, as `zz-release-notes` did. The frozen key `C5_trigger_vs_minimal_described_gone` in `analysis/study2.py` keeps its name, but what it compares is trigger and minimal at 300 with a late name. Every run from Study 2 on records whether the description reached the model.
+- **Study 1 has no listing (measured).** It offers no Skill tool, and its 40 kept captures hold no skill listing.
+- **`results/listing_rule.json` should not be cited as evidence for a rule.** Its zz rows were promoted by usage, as above.
 
 ## Limits
 
@@ -117,11 +117,30 @@ The Study 1 batch uses the same config, and these tests did not assess whether i
 
 ## Reproduce
 
+From a clean checkout, with no agent and no login:
+
+```
+.venv/bin/python -m analysis.listing_check data/study2 data/study2b
+```
+
+This predicts from the manifests and the fixtures whether each run's target kept its description, and compares that with `capture.probe_hit` in the run's trace. It writes `results/listing_check.json`. The bundled skills' widths come from `results/listing_mechanism.json`, so the check reads no capture.
+
+| Batch | Usage counted | Only earlier runs' calls | No usage |
+|---|---|---|---|
+| `data/study2` | 600 of 600 | 596 | 583 |
+| `data/study2b` | 535 of 535 | 464 | 426 |
+
+"Usage counted" is what the account held when the batch began, plus the Skill calls of runs that had finished when each run started, by the times in `batch.log`. Study 2 begins with `month-end-close` at 1, from the pilot's one call in `data/s2pilot/raw`. Study 2b begins with the three names in `PREREG-STUDY2B.md`, whose counts are exactly that pilot call plus Study 2's own calls. Without `batch.log`, the check falls back to manifest order, which gives the same counts on Study 2.
+
+None of the 4,915 entries in the table above can be rerun offline from a clean checkout:
+
+- **The 2,590 pilot entries** need the 16 pilot captures. They hold full requests and are not in the repo, so only their result is, in `results/listing_replay.json`. `analysis.listing_mechanism replay` works only for someone holding them.
+- **The other 2,325 entries** come from live runs. This command makes 29 model calls and writes `results/listing_mechanism.json`:
+
 ```
 BECAUSE_ACCOUNT_EMAIL=... .venv/bin/python -m analysis.listing_mechanism
-.venv/bin/python -m analysis.listing_mechanism replay
 ```
 
-The first command makes 29 model calls and writes `results/listing_mechanism.json`. The second makes none and writes `results/listing_replay.json`.
+The offline check is a narrower test on more runs. It checks one target per run across 1,135 runs, not every entry of a listing. It also uses the rule's stated budget, which only the live command measures.
 
-The first command also leaves four `zz-mech-<tag>-*` entries in the account's `skillUsage`, because its usage test makes real Skill calls. Eight are there now from two runs. They affect only skills with those names.
+The live command also leaves four `zz-mech-<tag>-*` entries in the account's `skillUsage`, because its usage test makes real Skill calls. Eight are there now from two runs. They affect only skills with those names.

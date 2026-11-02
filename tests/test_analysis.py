@@ -1,14 +1,21 @@
 """The registered analyses, run on outcomes we made up, so a right answer is known. Uses the real assignment, no real outcome."""
 
+import json
+import tempfile
 import unittest
+from pathlib import Path
 
 import numpy as np
 
+from analysis.exploratory import fit_clustered, heterogeneity
+from analysis.listing_check import run_clock, usage_at_start
+from analysis.numbers import plain, rate
 from analysis.study1 import by_rule, contrast, holm, randomization_p, reading, rule_level_estimates, run_level
 from analysis.study2 import contrast as s2_contrast, loaded, visible
 from analysis.study2b import reading as s2b_reading
 from analysis.study2c import reading as s2c_reading
 from analysis.synthetic import RULES, assignment, simulate
+from harness.replay import compare_results, describe, numbers
 from study2.design import RAISED_BUDGET, assign_budget, assign_followup, target_name
 
 OBS = assignment()
@@ -205,6 +212,76 @@ class Study2c(unittest.TestCase):
         self.assertEqual(sum(r["stem"] == "sql-review" and r["wording"] == "minimal" and r["list_budget"] is None for r in rows), 8)
         self.assertEqual(len({target_name(r) for r in rows}), 384)
         self.assertTrue(all(int(r["run_id"].rsplit("-", 1)[1]) >= 20000 and r["name_prefix"] == "zz" and len(r["distractors"]) == 300 for r in rows))
+
+
+
+class ClusteredFit(unittest.TestCase):
+    def test_it_matches_the_registered_estimator_and_gives_positive_ses(self):
+        obs = simulate(OBS, {("reason", "real"): 0.2}, 4)
+        index, beta, V = fit_clustered(obs, RULES)
+        est = rule_level_estimates(obs, RULES)
+        for key, values in est.items():
+            np.testing.assert_allclose([beta[index[(r, *key)]] for r in RULES], values, atol=1e-8)
+        self.assertTrue(all(V[i, i] > 0 for i in index.values()))
+
+
+class Heterogeneity(unittest.TestCase):
+    def test_equal_effects_give_no_tau_and_the_known_q(self):
+        r = heterogeneity(np.array([0.1, 0.1, 0.1, 0.1]), np.array([0.02, 0.03, 0.04, 0.05]))
+        self.assertAlmostEqual(r["cochran_q"], 0.0)
+        self.assertEqual(r["tau"], 0.0)
+        self.assertAlmostEqual(r["mean"], 0.1)
+
+    def test_a_hand_worked_case(self):
+        # Two equal-weight effects, 0 and .2, se .05: Q = (.1/.05)^2 * 2 = 8, tau^2 = (8 - 1) / (800 - 400) = .0175.
+        r = heterogeneity(np.array([0.0, 0.2]), np.array([0.05, 0.05]))
+        self.assertAlmostEqual(r["cochran_q"], 8.0)
+        self.assertAlmostEqual(r["tau"] ** 2, 0.0175)
+        self.assertAlmostEqual(r["mean"], 0.1)
+
+
+class ListingCheck(unittest.TestCase):
+    def test_usage_counts_only_runs_finished_before_this_one_started(self):
+        runs = [{"run": "a", "called": ["x"]}, {"run": "b", "called": ["y"]}, {"run": "c", "called": []}]
+        clock = {"a": (0, 5), "b": (4, 20), "c": (10, 30)}
+        self.assertEqual(usage_at_start(runs[2], runs, clock, {"z": 2}), {"x": 1, "z": 2})
+
+    def test_the_log_gives_start_and_finish_across_midnight(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            Path(tmp, "batch.log").write_text("23:59:59 r1 ok 9.0s turns=1\n00:00:10 r2 ok 5.0s turns=1\nnot a run line\n")
+            clock, source = run_clock(Path(tmp), [])
+        self.assertEqual(source, "batch.log")
+        self.assertEqual(clock["r1"], (86390.0, 86399))
+        self.assertEqual(clock["r2"], (86405.0, 86410))
+
+    def test_with_no_log_the_order_is_the_manifest(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            clock, source = run_clock(Path(tmp), [{"run": "a"}, {"run": "b"}])
+        self.assertEqual((clock, source), ({"a": (0, 0), "b": (1, 1)}, "manifest order"))
+
+
+class Replay(unittest.TestCase):
+    def test_lists_and_counts_are_compared_and_labels_are_skipped(self):
+        got = numbers({"a": {"estimate": 0.5, "ci": [0.1, 0.9], "per_rule": [0.2], "n": 3, "gate": True}, "rules": ["x"], "cost": {"usd": 9.0}})
+        self.assertEqual(got, {"/a/estimate": 0.5, "/a/ci/0": 0.1, "/a/ci/1": 0.9, "/a/per_rule/0": 0.2, "/a/n": 3})
+        self.assertEqual(describe(got), "1 point estimates, SEs and p-values, 2 interval bounds, 1 per-rule ticks, 1 counts")
+
+    def test_a_changed_bound_or_a_nan_that_became_a_number_is_caught(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp, "r.json")
+            path.write_text(json.dumps({"ci": [0.1, 0.2], "gone": float("nan"), "same": float("nan")}))
+            same, want, wrong = compare_results({"ci": [0.1, 0.25], "gone": 0.3, "same": float("nan")}, path)
+        self.assertEqual((same, len(want), sorted(wrong)), (2, 4, ["/ci/1", "/gone"]))
+
+
+class NumbersPage(unittest.TestCase):
+    def test_a_rate_with_no_runs_prints_as_not_available(self):
+        self.assertEqual(rate(float("nan")), "n/a")
+        self.assertEqual(rate(None), "n/a")
+        self.assertEqual(rate(0.95312), "0.953")
+
+    def test_a_flat_dictionary_prints_rounded_without_braces(self):
+        self.assertEqual(plain({"used": 598, "decoy": 0.007246376811594203}), "used 598, decoy 0.007")
 
 
 if __name__ == "__main__":
