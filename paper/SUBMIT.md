@@ -42,19 +42,19 @@ The filled-in Haiku paragraph has about five lines of room on page 12 before the
 
 Version 1 was deposited on 2 November 2026: DOI `10.5281/zenodo.23896686`, https://zenodo.org/records/23896686, sha256 starting a6ea0e6d99fa2c85. Version 2, the current `paper/because.pdf`, was deposited the same day with wording corrected and no number changed: DOI `10.5281/zenodo.23898121`, https://zenodo.org/records/23898121, sha256 starting 92af56cc162f1856. The concept DOI for all versions is `10.5281/zenodo.23896685`.
 
-These are the fields for a further version. The description is a short plain summary, because the PDF carries the abstract. The live record's description and notes are kept on Zenodo and can differ from these.
+These are the fields for a further version.
 
 - **Resource type:** Publication, preprint
 - **Title:** Because: preregistered randomized tests of what makes a coding agent follow its instructions
 - **Version:** The next number, since 2 is current
 - **Creator:** Mettu, Abhay, ORCID 0009-0001-2434-353X, no affiliation, as on version 1
-- **Description:** We tested common advice for writing instructions to coding agents in four preregistered randomized studies of Claude Code, with outcomes scored by code. Giving a reason came back inconclusive, and no wording feature survives correction on average. For skills, a long description on a never-used skill that sorts after the listing budget is spent doesn't reach the model. Raising the budget brings it back, and that also shows every other skill's description. This is one model, one CLI version and small synthetic repositories. Not peer reviewed.
+- **Description:** Copy it from the current record. It stays a short plain summary, because the PDF carries the abstract.
 - **Publication date:** The day of deposit
 - **Language:** English
 - **License:** CC BY 4.0, as on version 1. The repository's code and data are under MIT (`LICENSE`).
 - **Keywords:** coding agents; instruction files; CLAUDE.md; AGENTS.md; agent skills; preregistration; randomized experiment; instruction following
 - **Related identifier:** Is supplemented by `https://github.com/abhaymettu/because-study`
 - **Related identifier:** Is identical to the arXiv identifier, once one exists
-- **Notes:** Preprint, not peer reviewed. Frozen registrations: PREREG.md, PREREG-STUDY2.md, PREREG-STUDY2B.md and PREREG-STUDY2C.md, at the git tags prereg-study1, prereg-study2, prereg-study2b and prereg-study2c. The git history was rewritten once before public release, as Section 9 of the paper discloses, so the first three tags' hashes changed and, by the author's own check, the registration files' blob hashes did not.
+- **Notes:** Leave empty, as on the current records. Peer-review wording stays in the PDF.
 
 Files to deposit: `because.pdf`. A separate software record for a tagged release of the repository is optional.
