@@ -10,6 +10,7 @@ A preregistered study of what makes Claude Code follow its instructions. If you 
 - `analysis/`: the registered analyses, `study1.py`, `study2.py`, `study2b.py`. Decision tables live in `reading()`, so nobody applies them by hand.
 - `data/<batch>/`: `manifest.jsonl` (the assignment, committed before its runs), `traces/` (what checkers read), `raw/` (Claude Code's stream), `captures/` (sample request bodies).
 - `explorer/`: the page behind each number. `python -m explorer.build --out explorer/dist`.
+- `.github/workflows/site.yml`: every push to `main` runs the tests and the replay, then publishes the explorer to GitHub Pages, so a push to `main` is a publish.
 
 ## Commands
 

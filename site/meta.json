@@ -1,0 +1,28 @@
+{
+  "kind": "project",
+  "title": "because",
+  "gist": "I ran preregistered experiments on what makes Claude Code follow its instructions. In an exploratory comparison, which rule you write and whether you write it at all matter far more than how you word it, and past a fixed budget the skill listing drops long descriptions before the model reads them.",
+  "summary": "Tells you which edits to a CLAUDE.md or a skill description change what Claude Code does, with the data and the checkers to rerun every number.",
+  "repo": "https://github.com/abhaymettu/because",
+  "hero_image": {
+    "light": "docs/hero.png",
+    "alt": "Forest plot of wording effects on compliance, on an axis from -30 to +30 points. All estimates sit within 4.3 points of zero."
+  },
+  "headline_numbers": [
+    {"label": "points of compliance from having a rule at all, exploratory", "value": "+54.2 [+33.1, +75.2]", "command": "make reproduce"},
+    {"label": "points from a real reason against filler, registered reading inconclusive", "value": "+0.2 [-5.2, +5.7]", "command": "make reproduce"},
+    {"label": "points of skill loading from a trigger list over one sentence, description in view", "value": "+17.6 [+6.3, +29.0]", "command": "make reproduce"},
+    {"label": "points from an early name over a late one at 300 skills", "value": "+51.3 [+37.7, +64.8]", "command": "make reproduce"},
+    {"label": "points from a short plain description over a long trigger list at 300 skills", "value": "+29.8 [+19.2, +40.3]", "command": "make reproduce"},
+    {"label": "points from a short trigger over a long trigger list at 50 skills", "value": "+2.1 [-2.5, +6.7]", "command": "make reproduce"}
+  ],
+  "links": [
+    {"label": "Explorer", "href": "https://abhaymettu.github.io/because/"}
+  ],
+  "site": {
+    "eyebrow": "Preregistered experiments · three studies · Claude Code 2.1.303 · MIT",
+    "blurb": "I ran three preregistered experiments on what makes Claude Code follow its instructions. In an exploratory comparison, which rule you write and whether you write it at all matter far more than wording, and past a 30,000 character budget the skill listing drops long descriptions, so a short one beats a long trigger list by 29.8 points at 300 skills. Giving a reason, the question I went in for, reads as inconclusive at +0.2 points [-5.2, +5.7].",
+    "field": "ml",
+    "group": "ml"
+  }
+}

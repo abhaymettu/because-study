@@ -45,6 +45,7 @@ OBS_FACTORS = ("reason", "modal", "prefix", "case", "example", "position")
 LEVELS_2 = {
     "stem": tuple(t["stem"] for t in D2.TARGETS), "wording": D2.WORDINGS, "prefix": D2.NAME_PREFIXES, "prompt": D2.PROMPTS,
 }
+LEVELS_2B = {**LEVELS_2, "wording": D2.FOLLOWUP_WORDINGS, "prompt": D2.FOLLOWUP_PROMPTS}
 
 
 def write(path, doc):
@@ -153,6 +154,8 @@ def study1(batch, results, out, rng):
     at = lambda column, value: LEVELS_1[column].index(value)
     return {
         "results": plain(doc),
+        # Computed on the confirmatory data, so a shuffled development build must not carry it.
+        "exploratory": None if rng else exploratory_1(),
         "rules": [{
             "id": r.id, "text": D1.bare_rule(r), "real": r.real, "example": r.example, "cost": r.cost, "polarity": r.polarity,
             "focal": r.id in FOCAL, "pool": r.id in POOL_FINAL,
@@ -174,6 +177,11 @@ def study1(batch, results, out, rng):
     }
 
 
+def exploratory_1():
+    doc = json.loads((ROOT / "results" / "exploratory.json").read_text())["study1"]
+    return {"having_the_rule": doc["having_the_rule_at_all"]["effect"], "rule_identity": doc["rule_identity"]}
+
+
 def bundle_1(batch, row, rec, verdict):
     trace = trace_doc(batch, row["run_id"])["trace"]
     text, depth, _ = D1.render_file(row)
@@ -189,7 +197,8 @@ def bundle_1(batch, row, rec, verdict):
     }
 
 
-def study2(batch, results, out, rng):
+def study2(batch, results, out, rng, levels=LEVELS_2):
+    """Study 2 and its follow-up share a trace format and a run sheet, so only their levels differ."""
     if not rng and not results.exists():
         return None
     rows, counts = A2.load(batch)
@@ -207,7 +216,7 @@ def study2(batch, results, out, rng):
         doc = json.loads(results.read_text())
 
     planned, table = manifest(batch), []
-    at = lambda column, value: LEVELS_2[column].index(value)
+    at = lambda column, value: levels[column].index(value)
     for r in rows:
         row, source = planned[r["run"]], trace_doc(batch, r["run"])
         name = D2.target_name(row)
@@ -228,10 +237,10 @@ def study2(batch, results, out, rng):
     return {
         "results": plain(doc),
         "targets": [{
-            "stem": t["stem"], "wordings": {w: D2.description(t, w) for w in D2.WORDINGS}, "prompts": {p: t[p] for p in D2.PROMPTS},
+            "stem": t["stem"], "wordings": {w: D2.description(t, w) for w in levels["wording"]}, "prompts": {p: t[p] for p in levels["prompt"]},
         } for t in D2.TARGETS],
         "checker": f"{SOURCE}analysis/study2.py#L{inspect.getsourcelines(A2.loaded)[1]}",
-        "levels": LEVELS_2,
+        "levels": levels,
         "runCols": ["id", "stem", "wording", "library", "prefix", "prompt", "loaded", "described", "turns"],
         "runs": table,
     }
@@ -246,9 +255,11 @@ def build(out, dev):
         warnings.simplefilter("ignore", RuntimeWarning)  # empty cells on thin pilots become NaN, then null, then "n/a"
         one = study1(ROOT / "data" / ("p5" if dev else "study1"), ROOT / "results" / "study1.json", out, rng)
         two = study2(ROOT / "data" / ("s2pilot" if dev else "study2"), ROOT / "results" / "study2.json", out, rng)
-    write(out / "data" / "summary.json", {"dev": dev, "study1": one, "study2": two})
+        # Study 2b has no pilot to shuffle, so a development build leaves it out.
+        follow = None if dev else study2(ROOT / "data" / "study2b", ROOT / "results" / "study2b.json", out, None, LEVELS_2B)
+    write(out / "data" / "summary.json", {"dev": dev, "study1": one, "study2": two, "study2b": follow})
     shutil.copy(Path(__file__).parent / "index.html", out / "index.html")
-    return one, two
+    return one, two, follow
 
 
 def main():
@@ -257,9 +268,10 @@ def main():
     p.add_argument("--dev", action="store_true", help="pilots with outcomes shuffled; safe while batches are blind")
     a = p.parse_args()
     start = time.time()
-    one, two = build(a.out, a.dev)
+    one, two, follow = build(a.out, a.dev)
     size = sum(f.stat().st_size for f in a.out.rglob("*") if f.is_file())
-    blind = [name for name, s in (("Study 1", one), ("Study 2", two)) if s is None]
+    studies = [("Study 1", one), ("Study 2", two)] + ([] if a.dev else [("Study 2b", follow)])
+    blind = [name for name, s in studies if s is None]
     print(f"{len(list((a.out / 'runs').iterdir()))} run bundles, {size / 1e6:.1f} MB, {time.time() - start:.1f} s")
     if blind:
         print(f"no registered results yet, left out unread: {', '.join(blind)}")

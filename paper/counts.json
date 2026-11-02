@@ -1,0 +1,66 @@
+{
+  "study2": {
+    "non_decoy_runs": 460,
+    "decoy_runs": 138,
+    "false_loads_all_decoy": 1,
+    "false_load_cells": [
+      {
+        "wording": "minimal",
+        "library": 0,
+        "prefix": "zz"
+      }
+    ],
+    "visible_non_decoy": {
+      "directive": {
+        "loads": 72,
+        "runs": 72
+      },
+      "minimal": {
+        "loads": 56,
+        "runs": 68
+      },
+      "padded": {
+        "loads": 59,
+        "runs": 80
+      },
+      "trigger": {
+        "loads": 65,
+        "runs": 65
+      },
+      "trigger_not": {
+        "loads": 61,
+        "runs": 61
+      }
+    },
+    "visible_decoy": {
+      "directive": {
+        "loads": 0,
+        "runs": 10
+      },
+      "minimal": {
+        "loads": 1,
+        "runs": 24
+      },
+      "padded": {
+        "loads": 0,
+        "runs": 27
+      },
+      "trigger": {
+        "loads": 0,
+        "runs": 24
+      },
+      "trigger_not": {
+        "loads": 0,
+        "runs": 18
+      }
+    },
+    "leak_needles": {
+      "agent-memory/": 2
+    }
+  },
+  "study2b": {
+    "leak_needles": {
+      "agent-memory/": 1
+    }
+  }
+}

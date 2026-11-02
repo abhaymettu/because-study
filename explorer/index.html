@@ -98,7 +98,16 @@ main { padding: 0 clamp(16px, 3.4vw, 48px) 4rem; }
   font-size: 1.5rem; line-height: 1.24; font-weight: 500; letter-spacing: -.017em; max-width: 34em;
 }
 .reading::first-letter { text-transform: uppercase; }
-.lead .sm { max-width: 42rem; margin-top: .75rem; }
+.reading.second { font-size: 1.25rem; line-height: 1.3; letter-spacing: -.012em; }
+.lead .sm { max-width: 42rem; margin-top: .75rem; text-wrap: pretty; }
+.top .links { margin-top: .1875rem; }
+.why { max-width: 42rem; margin-top: .625rem; font-size: 1.0625rem; line-height: 1.45; letter-spacing: -.006em; }
+.extra { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.75rem; max-width: 46rem; margin-top: 1.25rem; }
+.extra > div { border-top: 1px solid var(--line2); padding-top: .5rem; }
+.extra dt { color: var(--ink2); font-size: .8125rem; line-height: 1.45; letter-spacing: .002em; }
+.extra .fig { margin-top: .125rem; font-size: 1.1875rem; line-height: 1.3; font-weight: 600; letter-spacing: -.011em; }
+.extra .sub { color: var(--ink2); font-size: .8125rem; line-height: 1.45; letter-spacing: .002em; }
+#s2b { margin-top: 2.5rem; border-top: 1px solid var(--line2); }
 .wide { min-width: 0; max-width: 920px; }
 @media (min-width: 1240px) {
   main { margin-left: max(0px, calc((100vw - 1440px) / 2)); }
@@ -119,7 +128,7 @@ main { padding: 0 clamp(16px, 3.4vw, 48px) 4rem; }
 .axis .nums { font-size: .75rem; line-height: 1.2; }
 .grp { padding: 1rem .5rem .3125rem; color: var(--ink2); font-size: .75rem; line-height: 1.4; letter-spacing: .006em; }
 a.row { color: inherit; text-decoration: none; min-height: 2.125rem; --halo: var(--bg); border-radius: 3px; }
-a.row .lbl { font-size: .875rem; line-height: 1.25; padding: .3125rem 0; }
+a.row .lbl { font-size: .875rem; line-height: 1.25; padding: .3125rem 0; text-wrap: balance; }
 a.row:active { background: var(--tint2); }
 a.row[aria-current="true"] { background: var(--tint); box-shadow: inset 2px 0 0 var(--ink); --halo: var(--tint); }
 a.row[aria-current="true"] .lbl { font-weight: 600; letter-spacing: -.006em; }
@@ -132,6 +141,7 @@ a.row[aria-current="true"] .t { background: var(--ink3); }
 .trk .ci { top: 50%; height: 2px; margin-top: -1px; background: var(--accent); }
 .trk .d { top: 50%; width: .6875rem; height: .6875rem; margin: -.34375rem; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 2px var(--halo); }
 .trk .none { position: absolute; left: 50%; top: 50%; transform: translateY(-50%); padding-left: .5rem; color: var(--ink3); font-size: .75rem; white-space: nowrap; }
+.flag { grid-column: 1 / -1; padding-bottom: .375rem; color: var(--ink2); font-size: .75rem; line-height: 1.4; letter-spacing: .006em; }
 .key { display: inline-block; vertical-align: middle; margin-right: .1875rem; }
 .key.dot { width: .625rem; height: .625rem; border-radius: 50%; background: var(--accent); }
 .key.line { width: 1rem; height: 2px; background: var(--accent); }
@@ -175,6 +185,8 @@ a.row[aria-current="true"] .t { background: var(--ink3); }
 .fold[aria-expanded="true"]::before, [open] > summary::before { transform: rotate(45deg); }
 .ramp { display: flex; gap: 2px; margin-top: .625rem; }
 .ramp span { flex: 1; text-align: center; padding: .1875rem 0; font-size: .6875rem; border-radius: 2px; }
+.mx.two { max-width: 40rem; }
+.mx.two th.rl { min-width: 6rem; }
 .gridgroup + .gridgroup { margin-top: 1.75rem; }
 .gridgroup h3 { margin: 0 0 .25rem; }
 
@@ -274,7 +286,6 @@ pre { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; font-size: .75r
 .vlist .where { flex: none; color: var(--ink3); font-size: .75rem; }
 .facts { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: .375rem 1rem; font-size: .875rem; }
 .facts dt { color: var(--ink2); }
-.foot-note { color: var(--ink3); padding: 0 clamp(16px, 3.4vw, 48px) 2.5rem; font-size: .75rem; letter-spacing: .006em; }
 
 @media (hover: hover) and (pointer: fine) {
   .btn:hover, .seg > :not([aria-current="true"]):not([aria-pressed="true"]):hover { background: var(--tint); }
@@ -303,6 +314,11 @@ pre { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; font-size: .75r
   .ticks, .trk { margin-inline: .75rem; }
   .sec { padding-top: 2rem; }
   .reading { font-size: 1.3125rem; letter-spacing: -.014em; }
+  .reading.second { font-size: 1.125rem; }
+  .why { font-size: 1rem; }
+  .extra { grid-template-columns: minmax(0, 1fr); gap: 1rem; }
+  .mx.two th.rl { min-width: 4.25rem; max-width: 4.25rem; }
+  .mx.two thead th { min-width: 0; }
   .axis { grid-template-columns: minmax(0, 1fr); }
   .axis > :not(.ticks) { display: none; }
   a.row { grid-template-columns: minmax(0, 1fr); padding-top: .4375rem; padding-bottom: .375rem; row-gap: .1875rem; }
@@ -331,15 +347,16 @@ pre { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; font-size: .75r
 <body>
 <div id="dev" class="dev" hidden></div>
 <header class="top">
-  <div class="brand"><strong>Because</strong> <span class="sm muted">A preregistered randomized study of what makes Claude Code follow its instructions.</span></div>
+  <div class="brand"><strong>Because</strong> <span class="sm muted">A preregistered randomized study of what makes Claude Code follow its instructions.</span>
+    <p class="sm links"><a href="https://github.com/abhaymettu/because">Repository</a>. Preregistrations: <a href="https://github.com/abhaymettu/because/blob/prereg-study1/PREREG.md">Study 1</a>, <a href="https://github.com/abhaymettu/because/blob/prereg-study2/PREREG-STUDY2.md">Study 2</a>, <a href="https://github.com/abhaymettu/because/blob/prereg-study2b/PREREG-STUDY2B.md">Study 2b</a>. <a href="https://github.com/abhaymettu/because/blob/main/docs/DEVIATIONS.md">Deviations log</a>.</p>
+  </div>
   <nav class="seg" aria-label="Study">
     <a id="v1" href="#s1">Study 1, instruction wording</a>
-    <a id="v2" href="#s2">Study 2, skill loading</a>
+    <a id="v2" href="#s2">Study 2 and 2b, skill loading</a>
   </nav>
   <button id="theme" class="btn" type="button"></button>
 </header>
 <main id="main"><p class="sec muted" id="boot">Loading the study data.</p></main>
-<p class="foot-note">Rules, checkers and analysis code are in the <a href="https://github.com/abhaymettu/because">repository</a>.</p>
 
 <div id="scrim" class="scrim"></div>
 <aside id="list" class="sheet" role="dialog" aria-labelledby="lt">
@@ -387,7 +404,7 @@ let D;
 const PANES = { told: 1, did: 1, checker: 1 };
 const route = () => {
   const part = location.hash.slice(1).split('/').map(x => { try { return decodeURIComponent(x); } catch { return x; } });
-  const view = part[0] === 's2' ? 's2' : 's1', rows = STUDY[view].rows, blind = !STUDY[view].doc();
+  const view = part[0] === 's2' ? 's2' : 's1', rows = [...STUDY[view].rows, ...(STUDY[view].follow?.rows ?? [])], blind = !STUDY[view].doc();
   return {
     view, contrast: rows.some(c => c.k === part[1]) ? part[1] : rows[0].k,
     row: blind ? undefined : part[2], col: blind ? undefined : part[3], run: blind ? undefined : part[4], pane: PANES[part[5]] ? part[5] : 'told',
@@ -398,6 +415,9 @@ const link = (s, over = {}) => {
   return '#' + [o.view, o.contrast, o.row, o.col, o.run, o.run && o.pane !== 'told' && o.pane].filter(Boolean).map(encodeURIComponent).join('/');
 };
 const parent = s => s.run ? link(s, { run: null, pane: 'told' }) : s.col ? link(s, { row: null, col: null }) : null;
+/* One route slot serves both families in a view, so the family it does not name shows its first contrast. */
+const chosen = (study, s) => study.rows.find(c => c.k === s.contrast) ?? study.rows[0];
+const inFollow = s => !!STUDY[s.view]?.follow?.rows.some(c => c.k === s.contrast);
 
 /* Effects plot, shared by both studies */
 function plot(study) {
@@ -418,10 +438,12 @@ function plot(study) {
       (interval ? `<i class="ci" style="left:${x(r.ci[0])}%;width:${x(r.ci[1]) - x(r.ci[0])}%"></i>` : '') +
       `<i class="d" style="left:${x(est)}%"></i>`;
     const said = est == null ? 'not estimable' : `estimate ${pts(est)} points${interval ? `, interval ${pts(r.ci[0])} to ${pts(r.ci[1])}` : ''}`;
+    const flag = interval && r.ci[0] === r.ci[1] ? study.flat?.(c) : null;
     return `<a class="row" href="#${study.key}/${encodeURIComponent(c.k)}" data-k="${esc(c.k)}">
       <span class="lbl">${esc(c.l)}</span>
       <span class="trk" role="img" aria-label="${esc(said)}">${track}</span>
       <span class="nums"><b>${pts(est)}</b><span><span class="k">95% </span>${interval ? `${pts(r.ci[0])} to ${pts(r.ci[1])}` : 'n/a'}</span><span><span class="k">${r?.p_holm != null ? 'Holm p ' : 'p '}</span>${interval ? pval(r.p_holm ?? r.p) : 'n/a'}</span></span>
+      ${flag ? `<span class="flag">${esc(flag)}</span>` : ''}
     </a>`;
   };
   return `<div class="plot">
@@ -433,12 +455,13 @@ function plot(study) {
   </div>`;
 }
 
-function cell(s, row, col, items, y, name, cmp = '') {
+function cell(s, row, col, items, y, name, cmp = '', extra = '') {
   const n = items?.length ?? 0;
   if (!n) return `<td><button class="c ${cmp}" type="button" disabled aria-label="${esc(name)}, no runs"><small>n 0</small></button></td>`;
   const p = rate(items, y);
-  return `<td><button class="c ${ramp(p)} ${cmp}" type="button" data-go="${esc(link(s, { row, col, run: null }))}" data-cell="${esc(`${row}/${col}`)}" aria-label="${esc(name)}, ${Math.round(p * 100)} percent of ${n} runs"><b>${Math.round(p * 100)}%</b><small>n ${n}</small></button></td>`;
+  return `<td><button class="c ${ramp(p)} ${cmp}" type="button" data-go="${esc(link(s, { row, col, run: null }))}" data-cell="${esc(`${row}/${col}`)}" aria-label="${esc(name)}, ${Math.round(p * 100)} percent of ${n} runs${extra ? `, ${esc(extra)}` : ''}"><b>${Math.round(p * 100)}%</b><small>n ${n}</small>${extra ? `<small>${esc(extra)}</small>` : ''}</button></td>`;
 }
+const plotSection = study => `<section class="sec"><div class="wide"><h2>${study.plotTitle}</h2>${plot(study)}</div><p class="note">${study.noteFor()}</p></section>`;
 
 /* Study 1 */
 const FACTOR = {
@@ -487,10 +510,22 @@ const S1 = {
   doc: () => D.study1,
   result(k) { const r = D.study1.results; return { ...r.family_2, ...r.confirmatory, real_minus_placebo: r.real_minus_placebo }[k]; },
   lead() {
-    const { results: r, fixed: f } = D.study1, c = r.positive_control, x = r.runs;
+    const { results: r, fixed: f, exploratory: e, rules } = D.study1, c = r.positive_control, x = r.runs;
     const lost = [['missing', x.missing], ['error', x.error], ['flagged by the leak scan', x.leak]].filter(e => e[1]).map(e => `${e[1]} ${e[0]}`);
+    const { real_vs_filler: real, placebo_vs_filler: placebo } = r.confirmatory;
+    const missed = [['real reason', real], ['placebo', placebo]].filter(([, q]) => q.ci[1] >= 0.05).map(([who, q]) => `the ${who} missed at ${(q.ci[1] * 100).toFixed(1)}`);
+    const named = v => esc(rules.find(q => e.rule_identity.shown[q.id] === v)?.text);
     return `<section class="sec lead"><div class="wide">
       <p class="reading">${esc(r.reading)}.</p>
+      <p class="why">Compared with a filler clause, a real reason changed compliance by ${pts(real.estimate)} points (95% interval ${pts(real.ci[0])} to ${pts(real.ci[1])}) and a placebo by ${pts(placebo.estimate)} points (${pts(placebo.ci[0])} to ${pts(placebo.ci[1])}), and the registered bar for saying a reason clause does not help was an upper bound under 5 points, which ${missed.join(' and ') || 'both cleared'}.</p>
+      ${e ? `<dl class="extra">
+        <div><dt>Exploratory. Having the rule at all, shown minus no rule.</dt>
+          <dd class="fig">${pts(e.having_the_rule.estimate)} points</dd>
+          <dd class="sub">95% interval ${pts(e.having_the_rule.ci[0])} to ${pts(e.having_the_rule.ci[1])}, across the ${Object.keys(e.rule_identity.shown).length} focal rules.</dd></div>
+        <div><dt>Exploratory. Range of compliance across rules.</dt>
+          <dd class="fig">${pct(e.rule_identity.lowest)} to ${pct(e.rule_identity.highest)}</dd>
+          <dd class="sub">Lowest: ${named(e.rule_identity.lowest)} Highest: ${named(e.rule_identity.highest)}</dd></div>
+      </dl>` : ''}
       <p class="sm">${int(x.used)} runs, ${int(r.observations)} focal observations. Positive control, named in the prompt ${pct(c.named_in_prompt)} (n ${int(c.n_named)}) versus no rule ${pct(c.no_rule)} (n ${int(c.n_no_rule)}).${lost.length ? ` Not used: ${lost.join(', ')}.` : ''}${x.timeout + x.max_turns ? ` Used, though cut short: ${x.timeout} timed out, ${x.max_turns} hit the turn limit.` : ''}</p>
     </div>
     <p class="note">Held fixed in every run: ${esc(r.cost.models.join(', '))} at medium effort, Claude Code ${esc(r.cost.cli.join(', '))}, the tools ${esc(f.tools.join(', '))}, and one of ${f.tasks} coding tasks. Each CLAUDE.md shows ${f.k} of ${f.pool} rules among ${f.fillers[0]} or ${f.fillers[1]} filler rules, with every wording factor drawn independently for each rule in each run.</p></section>`;
@@ -582,7 +617,7 @@ const diffHtml = text => !text ? '<p class="sm muted">No changes against the bas
 
 /* Study 2 */
 const LIBRARIES = [0, 50, 300], PREFIXES = ['aa', 'zz'];
-const WORD = { minimal: 'minimal', padded: 'padded', trigger: 'trigger', trigger_not: 'trigger, not for', directive: 'directive' };
+const WORD = { minimal: 'minimal', padded: 'padded', trigger: 'trigger', trigger_not: 'trigger, not for', directive: 'directive', short_trigger: 'short trigger' };
 const visible = (l, p) => l < 300 || p === 'aa';
 const is = w => (l, p, x) => x === w;
 const both = (where, what) => (l, p, x) => where(l, p, x) && what(l, p, x);
@@ -593,8 +628,50 @@ const GRID = {
   false: { title: 'False loads on decoy prompts', note: 'The skill does not fit a decoy prompt, so a load here is a false load.', keep: r => r.prompt === 'decoy', y: r => r.loaded, words: ['Loaded', 'Not loaded'] },
   reach: { title: 'Runs whose description reached the model', note: 'All prompts. Past the listing budget a skill keeps only its name.', keep: r => r.described != null, y: r => r.described, words: ['Reached', 'Did not reach'] },
 };
+const SHEET = { ...GRID, b: { title: 'Study 2b, load rate', y: r => r.loaded, words: ['Loaded', 'Not loaded'], reach: true } };
+const arm = (library, word) => (l, x) => l === library && x === word;
+const S2B = {
+  key: 's2',
+  rows: [
+    { g: 0, k: 'D1_minimal_vs_trigger_at_300', l: 'D1, minimal vs trigger at 300 skills', a: arm(300, 'minimal'), b: arm(300, 'trigger'), read: 'minimal against trigger at 300 skills' },
+    { g: 0, k: 'D2_short_trigger_vs_trigger_at_300', l: 'D2, short trigger vs trigger at 300 skills', a: arm(300, 'short_trigger'), b: arm(300, 'trigger'), read: 'short trigger against trigger at 300 skills' },
+    { g: 0, k: 'D3_short_trigger_vs_minimal_at_300', l: 'D3, short trigger vs minimal at 300 skills', a: arm(300, 'short_trigger'), b: arm(300, 'minimal'), read: 'short trigger against minimal at 300 skills' },
+    { g: 0, k: 'D4_short_trigger_vs_trigger_at_50', l: 'D4, short trigger vs trigger at 50 skills', a: arm(50, 'short_trigger'), b: arm(50, 'trigger'), read: 'short trigger against trigger at 50 skills, below the budget' },
+  ],
+  groups: ['The registered family of four, Holm adjusted together. Each contrast is the per target difference, averaged with equal weight.'],
+  plotTitle: 'Study 2b effects on loading, in points',
+  doc: () => D.study2b,
+  result: k => D.study2b.results.family[k],
+  lead() {
+    const r = D.study2b.results, x = r.runs;
+    const lost = [[x.missing, 'never ran because the batch reached its registered quota stop'], [x.error, 'lost to an error'], [x.leak, 'flagged by the leak scan']].filter(e => e[0]).map(e => `${e[0]} ${e[1]}`);
+    return `<section class="sec lead" id="s2b"><div class="wide"><h2>Study 2b, past the listing budget</h2>
+      <p class="reading second">${esc(r.reading)}.</p>
+      <p class="sm">${int(x.used)} of ${int(x.used + x.missing + x.error + x.leak)} planned runs used.${lost.length ? ` Not used: ${lost.join(', ')}.` : ''} Every target name sorts late, and the only prompts are ones that want the skill. Library and wording were assigned. Whether the description reached the model was recorded, not assigned.</p>
+    </div></section>`;
+  },
+  noteFor: () => S2.noteFor(),
+  detail(s) {
+    const c = chosen(S2B, s), words = D.study2b.levels.wording;
+    const rows = [50, 300].map(l => `<tr><th scope="row" class="rl">${l} skills</th>${words.map(w => {
+      const items = D.study2.cells.get(`b.${l}/${w}`);
+      return cell(s, `b.${l}`, w, items, r => r.loaded, `${l} skills, ${WORD[w]}`, c.a(l, w) ? 'cmp-a' : c.b(l, w) ? 'cmp-b' : '', items ? `reached ${pct(rate(items, r => r.described))}` : '');
+    }).join('')}</tr>`).join('');
+    return `<div class="wide"><h2>By library and wording</h2>
+      <p class="sm" style="margin-bottom:.75rem">${esc(c.l.split(',')[0])} compares ${esc(c.read)}. <span aria-hidden="true">Solid outlines</span> mark the first side, dashed outlines the second.</p>
+      <div class="scroll"><table class="mx two"><thead><tr><th class="rl" scope="col"></th>${words.map(w => `<th scope="col">${WORD[w]}</th>`).join('')}</tr></thead><tbody>${rows}</tbody></table></div>
+      <p class="note" style="margin-top:.875rem">These are plain means computed in your browser. The plot's estimates are per target differences, so they will differ a little from these raw means.</p></div>
+      <div class="note"><p>Each cell prints the load rate, its n, and the share of its runs where the description reached the model. Darker in light mode and lighter in dark mode means a higher load rate. Open a cell to read the runs behind it.</p>${RAMP_KEY}</div>`;
+  },
+};
 const S2 = {
   key: 's2',
+  follow: S2B,
+  flat(c) {
+    const G = GRID[c.grid], side = pick => rate(D.study2.runs.filter(r => G.keep(r) && pick(r.library, r.prefix, r.wording)), G.y);
+    const a = side(c.a), b = side(c.b);
+    return a === b && (a === 0 || a === 1) ? `Both arms sat at ${pct(a)}, a ${a ? 'ceiling' : 'floor'}, so this zero-width interval is no measurement of no effect.` : null;
+  },
   rows: [
     { g: 0, k: 'C1_trigger_vs_minimal_visible', l: 'C1, trigger vs minimal, description visible', grid: 'load', a: both(visible, is('trigger')), b: both(visible, is('minimal')), read: 'trigger against minimal, where the description is visible' },
     { g: 0, k: 'C2_directive_vs_trigger_visible', l: 'C2, directive vs trigger, description visible', grid: 'load', a: both(visible, is('directive')), b: both(visible, is('trigger')), read: 'directive against trigger, where the description is visible' },
@@ -610,12 +687,12 @@ const S2 = {
     const r = D.study2.results, x = r.runs, by = Object.entries(r.by_prompt ?? {});
     return `<section class="sec lead"><div class="wide">
       <p class="reading">Does a skill's description decide whether it loads, and when can it no longer matter?</p>
-      <p class="sm">${int(x.used)} runs. Claude Code lists skills alphabetically within a character budget, and past that budget a skill keeps only its name, so the target's place in the alphabet is randomized along with its wording.${by.length ? ` Load rate by prompt type: ${by.map(([k, v]) => `${esc(k)} ${pct(v)}`).join(', ')}.` : ''}</p>
+      <p class="sm">${int(x.used)} runs. Claude Code lists skills alphabetically within a character budget, and past that budget a skill keeps only its name, so the target's place in the alphabet is randomized along with its wording.${by.length ? ` Load rate by prompt type: ${by.map(([k, v]) => `${esc(k)} ${pct(v)}`).join(', ')}.` : ''}${D.study2b ? ` <a href="#s2/${S2B.rows[0].k}">Study 2b</a> follows up on what happens past the budget.` : ''}</p>
     </div></section>`;
   },
   noteFor: () => `<span class="key dot"></span> the estimate. <span class="key line"></span> its 95 percent interval across targets. <span class="key tick"></span> the targets one by one. Select a row to mark the cells it compares.`,
   detail(s) {
-    const c = S2.rows.find(x => x.k === s.contrast), m = D.study2.cells;
+    const c = chosen(S2, s), m = D.study2.cells;
     const table = g => {
       const G = GRID[g];
       const hasAny = D.study2.runs.some(G.keep);
@@ -633,18 +710,21 @@ const S2 = {
       <div class="note"><p>Darker in light mode and lighter in dark mode means a higher rate. Every cell prints its percent and its n, and an empty cell has no runs.</p>${RAMP_KEY}</div>`;
   },
   arms() {
+    const short = new Map(D.study2b?.targets.map(t => [t.stem, t.wordings.short_trigger]));
     return `<div class="wide"><h2>The arms</h2>
-      <p class="sm" style="margin-bottom:.75rem">${D.study2.targets.length} targets, each with five description wordings and four prompts. The wordings are exact.</p>
-      ${D.study2.targets.map(t => `<div class="target">${fold(esc(t.stem), `<dl>${Object.entries(t.wordings).map(([k, v]) => `<dt>${esc(WORD[k])}</dt><dd>${esc(v)}</dd>`).join('')}${Object.entries(t.prompts).map(([k, v]) => `<dt>${esc(k)} prompt</dt><dd>${esc(v)}</dd>`).join('')}</dl>`, '')}</div>`).join('')}</div>`;
+      <p class="sm" style="margin-bottom:.75rem">${D.study2.targets.length} targets, each with five description wordings and four prompts.${short.size ? ' Study 2b uses minimal, trigger and one more, short trigger, and no decoy prompt.' : ''} The wordings are exact.</p>
+      ${D.study2.targets.map(t => `<div class="target">${fold(esc(t.stem), `<dl>${Object.entries(t.wordings).map(([k, v]) => `<dt>${esc(WORD[k])}</dt><dd>${esc(v)}</dd>`).join('')}${short.has(t.stem) ? `<dt>${WORD.short_trigger}, Study 2b only</dt><dd>${esc(short.get(t.stem))}</dd>` : ''}${Object.entries(t.prompts).map(([k, v]) => `<dt>${esc(k)} prompt</dt><dd>${esc(v)}</dd>`).join('')}</dl>`, '')}</div>`).join('')}</div>`;
   },
   cell(s) {
     const [g, l, p] = String(s.row).split('.');
-    const G = GRID[g];
+    const G = SHEET[g];
     if (!G) return null;
+    const items = D.study2.cells.get(`${s.row}/${s.col}`) ?? [];
     return {
-      title: `${l} skills, ${p} name, ${WORD[s.col] ?? s.col} wording`, sub: G.title + '.', words: G.words,
-      items: (D.study2.cells.get(`${g}.${l}.${p}/${s.col}`) ?? []).map(r => ({
-        id: r.id, ok: !!G.y(r), meta: `${r.stem}, ${r.prompt} prompt, ${r.turns} turns`,
+      title: `${l} skills, ${p ? `${p} name, ` : ''}${WORD[s.col] ?? s.col} wording`, sub: G.title + '.', words: G.words,
+      after: G.reach && items.length ? `The description reached the model in ${pct(rate(items, r => r.described))} of them.` : '',
+      items: items.map(r => ({
+        id: r.id, ok: !!G.y(r), meta: `${r.stem}, ${r.prompt} prompt, ${r.turns} turns${G.reach ? `, description ${r.described ? 'reached the model' : 'did not reach the model'}` : ''}`,
       })),
     };
   },
@@ -669,6 +749,8 @@ const STUDY = { s1: S1, s2: S2 };
 
 /* What it did */
 const SUMMARY_KEYS = ['command', 'file_path', 'pattern', 'skill', 'path'];
+/* The run's working directory opens every call and would push the file name off a phone screen. Only this label drops it; the open step stays verbatim. */
+const label = text => text.replace(/^cd \S*\/wk\/[0-9a-f]{10}\/\S+?\s*(?:&&|;)\s*/, '').replace(/\/(?:private\/)?tmp\/wk\/[0-9a-f]{10}\/[^/\s'";&|]+\/?/g, '') || text;
 const STEP = {
   text: x => `<div class="say">${esc(x.text)}</div>`,
   thinking: x => fold('Thinking', `<div class="say muted">${esc(x.text)}</div>`),
@@ -676,7 +758,7 @@ const STEP = {
   result: x => x.of == null ? fold('Tool result', `<pre class="res">${esc(x.text)}</pre>`) : '',
   call(x, res) {
     const key = SUMMARY_KEYS.find(k => x.input[k] != null);
-    const line = String(key ? x.input[key] : JSON.stringify(x.input)).split('\n')[0];
+    const line = label(String(key ? x.input[key] : JSON.stringify(x.input)).split('\n')[0]);
     const inputs = Object.entries(x.input).map(([k, v]) => `<div class="k">${esc(k)}</div><pre>${esc(typeof v === 'string' ? v : JSON.stringify(v, null, 1))}</pre>`).join('');
     const result = res ? `<div class="k">result${res.error ? ', an error' : ''}</div><pre class="res">${esc(res.text) || 'Empty.'}</pre>` : '<div class="k">no result recorded</div>';
     return fold(`<span class="tool">${esc(x.name)}</span><code>${esc(line)}</code>${res?.error ? '<span class="err">error</span>' : ''}`, inputs + result, 'call');
@@ -704,16 +786,20 @@ function paintView(s) {
     main.innerHTML = `<section class="sec"><p class="reading">${s.view === 's1' ? 'Study 1' : 'Study 2'} is still running.</p><p class="sm" style="margin-top:.75rem">The preregistration rules out interim contrasts, so this page shows nothing from a study until its registered analysis has been run.</p></section>`;
     return;
   }
-  main.innerHTML = `${study.lead()}
-    <section class="sec"><div class="wide"><h2>${study.plotTitle}</h2>${plot(study)}</div><p class="note">${study.noteFor()}</p></section>
+  const follow = study.follow?.doc() ? study.follow : null;
+  main.innerHTML = `${study.lead()}${plotSection(study)}
     <section class="sec" id="detail"></section>
+    ${follow ? `${follow.lead()}${plotSection(follow)}<section class="sec" id="detail-b"></section>` : ''}
     <section class="sec" id="arms">${study.arms()}</section>`;
 }
 function paintContrast(s) {
   const study = STUDY[s.view];
   if (!study.doc()) return;
-  $$('a.row').forEach(a => a.setAttribute('aria-current', a.dataset.k === s.contrast));
+  const follow = study.follow?.doc() ? study.follow : null;
+  const on = [chosen(study, s).k, follow && chosen(follow, s).k];
+  $$('a.row').forEach(a => a.setAttribute('aria-current', on.includes(a.dataset.k)));
   $('#detail').innerHTML = study.detail(s);
+  if (follow) $('#detail-b').innerHTML = follow.detail(s);
 }
 function paintCellMark(s) {
   $$('.c[aria-pressed]').forEach(b => b.removeAttribute('aria-pressed'));
@@ -740,7 +826,7 @@ function paintList(s) {
     $('#lb').scrollTop = 0;
     $('#lt').textContent = c ? c.title : 'This cell does not exist';
     const items = c?.items ?? [], n = items.length, yes = items.filter(i => i.ok).length, words = c?.words ?? STUDY[s.view].words ?? ['Yes', 'No'];
-    $('#ls').textContent = c ? `${c.sub} ${n ? `${Math.round(yes / n * 100)}% of ${n} runs.` : ''}` : '';
+    $('#ls').textContent = c ? `${c.sub} ${n ? `${Math.round(yes / n * 100)}% of ${n} runs.` : ''} ${c.after ?? ''}` : '';
     $('#lf').innerHTML = [['all', 'All', n, ''], ['yes', words[0], yes, mark(true)], ['no', words[1], n - yes, mark(false)]]
       .map(([f, word, count, m]) => `<button type="button" data-filter="${f}">${m}${esc(word)} ${count}</button>`).join('');
     if (c) paintRows(s, c); else $('#lb').innerHTML = '<p class="empty">No runs match this link.</p>';
@@ -791,6 +877,7 @@ function render() {
   const s = route();
   if (s.view !== prev.view) { paintView(s); if (prev.view) scrollTo(0, 0); }
   if (s.view !== prev.view || s.contrast !== prev.contrast) paintContrast(s);
+  if (inFollow(s) && (s.view !== prev.view || !inFollow(prev))) $('#s2b')?.scrollIntoView();
   paintList(s);
   paintCellMark(s);
   paintRun(s);
@@ -856,6 +943,15 @@ function prepare(doc) {
     for (const r of two.runs) for (const g in GRID) if (GRID[g].keep(r)) {
       const k = `${g}.${r.library}.${r.prefix}/${r.wording}`;
       (two.cells.get(k) ?? two.cells.set(k, []).get(k)).push(r);
+    }
+    if (doc.study2b) {
+      const follow = doc.study2b;
+      follow.runs = decode(follow.runCols, follow.runs, follow.levels);
+      for (const r of follow.runs) {
+        two.byId.set(r.id, r);
+        const k = `b.${r.library}/${r.wording}`;
+        (two.cells.get(k) ?? two.cells.set(k, []).get(k)).push(r);
+      }
     }
   }
   return doc;

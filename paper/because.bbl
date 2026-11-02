@@ -1,0 +1,138 @@
+\begin{thebibliography}{19}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Clark(1973)]{clark1973}
+Herbert~H. Clark.
+\newblock The language-as-fixed-effect fallacy: A critique of language
+  statistics in psychological research.
+\newblock \emph{Journal of Verbal Learning and Verbal Behavior}, 12\penalty0
+  (4):\penalty0 335 to 359, 1973.
+\newblock \doi{10.1016/S0022-5371(73)80014-3}.
+
+\bibitem[Folkes(1985)]{folkes1985}
+Valerie~S. Folkes.
+\newblock Mindlessness or mindfulness: A partial replication and extension of
+  {Langer}, {Blank}, and {Chanowitz}.
+\newblock \emph{Journal of Personality and Social Psychology}, 48\penalty0
+  (3):\penalty0 600 to 604, 1985.
+\newblock \doi{10.1037/0022-3514.48.3.600}.
+
+\bibitem[Holm(1979)]{holm1979}
+Sture Holm.
+\newblock A simple sequentially rejective multiple test procedure.
+\newblock \emph{Scandinavian Journal of Statistics}, 6:\penalty0 65 to 70,
+  1979.
+\newblock \doi{10.2307/4615733}.
+
+\bibitem[{Inferal}()]{inferal}
+{Inferal}.
+\newblock Why {AI} agents ignore your instructions.
+\newblock Blog post, undated,
+  \url{https://inferal-com.pages.dev/blog/instruction-adherence-research}, read
+  2 November 2026.
+
+\bibitem[Judd et~al.(2012)Judd, Westfall, and Kenny]{judd2012}
+Charles~M. Judd, Jacob Westfall, and David~A. Kenny.
+\newblock Treating stimuli as a random factor in social psychology: A new and
+  comprehensive solution to a pervasive but largely ignored problem.
+\newblock \emph{Journal of Personality and Social Psychology}, 103\penalty0
+  (1):\penalty0 54 to 69, 2012.
+\newblock \doi{10.1037/a0028347}.
+
+\bibitem[Langer et~al.(1978)Langer, Blank, and Chanowitz]{langer1978}
+Ellen~J. Langer, Arthur Blank, and Benzion Chanowitz.
+\newblock The mindlessness of ostensibly thoughtful action: The role of
+  ``placebic'' information in interpersonal interaction.
+\newblock \emph{Journal of Personality and Social Psychology}, 36\penalty0
+  (6):\penalty0 635 to 642, 1978.
+\newblock \doi{10.1037/0022-3514.36.6.635}.
+
+\bibitem[Lauziere et~al.(2026)Lauziere, Daugherty, and Kushner]{lauziere2026}
+Andrew Lauziere, Jonathan Daugherty, and Taisa Kushner.
+\newblock A regression framework for understanding prompt component impact on
+  {LLM} performance.
+\newblock arXiv:2603.26830, 2026.
+
+\bibitem[Liu et~al.(2026)Liu, Chen, and Zhang]{liu2026routing}
+Jinlin Liu, Wei Chen, and Xiaojin Zhang.
+\newblock Lost in implicit routing: How {LLM} agents fail to load relevant
+  skills at scale.
+\newblock arXiv:2610.18522, 2026.
+
+\bibitem[McMillan(2026)]{mcmillan2026}
+Damon McMillan.
+\newblock Instruction adherence in coding agent configuration files: A
+  factorial study of four file-structure variables.
+\newblock arXiv:2605.10039, 2026.
+
+\bibitem[Schuirmann(1987)]{schuirmann1987}
+Donald~J. Schuirmann.
+\newblock A comparison of the two one-sided tests procedure and the power
+  approach for assessing the equivalence of average bioavailability.
+\newblock \emph{Journal of Pharmacokinetics and Biopharmaceutics}, 15\penalty0
+  (6):\penalty0 657 to 680, 1987.
+\newblock \doi{10.1007/BF01068419}.
+
+\bibitem[Spence(2026)]{spence2026}
+Scott Spence.
+\newblock Measuring {Claude Code} skill activation with sandboxed evals.
+\newblock Blog post,
+  \url{https://scottspence.com/posts/measuring-claude-code-skill-activation-with-sandboxed-evals},
+  2026.
+
+\bibitem[Wang(2026)]{wang2026advertising}
+Haochuan~Kevin Wang.
+\newblock Advertising to agents: Measuring description-framing bias in {LLM}
+  tool selection.
+\newblock arXiv:2605.23916, 2026.
+
+\bibitem[Wang et~al.(2026)Wang, Zhao, Li, Chen, Chen, Peng, and
+  He]{wang2026evolution}
+Jiajie Wang, Yutong Zhao, Tianlin Li, Huashan Chen, Jinfu Chen, Kebin Peng, and
+  Sen He.
+\newblock Agent skill evolution: How revisions affect coding agents.
+\newblock arXiv:2610.04832, 2026.
+
+\bibitem[Xu and Wu(2026)]{xu2026stale}
+Xiaonan Xu and Wenjing Wu.
+\newblock Stale instruction files override the code in coding agents: A
+  one-sentence fix.
+\newblock arXiv:2610.30571, 2026.
+
+\bibitem[Zarzycki(2026)]{zarzycki2026}
+Pawel Zarzycki.
+\newblock What open-source projects tell their coding agents: A census of
+  {AGENTS.md} and {CLAUDE.md}.
+\newblock arXiv:2610.31715, 2026.
+
+\bibitem[Zhan et~al.(2026)Zhan, Jang, Dong, Hu, Chen, and Qu]{zhan2026wording}
+Qishi Zhan, Seoyeon Jang, Zihan Dong, Minxuan Hu, Ziheng Chen, and Tonghui Qu.
+\newblock When verifiable counts depend on wording: Auditing wording robustness
+  in instruction following.
+\newblock arXiv:2610.05278, 2026.
+
+\bibitem[Zhang(2026)]{zhang2026estimands}
+Shuyang Zhang.
+\newblock What does a skill actually do? {E}stimands and evaluation validity
+  for tool and skill use in {LLM} agents: A critical review.
+\newblock arXiv:2609.33153, 2026.
+
+\bibitem[Zhang et~al.(2026)Zhang, Wang, Cui, Qiu, Li, Zhu, and
+  He]{zhang2026guardrails}
+Xing Zhang, Guanghui Wang, Yanwei Cui, Wei Qiu, Ziyuan Li, Bing Zhu, and
+  Peiyang He.
+\newblock Guardrails beat guidance: A large-scale study of rules, skills, and
+  persistent configuration for coding agents.
+\newblock arXiv:2604.11088, 2026.
+
+\bibitem[Zhu et~al.(2026)Zhu, Xu, Yang, Wang, and Zhang]{zhu2026precedent}
+Haichao Zhu, Geyang Xu, Zhaorui Yang, Jiyuan Wang, and Qian Zhang.
+\newblock Precedent or intent? {W}hat coding agents follow when evolving
+  existing code.
+\newblock arXiv:2610.38244, 2026.
+
+\end{thebibliography}
