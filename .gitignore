@@ -14,3 +14,4 @@ explorer/dist/
 .playwright-mcp/
 data/p*/batch.log
 data/s2*pilot/batch.log
+RESULT.md
