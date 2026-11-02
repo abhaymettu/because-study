@@ -46,14 +46,15 @@ Use these fields for version 2. The description is a short plain summary, becaus
 
 - **Resource type:** Publication, preprint
 - **Title:** Because: preregistered randomized tests of what makes a coding agent follow its instructions
-- **Creator:** Mettu, Abhay (no affiliation or ORCID stated)
+- **Version:** 2
+- **Creator:** Mettu, Abhay, ORCID 0009-0001-2434-353X, no affiliation, as on version 1
 - **Description:** We tested common advice for writing instructions to coding agents in four preregistered randomized studies of Claude Code, with outcomes scored by code. Giving a reason came back inconclusive, and no wording feature survives correction on average. For skills, a long description on a never-used skill that sorts after the listing budget is spent doesn't reach the model. Raising the budget brings it back, and that also shows every other skill's description. This is one model, one CLI version and small synthetic repositories. Not peer reviewed.
 - **Publication date:** The day of deposit
 - **Language:** English
-- **License:** The repository's code and data are under MIT (`LICENSE`). Choose the preprint's license at deposit, and match it to arXiv's.
+- **License:** CC BY 4.0, as on version 1. The repository's code and data are under MIT (`LICENSE`).
 - **Keywords:** coding agents; instruction files; CLAUDE.md; AGENTS.md; agent skills; preregistration; randomized experiment; instruction following
 - **Related identifier:** Is supplemented by `https://github.com/abhaymettu/because-study`
 - **Related identifier:** Is identical to the arXiv identifier, once one exists
-- **Notes:** Preprint, not peer reviewed. Frozen registrations: `PREREG.md`, `PREREG-STUDY2.md`, `PREREG-STUDY2B.md` and `PREREG-STUDY2C.md`, at the tags above. The git history was rewritten once before public release, as Section 9 of the paper discloses, so the first three tags' hashes changed and, by the author's own check, the registration files' blob hashes did not.
+- **Notes:** Preprint, not peer reviewed. Frozen registrations: PREREG.md, PREREG-STUDY2.md, PREREG-STUDY2B.md and PREREG-STUDY2C.md, at the git tags prereg-study1, prereg-study2, prereg-study2b and prereg-study2c. The git history was rewritten once before public release, as Section 9 of the paper discloses, so the first three tags' hashes changed and, by the author's own check, the registration files' blob hashes did not.
 
 Files to deposit: `because.pdf`. A separate software record for a tagged release of the repository is optional.
