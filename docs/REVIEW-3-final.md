@@ -277,3 +277,18 @@ Not spot-checked: `clark1973`, `judd2012`, `holm1979`, `schuirmann1987`, `zhang2
 ## Not covered
 
 `make isolation` and the live half of the listing measurements were not rerun, since they start agents. `results/clause_check.json` and the explorer's behavior were not checked. The Haiku section does not exist yet, so its "sign only" reading is unreviewed.
+
+## Disposition, added by the author after this review
+
+A fresh model session with no part in the build wrote everything above. No person has reviewed this work. Everything above this section is as the review wrote it, and it describes the repo before the changes below.
+
+| Items | What happened |
+|---|---|
+| M1, M2, M4, M5, M7, M8 | Accepted. The README, write-up, metadata and paper now credit the vendor pages, name the skill that actually loses its description, state the interval as an average over these nine rules, put rule identity last with its selection caveat, and use the registered "under 10 points". |
+| M3 | Accepted. `results/exploratory.json` holds the rule-by-factor table, and the README and paper report it as post hoc. |
+| M6 | Accepted. `make rerun` writes to `data/rerun/<study>` and pins the CLI. `analysis/listing_check.py` replaces the crashing command, predicts `probe_hit` in all 1,519 runs once the account's starting usage is counted, and `docs/LISTING-MECHANISM.md` says that none of the 4,915 can be rerun offline. |
+| M9 | Closed. The Haiku stubs are filled, `paper/SUBMIT.md` is rewritten, and the explorer goes live with the repo. |
+| S3 | Accepted, and it became a study. `PREREG-STUDY2C.md` changes only the budget. Its registered reading is that the budget causes the reversal. |
+| S1, S2, S4 to S18 | Accepted and closed on the surface each touches, with these notes. For S5 the text now says the direction holds with no interaction test. For S10 the interpretation was cut. For S16 the confirmatory batch logs are tracked and pilot logs are not, because their leak flags print local needle strings. |
+| Taste | Closed for `NUMBERS.md`, the replay count, the forest caption, the stale listing section and the Inferal sample. The `C5_..._described_gone` key stays, with a note, so that old results still compare. |
+| The "1.9 to 7.0" range in M4 | Corrected. That range was real versus filler. `results/NUMBERS.md` prints the leave-one-out range against no clause, +3.3 to +8.6, by refitting without each rule. |

@@ -25,6 +25,8 @@ import numpy as np
 import analysis.study1 as A1
 import analysis.study2 as A2
 from analysis.audit_sample import diff
+from analysis.listing_check import CLI_BUDGET
+from analysis.pool_table import HIGH, LOW
 from study1 import design as D1
 from study1.rules import ALL_RULES, FOCAL, POOL_FINAL, score
 from study1.rules import BY_ID as RULES
@@ -46,6 +48,7 @@ LEVELS_2 = {
     "stem": tuple(t["stem"] for t in D2.TARGETS), "wording": D2.WORDINGS, "prefix": D2.NAME_PREFIXES, "prompt": D2.PROMPTS,
 }
 LEVELS_2B = {**LEVELS_2, "wording": D2.FOLLOWUP_WORDINGS, "prompt": D2.FOLLOWUP_PROMPTS}
+LEVELS_2C = {**LEVELS_2B, "wording": D2.BUDGET_WORDINGS}
 
 
 def write(path, doc):
@@ -164,7 +167,7 @@ def study1(batch, results, out, rng):
         "clauses": {"filler": D1.FILLERS, "placebo": D1.PLACEBOS, "norm": D1.NORMS, "urgent": D1.URGENT},
         "fixed": {
             "tools": sorted({t for r in records for t in r["init_tools"]}), "tasks": len(LEVELS_1["task"]), "k": D1.K,
-            "pool": len(POOL_FINAL), "fillers": [D1.SHORT_FILLERS, D1.LONG_FILLERS],
+            "pool": len(POOL_FINAL), "fillers": [D1.SHORT_FILLERS, D1.LONG_FILLERS], "band": [LOW, HIGH],
         },
         "levels": LEVELS_1,
         "runCols": ["id", "task", "length", "pressure", "status", "turns"],
@@ -179,7 +182,12 @@ def study1(batch, results, out, rng):
 
 def exploratory_1():
     doc = json.loads((ROOT / "results" / "exploratory.json").read_text())["study1"]
-    return {"having_the_rule": doc["having_the_rule_at_all"]["effect"], "rule_identity": doc["rule_identity"]}
+    cells = doc["rule_by_factor"]["cells"]
+    return {
+        "having_the_rule": doc["having_the_rule_at_all"]["effect"], "rule_identity": doc["rule_identity"],
+        "survive_holm_72": sorted((c for c in cells if c.get("p_holm_72", 1) < 0.05), key=lambda c: -abs(c["estimate"])),
+        "largest_outside_72": max((c for c in cells if "p_holm_99" in c and "p_holm_72" not in c), key=lambda c: abs(c["estimate"])),
+    }
 
 
 def bundle_1(batch, row, rec, verdict):
@@ -198,7 +206,7 @@ def bundle_1(batch, row, rec, verdict):
 
 
 def study2(batch, results, out, rng, levels=LEVELS_2):
-    """Study 2 and its follow-up share a trace format and a run sheet, so only their levels differ."""
+    """Study 2 and its follow-ups share a trace format and a run sheet, so only their levels differ."""
     if not rng and not results.exists():
         return None
     rows, counts = A2.load(batch)
@@ -226,13 +234,13 @@ def study2(batch, results, out, rng, levels=LEVELS_2):
         write(out / "runs" / f"{r['run']}.json", {
             "id": r["run"], "stem": r["stem"], "wording": r["wording"], "prefix": r["prefix"], "prompt_type": r["prompt"],
             "status": source["record"]["status"], "turns": r["turns"], "library": r["library"], "prompt": D2.BY_STEM[r["stem"]][r["prompt"]],
-            "name": name, "description": D2.description(D2.BY_STEM[r["stem"]], r["wording"]), "reached": reached,
+            "name": name, "description": D2.description(D2.BY_STEM[r["stem"]], r["wording"]), "reached": reached, "budget": r["budget"],
             "loaded": bool(r["y"]), "call": call if r["y"] else None,
             "steps": transcript(batch / "raw" / f"{r['run']}.jsonl.gz"), "final": source["trace"]["final_message"] or "", "diff": diff(source["trace"]),
         })
         table.append([
             r["run"], at("stem", r["stem"]), at("wording", r["wording"]), r["library"], at("prefix", r["prefix"]), at("prompt", r["prompt"]),
-            int(r["y"]), None if reached is None else int(reached), r["turns"],
+            int(r["y"]), None if reached is None else int(reached), r["turns"], r["budget"],
         ])
     return {
         "results": plain(doc),
@@ -241,7 +249,7 @@ def study2(batch, results, out, rng, levels=LEVELS_2):
         } for t in D2.TARGETS],
         "checker": f"{SOURCE}analysis/study2.py#L{inspect.getsourcelines(A2.loaded)[1]}",
         "levels": levels,
-        "runCols": ["id", "stem", "wording", "library", "prefix", "prompt", "loaded", "described", "turns"],
+        "runCols": ["id", "stem", "wording", "library", "prefix", "prompt", "loaded", "described", "turns", "budget"],
         "runs": table,
     }
 
@@ -253,13 +261,17 @@ def build(out, dev):
     rng = random.Random("explorer dev build") if dev else None
     with warnings.catch_warnings():
         warnings.simplefilter("ignore", RuntimeWarning)  # empty cells on thin pilots become NaN, then null, then "n/a"
-        one = study1(ROOT / "data" / ("p5" if dev else "study1"), ROOT / "results" / "study1.json", out, rng)
-        two = study2(ROOT / "data" / ("s2pilot" if dev else "study2"), ROOT / "results" / "study2.json", out, rng)
-        # Study 2b has no pilot to shuffle, so a development build leaves it out.
-        follow = None if dev else study2(ROOT / "data" / "study2b", ROOT / "results" / "study2b.json", out, None, LEVELS_2B)
-    write(out / "data" / "summary.json", {"dev": dev, "study1": one, "study2": two, "study2b": follow})
+        studies = {
+            "study1": study1(ROOT / "data" / ("p5" if dev else "study1"), ROOT / "results" / "study1.json", out, rng),
+            "study2": study2(ROOT / "data" / ("s2pilot" if dev else "study2"), ROOT / "results" / "study2.json", out, rng),
+        }
+        # A development build shuffles a pilot, and only Study 1 and Study 2 are wired to one.
+        if not dev:
+            studies["study2b"] = study2(ROOT / "data" / "study2b", ROOT / "results" / "study2b.json", out, None, LEVELS_2B)
+            studies["study2c"] = study2(ROOT / "data" / "study2c", ROOT / "results" / "study2c.json", out, None, LEVELS_2C)
+    write(out / "data" / "summary.json", {"dev": dev, "budget": {"own": CLI_BUDGET, "raised": D2.RAISED_BUDGET}, **studies})
     shutil.copy(Path(__file__).parent / "index.html", out / "index.html")
-    return one, two, follow
+    return studies
 
 
 def main():
@@ -268,10 +280,9 @@ def main():
     p.add_argument("--dev", action="store_true", help="pilots with outcomes shuffled; safe while batches are blind")
     a = p.parse_args()
     start = time.time()
-    one, two, follow = build(a.out, a.dev)
+    studies = build(a.out, a.dev)
     size = sum(f.stat().st_size for f in a.out.rglob("*") if f.is_file())
-    studies = [("Study 1", one), ("Study 2", two)] + ([] if a.dev else [("Study 2b", follow)])
-    blind = [name for name, s in studies if s is None]
+    blind = [name for name, s in studies.items() if s is None]
     print(f"{len(list((a.out / 'runs').iterdir()))} run bundles, {size / 1e6:.1f} MB, {time.time() - start:.1f} s")
     if blind:
         print(f"no registered results yet, left out unread: {', '.join(blind)}")

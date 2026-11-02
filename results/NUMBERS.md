@@ -255,5 +255,5 @@ False positive rate of the registered test at .05 with no planted effect: 0.053 
 
 ## Haiku replication (`results/study1haiku.json`), sign only
 
-Runs 176 used of 300 in the manifest (123 not run, 1 excluded by the leak scan). Real vs filler -2.2 [-8.0, +3.7], placebo vs filler +0.3 [-4.9, +5.4].
+Runs 299 used of 300 in the manifest (0 not run, 1 excluded by the leak scan). Real vs filler -0.9 [-5.2, +3.4], placebo vs filler +0.3 [-3.3, +3.9].
 

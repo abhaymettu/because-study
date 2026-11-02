@@ -107,7 +107,7 @@ main { padding: 0 clamp(16px, 3.4vw, 48px) 4rem; }
 .extra dt { color: var(--ink2); font-size: .8125rem; line-height: 1.45; letter-spacing: .002em; }
 .extra .fig { margin-top: .125rem; font-size: 1.1875rem; line-height: 1.3; font-weight: 600; letter-spacing: -.011em; }
 .extra .sub { color: var(--ink2); font-size: .8125rem; line-height: 1.45; letter-spacing: .002em; }
-#s2b { margin-top: 2.5rem; border-top: 1px solid var(--line2); }
+#s2b, #s2c { margin-top: 2.5rem; border-top: 1px solid var(--line2); }
 .wide { min-width: 0; max-width: 920px; }
 @media (min-width: 1240px) {
   main { margin-left: max(0px, calc((100vw - 1440px) / 2)); }
@@ -142,6 +142,7 @@ a.row[aria-current="true"] .t { background: var(--ink3); }
 .trk .d { top: 50%; width: .6875rem; height: .6875rem; margin: -.34375rem; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 2px var(--halo); }
 .trk .none { position: absolute; left: 50%; top: 50%; transform: translateY(-50%); padding-left: .5rem; color: var(--ink3); font-size: .75rem; white-space: nowrap; }
 .flag { grid-column: 1 / -1; padding-bottom: .375rem; color: var(--ink2); font-size: .75rem; line-height: 1.4; letter-spacing: .006em; }
+.flag code, .note code { font-size: .92em; }
 .key { display: inline-block; vertical-align: middle; margin-right: .1875rem; }
 .key.dot { width: .625rem; height: .625rem; border-radius: 50%; background: var(--accent); }
 .key.line { width: 1rem; height: 2px; background: var(--accent); }
@@ -187,6 +188,7 @@ a.row[aria-current="true"] .t { background: var(--ink3); }
 .ramp span { flex: 1; text-align: center; padding: .1875rem 0; font-size: .6875rem; border-radius: 2px; }
 .mx.two { max-width: 40rem; }
 .mx.two th.rl { min-width: 6rem; }
+.mx.two .c { padding: .3125rem 0; }
 .gridgroup + .gridgroup { margin-top: 1.75rem; }
 .gridgroup h3 { margin: 0 0 .25rem; }
 
@@ -348,11 +350,11 @@ pre { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; font-size: .75r
 <div id="dev" class="dev" hidden></div>
 <header class="top">
   <div class="brand"><strong>Because</strong> <span class="sm muted">A preregistered randomized study of what makes Claude Code follow its instructions.</span>
-    <p class="sm links"><a href="https://github.com/abhaymettu/because">Repository</a>. Preregistrations: <a href="https://github.com/abhaymettu/because/blob/prereg-study1/PREREG.md">Study 1</a>, <a href="https://github.com/abhaymettu/because/blob/prereg-study2/PREREG-STUDY2.md">Study 2</a>, <a href="https://github.com/abhaymettu/because/blob/prereg-study2b/PREREG-STUDY2B.md">Study 2b</a>. <a href="https://github.com/abhaymettu/because/blob/main/docs/DEVIATIONS.md">Deviations log</a>.</p>
+    <p class="sm links"><a href="https://github.com/abhaymettu/because">Repository</a>. Preregistrations: <a href="https://github.com/abhaymettu/because/blob/prereg-study1/PREREG.md">Study 1</a>, <a href="https://github.com/abhaymettu/because/blob/prereg-study2/PREREG-STUDY2.md">Study 2</a>, <a href="https://github.com/abhaymettu/because/blob/prereg-study2b/PREREG-STUDY2B.md">Study 2b</a>, <a href="https://github.com/abhaymettu/because/blob/prereg-study2c/PREREG-STUDY2C.md">Study 2c</a>. <a href="https://github.com/abhaymettu/because/blob/main/docs/DEVIATIONS.md">Deviations log</a>.</p>
   </div>
   <nav class="seg" aria-label="Study">
     <a id="v1" href="#s1">Study 1, instruction wording</a>
-    <a id="v2" href="#s2">Study 2 and 2b, skill loading</a>
+    <a id="v2" href="#s2">Study 2, 2b and 2c, skill loading</a>
   </nav>
   <button id="theme" class="btn" type="button"></button>
 </header>
@@ -392,6 +394,8 @@ const int = n => Number(n).toLocaleString('en-US');
 const avg = xs => { const v = xs.filter(x => x != null); return v.length ? v.reduce((a, b) => a + b, 0) / v.length : null; };
 const rate = (items, y = o => o.y) => items?.length ? avg(items.map(y)) : null;
 const plural = (n, word) => `${n} ${word}${n === 1 ? '' : 's'}`;
+const cap = t => `${t[0].toUpperCase()}${t.slice(1)}`;
+const usd = x => `$${x.toFixed(3)}`;
 const mark = on => `<span class="mark${on ? ' on' : ''}" aria-hidden="true"></span>`;
 const fold = (head, body, cls = 'fold-step') => `<details class="${cls}"><summary>${head}</summary><div class="step-body">${body}</div></details>`;
 const decode = (cols, rows, levels) => rows.map(r => Object.fromEntries(cols.map((c, i) => [c, levels[c] ? levels[c][r[i]] : r[i]])));
@@ -404,7 +408,7 @@ let D;
 const PANES = { told: 1, did: 1, checker: 1 };
 const route = () => {
   const part = location.hash.slice(1).split('/').map(x => { try { return decodeURIComponent(x); } catch { return x; } });
-  const view = part[0] === 's2' ? 's2' : 's1', rows = [...STUDY[view].rows, ...(STUDY[view].follow?.rows ?? [])], blind = !STUDY[view].doc();
+  const view = part[0] === 's2' ? 's2' : 's1', rows = [...STUDY[view].rows, ...(STUDY[view].follow ?? []).flatMap(f => f.rows)], blind = !STUDY[view].doc();
   return {
     view, contrast: rows.some(c => c.k === part[1]) ? part[1] : rows[0].k,
     row: blind ? undefined : part[2], col: blind ? undefined : part[3], run: blind ? undefined : part[4], pane: PANES[part[5]] ? part[5] : 'told',
@@ -415,9 +419,10 @@ const link = (s, over = {}) => {
   return '#' + [o.view, o.contrast, o.row, o.col, o.run, o.run && o.pane !== 'told' && o.pane].filter(Boolean).map(encodeURIComponent).join('/');
 };
 const parent = s => s.run ? link(s, { run: null, pane: 'told' }) : s.col ? link(s, { row: null, col: null }) : null;
-/* One route slot serves both families in a view, so the family it does not name shows its first contrast. */
+/* One route slot serves every family in a view, so a family it does not name shows its first contrast. */
 const chosen = (study, s) => study.rows.find(c => c.k === s.contrast) ?? study.rows[0];
-const inFollow = s => !!STUDY[s.view]?.follow?.rows.some(c => c.k === s.contrast);
+const followOf = s => STUDY[s.view]?.follow?.find(f => f.rows.some(c => c.k === s.contrast));
+const follows = study => study.follow?.filter(f => f.doc()) ?? [];
 
 /* Effects plot, shared by both studies */
 function plot(study) {
@@ -438,12 +443,12 @@ function plot(study) {
       (interval ? `<i class="ci" style="left:${x(r.ci[0])}%;width:${x(r.ci[1]) - x(r.ci[0])}%"></i>` : '') +
       `<i class="d" style="left:${x(est)}%"></i>`;
     const said = est == null ? 'not estimable' : `estimate ${pts(est)} points${interval ? `, interval ${pts(r.ci[0])} to ${pts(r.ci[1])}` : ''}`;
-    const flag = interval && r.ci[0] === r.ci[1] ? study.flat?.(c) : null;
+    const flag = study.flag?.(c, r);
     return `<a class="row" href="#${study.key}/${encodeURIComponent(c.k)}" data-k="${esc(c.k)}">
       <span class="lbl">${esc(c.l)}</span>
       <span class="trk" role="img" aria-label="${esc(said)}">${track}</span>
       <span class="nums"><b>${pts(est)}</b><span><span class="k">95% </span>${interval ? `${pts(r.ci[0])} to ${pts(r.ci[1])}` : 'n/a'}</span><span><span class="k">${r?.p_holm != null ? 'Holm p ' : 'p '}</span>${interval ? pval(r.p_holm ?? r.p) : 'n/a'}</span></span>
-      ${flag ? `<span class="flag">${esc(flag)}</span>` : ''}
+      ${flag ? `<span class="flag">${flag}</span>` : ''}
     </a>`;
   };
   return `<div class="plot">
@@ -455,11 +460,11 @@ function plot(study) {
   </div>`;
 }
 
-function cell(s, row, col, items, y, name, cmp = '', extra = '') {
+function cell(s, row, col, items, y, name, cmp = '', extra = []) {
   const n = items?.length ?? 0;
   if (!n) return `<td><button class="c ${cmp}" type="button" disabled aria-label="${esc(name)}, no runs"><small>n 0</small></button></td>`;
   const p = rate(items, y);
-  return `<td><button class="c ${ramp(p)} ${cmp}" type="button" data-go="${esc(link(s, { row, col, run: null }))}" data-cell="${esc(`${row}/${col}`)}" aria-label="${esc(name)}, ${Math.round(p * 100)} percent of ${n} runs${extra ? `, ${esc(extra)}` : ''}"><b>${Math.round(p * 100)}%</b><small>n ${n}</small>${extra ? `<small>${esc(extra)}</small>` : ''}</button></td>`;
+  return `<td><button class="c ${ramp(p)} ${cmp}" type="button" data-go="${esc(link(s, { row, col, run: null }))}" data-cell="${esc(`${row}/${col}`)}" aria-label="${esc(name)}, ${Math.round(p * 100)} percent of ${n} runs${extra.map(e => `, ${esc(e)}`).join('')}"><b>${Math.round(p * 100)}%</b><small>n ${n}</small>${extra.map(e => `<small>${esc(e)}</small>`).join('')}</button></td>`;
 }
 const plotSection = study => `<section class="sec"><div class="wide"><h2>${study.plotTitle}</h2>${plot(study)}</div><p class="note">${study.noteFor()}</p></section>`;
 
@@ -497,9 +502,9 @@ const S1 = {
     { g: 1, k: 'norm_vs_filler', l: 'norm vs filler', f: 'reason', a: 'norm', b: 'filler' },
     { g: 1, k: 'none_vs_filler', l: 'no clause vs filler', f: 'reason', a: 'none', b: 'filler' },
     { g: 1, k: 'must_vs_plain', l: 'You must vs plain', f: 'modal', a: 'must', b: 'plain' },
-    { g: 1, k: 'important_vs_none', l: 'IMPORTANT: vs none', f: 'prefix', a: 'important', b: 'none' },
+    { g: 1, k: 'important_vs_none', l: 'IMPORTANT: vs none', f: 'prefix', a: 'important', b: 'none', tick: '<code>IMPORTANT:</code>' },
     { g: 1, k: 'upper_vs_normal', l: 'upper case vs normal', f: 'case', a: 'upper', b: 'normal' },
-    { g: 1, k: 'example_vs_absent', l: 'worked example vs none', f: 'example', a: 'present', b: 'absent' },
+    { g: 1, k: 'example_vs_absent', l: 'worked example vs none', f: 'example', a: 'present', b: 'absent', tick: 'the worked example' },
     { g: 1, k: 'top_vs_bottom', l: 'top of file vs bottom', f: 'position', a: 'top', b: 'bottom' },
     { g: 1, k: 'long_vs_short', l: 'long file vs short', f: 'length', a: 'long', b: 'short' },
     { g: 1, k: 'urgent_vs_none', l: 'user in a hurry vs not', f: 'pressure', a: 'urgent', b: 'none' },
@@ -509,15 +514,21 @@ const S1 = {
   words: ['Followed', 'Lapsed'],
   doc: () => D.study1,
   result(k) { const r = D.study1.results; return { ...r.family_2, ...r.confirmatory, real_minus_placebo: r.real_minus_placebo }[k]; },
+  flag(c) {
+    const hits = D.study1.exploratory?.survive_holm_72 ?? [], own = hits.find(h => h.contrast === c.k);
+    if (!own) return null;
+    const said = h => `${S1.rows.find(x => x.k === h.contrast).tick} on <code>${esc(h.rule)}</code>`, other = hits.find(h => h !== own);
+    return `Post hoc, ${said(own)} is ${pts(own.estimate)}. With ${said(other)} at ${pts(other.estimate)}, these are the two that survive Holm across 72 cells.`;
+  },
   lead() {
     const { results: r, fixed: f, exploratory: e, rules } = D.study1, c = r.positive_control, x = r.runs;
     const lost = [['missing', x.missing], ['error', x.error], ['flagged by the leak scan', x.leak]].filter(e => e[1]).map(e => `${e[1]} ${e[0]}`);
     const { real_vs_filler: real, placebo_vs_filler: placebo } = r.confirmatory;
-    const missed = [['real reason', real], ['placebo', placebo]].filter(([, q]) => q.ci[1] >= 0.05).map(([who, q]) => `the ${who} missed at ${(q.ci[1] * 100).toFixed(1)}`);
+    const missed = [['real reason', real], ['placebo', placebo]].filter(([, q]) => q.ci[1] >= 0.05).map(([who]) => `the ${who} missed`);
     const named = v => esc(rules.find(q => e.rule_identity.shown[q.id] === v)?.text);
     return `<section class="sec lead"><div class="wide">
       <p class="reading">${esc(r.reading)}.</p>
-      <p class="why">Compared with a filler clause, a real reason changed compliance by ${pts(real.estimate)} points (95% interval ${pts(real.ci[0])} to ${pts(real.ci[1])}) and a placebo by ${pts(placebo.estimate)} points (${pts(placebo.ci[0])} to ${pts(placebo.ci[1])}), and the registered bar for saying a reason clause does not help was an upper bound under 5 points, which ${missed.join(' and ') || 'both cleared'}.</p>
+      <p class="why">Compared with a filler clause, a real reason changed compliance by ${pts(real.estimate)} points (95% interval ${pts(real.ci[0])} to ${pts(real.ci[1])}) and a placebo by ${pts(placebo.estimate)} points (${pts(placebo.ci[0])} to ${pts(placebo.ci[1])}). The registered bar for saying a reason clause does not help was an upper bound under 5 points, which ${missed.join(' and ') || 'both cleared'}. Averaged across these nine rules, the 95% interval against filler stops at ${pts(real.ci[1])}. Single rules are less certain, and one reads ${pts(Math.max(...real.per_rule))}.</p>
       ${e ? `<dl class="extra">
         <div><dt>Exploratory. Having the rule at all, shown minus no rule.</dt>
           <dd class="fig">${pts(e.having_the_rule.estimate)} points</dd>
@@ -525,12 +536,16 @@ const S1 = {
         <div><dt>Exploratory. Range of compliance across rules.</dt>
           <dd class="fig">${pct(e.rule_identity.lowest)} to ${pct(e.rule_identity.highest)}</dd>
           <dd class="sub">Lowest: ${named(e.rule_identity.lowest)} Highest: ${named(e.rule_identity.highest)}</dd></div>
-      </dl>` : ''}
+      </dl>
+      <p class="sm">Neither is a registered test. The pool rule chose rules off the ceiling, keeping only those whose shown compliance sat between ${pct(f.band[0])} and ${pct(f.band[1])} in the pilots, so this range is partly set by selection.</p>` : ''}
       <p class="sm">${int(x.used)} runs, ${int(r.observations)} focal observations. Positive control, named in the prompt ${pct(c.named_in_prompt)} (n ${int(c.n_named)}) versus no rule ${pct(c.no_rule)} (n ${int(c.n_no_rule)}).${lost.length ? ` Not used: ${lost.join(', ')}.` : ''}${x.timeout + x.max_turns ? ` Used, though cut short: ${x.timeout} timed out, ${x.max_turns} hit the turn limit.` : ''}</p>
     </div>
     <p class="note">Held fixed in every run: ${esc(r.cost.models.join(', '))} at medium effort, Claude Code ${esc(r.cost.cli.join(', '))}, the tools ${esc(f.tools.join(', '))}, and one of ${f.tasks} coding tasks. Each CLAUDE.md shows ${f.k} of ${f.pool} rules among ${f.fillers[0]} or ${f.fillers[1]} filler rules, with every wording factor drawn independently for each rule in each run.</p></section>`;
   },
-  noteFor: () => `<span class="key dot"></span> the estimate, each rule's own effect averaged with equal weight. <span class="key line"></span> its 95 percent interval across rules. <span class="key tick"></span> the nine rules one by one. Select a row to see the plain means behind it.`,
+  noteFor() {
+    const far = D.study1.exploratory?.largest_outside_72;
+    return `<span class="key dot"></span> the estimate, each rule's own effect averaged with equal weight. <span class="key line"></span> its 95 percent interval across rules. <span class="key tick"></span> the nine rules one by one. Select a row to see the plain means behind it.${far ? ` The ticks are post hoc. Holm across 72 cells covers the eight reason and wording coefficients on each of the nine rules. Position, file length and hurry sit outside those cells, and the largest tick among them is ${esc(S1.rows.find(x => x.k === far.contrast).l)} on <code>${esc(far.rule)}</code> at ${pts(far.estimate)}.` : ''}`;
+  },
   detail(s) {
     const c = S1.rows.find(x => x.k === s.contrast), levels = D.study1.levels[c.f], g = grouped(c.f), rules = D.study1.rules;
     const focal = rules.filter(r => r.focal), ballast = rules.filter(r => r.pool && !r.focal);
@@ -622,16 +637,34 @@ const visible = (l, p) => l < 300 || p === 'aa';
 const is = w => (l, p, x) => x === w;
 const both = (where, what) => (l, p, x) => where(l, p, x) && what(l, p, x);
 const at300 = l => l === 300;
-const gone = (l, p) => l === 300 && p === 'zz';
+const lateAt300 = (l, p) => l === 300 && p === 'zz';
+const budgetKey = r => r.budget ? 'raised' : 'default';
+const budgetName = key => key === 'raised' ? `budget raised to ${int(D.budget.raised)} characters` : "the CLI's own budget";
 const GRID = {
   load: { title: 'Load rate on prompts that want the skill', note: 'Keyword, generic and indirect prompts.', keep: r => r.prompt !== 'decoy', y: r => r.loaded, words: ['Loaded', 'Not loaded'] },
   false: { title: 'False loads on decoy prompts', note: 'The skill does not fit a decoy prompt, so a load here is a false load.', keep: r => r.prompt === 'decoy', y: r => r.loaded, words: ['Loaded', 'Not loaded'] },
-  reach: { title: 'Runs whose description reached the model', note: 'All prompts. Past the listing budget a skill keeps only its name.', keep: r => r.described != null, y: r => r.described, words: ['Reached', 'Did not reach'] },
+  reach: { title: 'Runs whose description reached the model', note: 'All prompts. At 300 skills a late, never-used name loses a long description and can keep a short one that still fits. An early or already-used name keeps its description.', keep: r => r.described != null, y: r => r.described, words: ['Reached', 'Did not reach'] },
 };
-const SHEET = { ...GRID, b: { title: 'Study 2b, load rate', y: r => r.loaded, words: ['Loaded', 'Not loaded'], reach: true } };
-const arm = (library, word) => (l, x) => l === library && x === word;
+const SHEET = {
+  ...GRID,
+  b: { title: 'Study 2b, load rate', y: r => r.loaded, words: ['Loaded', 'Not loaded'], reach: true },
+  c: { title: 'Study 2c, load rate', y: r => r.loaded, words: ['Loaded', 'Not loaded'], reach: true, where: l => `300 skills, ${budgetName(l)}, ` },
+};
+const arm = (rowKey, word) => (l, x) => l === rowKey && x === word;
+function followDetail(s, study, { title, rows, extra, about }) {
+  const c = chosen(study, s), words = study.doc().levels.wording;
+  const body = rows.map(([row, name]) => `<tr><th scope="row" class="rl">${esc(name)}</th>${words.map(w => {
+    const items = D.study2.cells.get(`${study.sheet}.${row}/${w}`);
+    return cell(s, `${study.sheet}.${row}`, w, items, r => r.loaded, `${name}, ${WORD[w]}`, c.a(row, w) ? 'cmp-a' : c.b(row, w) ? 'cmp-b' : '', items ? extra(items, row, w) : []);
+  }).join('')}</tr>`).join('');
+  return `<div class="wide"><h2>${title}</h2>
+      <p class="sm" style="margin-bottom:.75rem">${esc(c.l.split(',')[0])} compares ${esc(c.read)}. ${c.marks ?? '<span aria-hidden="true">Solid outlines</span> mark the first side, dashed outlines the second.'}</p>
+      <div class="scroll"><table class="mx two"><thead><tr><th class="rl" scope="col"></th>${words.map(w => `<th scope="col">${WORD[w]}</th>`).join('')}</tr></thead><tbody>${body}</tbody></table></div>
+      <p class="note" style="margin-top:.875rem">These are plain means computed in your browser. The plot's estimates are per target differences, so they can differ a little from these raw means.</p></div>
+      <div class="note"><p>${about}</p>${RAMP_KEY}</div>`;
+}
 const S2B = {
-  key: 's2',
+  key: 's2', anchor: 's2b', sheet: 'b', cellRow: r => r.library,
   rows: [
     { g: 0, k: 'D1_minimal_vs_trigger_at_300', l: 'D1, minimal vs trigger at 300 skills', a: arm(300, 'minimal'), b: arm(300, 'trigger'), read: 'minimal against trigger at 300 skills' },
     { g: 0, k: 'D2_short_trigger_vs_trigger_at_300', l: 'D2, short trigger vs trigger at 300 skills', a: arm(300, 'short_trigger'), b: arm(300, 'trigger'), read: 'short trigger against trigger at 300 skills' },
@@ -645,29 +678,53 @@ const S2B = {
   lead() {
     const r = D.study2b.results, x = r.runs;
     const lost = [[x.missing, 'never ran because the batch reached its registered quota stop'], [x.error, 'lost to an error'], [x.leak, 'flagged by the leak scan']].filter(e => e[0]).map(e => `${e[0]} ${e[1]}`);
+    const long = D.study2.cells.get('b.300/trigger') ?? [];
     return `<section class="sec lead" id="s2b"><div class="wide"><h2>Study 2b, past the listing budget</h2>
       <p class="reading second">${esc(r.reading)}.</p>
-      <p class="sm">${int(x.used)} of ${int(x.used + x.missing + x.error + x.leak)} planned runs used.${lost.length ? ` Not used: ${lost.join(', ')}.` : ''} Every target name sorts late, and the only prompts are ones that want the skill. Library and wording were assigned. Whether the description reached the model was recorded, not assigned.</p>
+      <p class="sm">${int(x.used)} of ${int(x.used + x.missing + x.error + x.leak)} planned runs used.${lost.length ? ` Not used: ${lost.join(', ')}.` : ''} Every target name sorts late, and the only prompts are ones that want the skill. Library and wording were assigned. Whether the description reached the model was recorded, not assigned. At 300 skills a long trigger list on these late, never-used names reached the model in ${long.filter(r => r.described).length} of ${long.length} runs. An early name keeps it, as the aa rows of the grid above show.</p>
     </div></section>`;
   },
   noteFor: () => S2.noteFor(),
-  detail(s) {
-    const c = chosen(S2B, s), words = D.study2b.levels.wording;
-    const rows = [50, 300].map(l => `<tr><th scope="row" class="rl">${l} skills</th>${words.map(w => {
-      const items = D.study2.cells.get(`b.${l}/${w}`);
-      return cell(s, `b.${l}`, w, items, r => r.loaded, `${l} skills, ${WORD[w]}`, c.a(l, w) ? 'cmp-a' : c.b(l, w) ? 'cmp-b' : '', items ? `reached ${pct(rate(items, r => r.described))}` : '');
-    }).join('')}</tr>`).join('');
-    return `<div class="wide"><h2>By library and wording</h2>
-      <p class="sm" style="margin-bottom:.75rem">${esc(c.l.split(',')[0])} compares ${esc(c.read)}. <span aria-hidden="true">Solid outlines</span> mark the first side, dashed outlines the second.</p>
-      <div class="scroll"><table class="mx two"><thead><tr><th class="rl" scope="col"></th>${words.map(w => `<th scope="col">${WORD[w]}</th>`).join('')}</tr></thead><tbody>${rows}</tbody></table></div>
-      <p class="note" style="margin-top:.875rem">These are plain means computed in your browser. The plot's estimates are per target differences, so they will differ a little from these raw means.</p></div>
-      <div class="note"><p>Each cell prints the load rate, its n, and the share of its runs where the description reached the model. Darker in light mode and lighter in dark mode means a higher load rate. Open a cell to read the runs behind it.</p>${RAMP_KEY}</div>`;
+  detail: s => followDetail(s, S2B, {
+    title: 'By library and wording',
+    rows: [[50, '50 skills'], [300, '300 skills']],
+    extra: items => [`reached ${pct(rate(items, r => r.described))}`],
+    about: 'Each cell prints the load rate, its n, and the share of its runs where the description reached the model. Darker in light mode and lighter in dark mode means a higher load rate. Open a cell to read the runs behind it.',
+  }),
+};
+const S2C = {
+  key: 's2', anchor: 's2c', sheet: 'c', cellRow: budgetKey,
+  rows: [
+    { g: 0, k: 'E1_trigger_raised_vs_default', l: "E1, trigger, raised vs the CLI's own", a: arm('raised', 'trigger'), b: arm('default', 'trigger'), read: "a long trigger list with the budget raised against the same list at the CLI's own budget" },
+    { g: 0, k: 'E2_minimal_raised_vs_default', l: "E2, minimal, raised vs the CLI's own", a: arm('raised', 'minimal'), b: arm('default', 'minimal'), read: "a short description with the budget raised against the same description at the CLI's own budget" },
+    { g: 0, k: 'E3_trigger_vs_minimal_raised', l: 'E3, trigger vs minimal, budget raised', a: arm('raised', 'trigger'), b: arm('raised', 'minimal'), read: 'trigger against minimal with the budget raised' },
+    { g: 0, k: 'E4_interaction', l: 'E4, interaction of budget and wording', a: (b, w) => (b === 'raised') === (w === 'trigger'), b: (b, w) => (b === 'raised') !== (w === 'trigger'), read: "the gap between trigger and minimal with the budget raised against the same gap at the CLI's own budget", marks: '<span aria-hidden="true">Solid outlines</span> count toward it and dashed outlines against it.' },
+  ],
+  groups: ['The registered family of four, Holm adjusted together. Each contrast is the per target difference, averaged with equal weight.'],
+  plotTitle: 'Study 2c effects on loading, in points',
+  doc: () => D.study2c,
+  result: k => D.study2c.results.family[k],
+  lead() {
+    const r = D.study2c.results, x = r.runs;
+    const cost = key => avg(D.study2c.levels.wording.map(w => r.grid[`${key}/${w}`].cost_per_run));
+    return `<section class="sec lead" id="s2c"><div class="wide"><h2>Study 2c, raising the budget</h2>
+      <p class="reading second">${esc(r.reading)}.</p>
+      <p class="sm">${int(x.used)} of ${int(x.used + x.missing + x.error + x.leak)} planned runs used. Every run has 300 skills, a late target name with no prior use, and a prompt that wants the skill. Budget and wording were assigned, and nothing else changes. With the budget raised the description reached the model in ${pct(r.description_reached_model_when_raised)} of runs, against a registered bar of 95%, and the mean cost per run went from ${usd(cost('default'))} to ${usd(cost('raised'))} at API-equivalent prices. Raising the budget shows every distractor's description as well as the target's, so this tests the budget and not the target's description alone, and the size of the effect belongs to a library of this size.</p>
+    </div></section>`;
   },
+  noteFor: () => S2.noteFor(),
+  detail: s => followDetail(s, S2C, {
+    title: 'By budget and wording',
+    rows: ['default', 'raised'].map(key => [key, cap(budgetName(key))]),
+    extra: (items, key, w) => [`reached ${pct(rate(items, r => r.described))}`, `${usd(D.study2c.results.grid[`${key}/${w}`].cost_per_run)} per run`],
+    about: 'Each cell prints the load rate, its n, the share of its runs where the description reached the model, and the mean cost per run at API-equivalent prices. Darker in light mode and lighter in dark mode means a higher load rate. Open a cell to read the runs behind it.',
+  }),
 };
 const S2 = {
   key: 's2',
-  follow: S2B,
-  flat(c) {
+  follow: [S2B, S2C],
+  flag(c, r) {
+    if (r?.ci?.[0] == null || r.ci[0] !== r.ci[1]) return null;
     const G = GRID[c.grid], side = pick => rate(D.study2.runs.filter(r => G.keep(r) && pick(r.library, r.prefix, r.wording)), G.y);
     const a = side(c.a), b = side(c.b);
     return a === b && (a === 0 || a === 1) ? `Both arms sat at ${pct(a)}, a ${a ? 'ceiling' : 'floor'}, so this zero-width interval is no measurement of no effect.` : null;
@@ -677,7 +734,7 @@ const S2 = {
     { g: 0, k: 'C2_directive_vs_trigger_visible', l: 'C2, directive vs trigger, description visible', grid: 'load', a: both(visible, is('directive')), b: both(visible, is('trigger')), read: 'directive against trigger, where the description is visible' },
     { g: 0, k: 'C3_not_clause_false_loads_visible', l: 'C3, not clause vs trigger, false loads', grid: 'false', a: both(visible, is('trigger_not')), b: both(visible, is('trigger')), read: 'the not clause against plain trigger, on decoy prompts where the description is visible' },
     { g: 0, k: 'C4_aa_vs_zz_at_300', l: 'C4, aa vs zz at 300 skills', grid: 'load', a: (l, p) => at300(l) && p === 'aa', b: (l, p) => at300(l) && p === 'zz', read: 'an early name against a late one at 300 skills' },
-    { g: 0, k: 'C5_trigger_vs_minimal_described_gone', l: 'C5, trigger vs minimal, description gone', grid: 'load', a: both(gone, is('trigger')), b: both(gone, is('minimal')), read: 'trigger against minimal, where the budget has dropped the description' },
+    { g: 0, k: 'C5_trigger_vs_minimal_described_gone', l: 'C5, trigger vs minimal, late name at 300 skills', grid: 'load', a: both(lateAt300, is('trigger')), b: both(lateAt300, is('minimal')), read: 'trigger against minimal at 300 skills with a late name, where a short description can still fit and a long one does not' },
   ],
   groups: ['The registered family of five, Holm adjusted together. Each contrast is the per target difference, averaged with equal weight.'],
   plotTitle: 'Effects on loading, in points',
@@ -687,7 +744,8 @@ const S2 = {
     const r = D.study2.results, x = r.runs, by = Object.entries(r.by_prompt ?? {});
     return `<section class="sec lead"><div class="wide">
       <p class="reading">Does a skill's description decide whether it loads, and when can it no longer matter?</p>
-      <p class="sm">${int(x.used)} runs. Claude Code lists skills alphabetically within a character budget, and past that budget a skill keeps only its name, so the target's place in the alphabet is randomized along with its wording.${by.length ? ` Load rate by prompt type: ${by.map(([k, v]) => `${esc(k)} ${pct(v)}`).join(', ')}.` : ''}${D.study2b ? ` <a href="#s2/${S2B.rows[0].k}">Study 2b</a> follows up on what happens past the budget.` : ''}</p>
+      <p class="sm">Claude Code lists every skill's name and spends a character budget on descriptions. The budget scales with the model, at 1% of its context window, which is ${int(D.budget.own)} characters on the model used here. When the descriptions do not all fit, the CLI walks the skills from most used to least, then by name, and a skill keeps its description if that still fits in what is left. So an early or already-used skill keeps a long description, a short one further down can still fit, and at 300 skills a long one on a late, never-used skill is dropped. That is why the target's place in the alphabet is randomized along with its wording. The <a href="https://code.claude.com/docs/en/skills" target="_blank" rel="noopener">Claude Code skills docs</a> describe the budget. This page shows the exact walk and what it costs.</p>
+      <p class="sm">${int(x.used)} runs.${by.length ? ` Load rate by prompt type: ${by.map(([k, v]) => `${esc(k)} ${pct(v)}`).join(', ')}.` : ''}${D.study2b ? ` <a href="#s2/${S2B.rows[0].k}">Study 2b</a> follows up on what happens past the budget.` : ''}${D.study2c ? ` <a href="#s2/${S2C.rows[0].k}">Study 2c</a> raises the budget and changes nothing else.` : ''}</p>
     </div></section>`;
   },
   noteFor: () => `<span class="key dot"></span> the estimate. <span class="key line"></span> its 95 percent interval across targets. <span class="key tick"></span> the targets one by one. Select a row to mark the cells it compares.`,
@@ -712,7 +770,7 @@ const S2 = {
   arms() {
     const short = new Map(D.study2b?.targets.map(t => [t.stem, t.wordings.short_trigger]));
     return `<div class="wide"><h2>The arms</h2>
-      <p class="sm" style="margin-bottom:.75rem">${D.study2.targets.length} targets, each with five description wordings and four prompts.${short.size ? ' Study 2b uses minimal, trigger and one more, short trigger, and no decoy prompt.' : ''} The wordings are exact.</p>
+      <p class="sm" style="margin-bottom:.75rem">${D.study2.targets.length} targets, each with five description wordings and four prompts.${short.size ? ' Study 2b uses minimal, trigger and one more, short trigger, and no decoy prompt.' : ''}${D.study2c ? ' Study 2c uses minimal and trigger, with late names at 300 skills and no decoy prompt.' : ''} The wordings are exact.</p>
       ${D.study2.targets.map(t => `<div class="target">${fold(esc(t.stem), `<dl>${Object.entries(t.wordings).map(([k, v]) => `<dt>${esc(WORD[k])}</dt><dd>${esc(v)}</dd>`).join('')}${short.has(t.stem) ? `<dt>${WORD.short_trigger}, Study 2b only</dt><dd>${esc(short.get(t.stem))}</dd>` : ''}${Object.entries(t.prompts).map(([k, v]) => `<dt>${esc(k)} prompt</dt><dd>${esc(v)}</dd>`).join('')}</dl>`, '')}</div>`).join('')}</div>`;
   },
   cell(s) {
@@ -721,19 +779,19 @@ const S2 = {
     if (!G) return null;
     const items = D.study2.cells.get(`${s.row}/${s.col}`) ?? [];
     return {
-      title: `${l} skills, ${p ? `${p} name, ` : ''}${WORD[s.col] ?? s.col} wording`, sub: G.title + '.', words: G.words,
+      title: `${G.where ? G.where(l) : `${l} skills, ${p ? `${p} name, ` : ''}`}${WORD[s.col] ?? s.col} wording`, sub: G.title + '.', words: G.words,
       after: G.reach && items.length ? `The description reached the model in ${pct(rate(items, r => r.described))} of them.` : '',
       items: items.map(r => ({
         id: r.id, ok: !!G.y(r), meta: `${r.stem}, ${r.prompt} prompt, ${r.turns} turns${G.reach ? `, description ${r.described ? 'reached the model' : 'did not reach the model'}` : ''}`,
       })),
     };
   },
-  runLine(id) { const r = D.study2.byId.get(id); return r ? `${r.stem}, ${WORD[r.wording]} wording, ${r.library} skills, ${r.prefix} name, ${r.prompt} prompt, ${r.turns} turns` : ''; },
+  runLine(id) { const r = D.study2.byId.get(id); return r ? `${r.stem}, ${WORD[r.wording]} wording, ${r.library} skills, ${r.prefix} name, ${budgetName(budgetKey(r))}, ${r.prompt} prompt, ${r.turns} turns` : ''; },
   told(b) {
-    const reach = b.reached == null ? 'Not recorded for this run.' : b.reached ? 'Yes. The target appeared with its description in the listing.' : 'No. Past the budget the listing keeps only the name.';
+    const reach = b.reached == null ? 'Not recorded for this run.' : b.reached ? 'Yes. The target appeared with its description in the listing.' : 'No. The description did not fit in what was left of the budget when the walk reached it, so the listing kept only the name.';
     return `<h3 style="margin-top:0">The prompt</h3><div class="md"><div>${esc(b.prompt)}</div></div>
       <h3>The target skill</h3>
-      <dl class="facts"><dt>Name</dt><dd><code>${esc(b.name)}</code></dd><dt>Description</dt><dd>${esc(b.description)}</dd><dt>Wording arm</dt><dd>${esc(WORD[b.wording] ?? b.wording)}</dd><dt>Library size</dt><dd>${esc(b.library)} other skills</dd><dt>Description reached the model</dt><dd>${reach}</dd></dl>`;
+      <dl class="facts"><dt>Name</dt><dd><code>${esc(b.name)}</code></dd><dt>Description</dt><dd>${esc(b.description)}</dd><dt>Wording arm</dt><dd>${esc(WORD[b.wording] ?? b.wording)}</dd><dt>Library size</dt><dd>${esc(b.library)} other skills</dd><dt>Listing budget</dt><dd>${b.budget ? `Raised to ${int(b.budget)} characters` : `The CLI's own, ${int(D.budget.own)} characters on this model`}</dd><dt>Description reached the model</dt><dd>${reach}</dd></dl>`;
   },
   checker(b) {
     const callText = b.call ? `<dl class="facts"><dt>Tool</dt><dd><code>${esc(b.call[0])}</code></dd><dt>Target</dt><dd><code>${esc(b.call[1])}</code></dd></dl>` : '';
@@ -786,20 +844,18 @@ function paintView(s) {
     main.innerHTML = `<section class="sec"><p class="reading">${s.view === 's1' ? 'Study 1' : 'Study 2'} is still running.</p><p class="sm" style="margin-top:.75rem">The preregistration rules out interim contrasts, so this page shows nothing from a study until its registered analysis has been run.</p></section>`;
     return;
   }
-  const follow = study.follow?.doc() ? study.follow : null;
   main.innerHTML = `${study.lead()}${plotSection(study)}
     <section class="sec" id="detail"></section>
-    ${follow ? `${follow.lead()}${plotSection(follow)}<section class="sec" id="detail-b"></section>` : ''}
+    ${follows(study).map(f => `${f.lead()}${plotSection(f)}<section class="sec" id="detail-${f.anchor}"></section>`).join('')}
     <section class="sec" id="arms">${study.arms()}</section>`;
 }
 function paintContrast(s) {
   const study = STUDY[s.view];
   if (!study.doc()) return;
-  const follow = study.follow?.doc() ? study.follow : null;
-  const on = [chosen(study, s).k, follow && chosen(follow, s).k];
+  const on = [study, ...follows(study)].map(f => chosen(f, s).k);
   $$('a.row').forEach(a => a.setAttribute('aria-current', on.includes(a.dataset.k)));
   $('#detail').innerHTML = study.detail(s);
-  if (follow) $('#detail-b').innerHTML = follow.detail(s);
+  for (const f of follows(study)) $(`#detail-${f.anchor}`).innerHTML = f.detail(s);
 }
 function paintCellMark(s) {
   $$('.c[aria-pressed]').forEach(b => b.removeAttribute('aria-pressed'));
@@ -877,7 +933,8 @@ function render() {
   const s = route();
   if (s.view !== prev.view) { paintView(s); if (prev.view) scrollTo(0, 0); }
   if (s.view !== prev.view || s.contrast !== prev.contrast) paintContrast(s);
-  if (inFollow(s) && (s.view !== prev.view || !inFollow(prev))) $('#s2b')?.scrollIntoView();
+  const follow = followOf(s);
+  if (follow && (s.view !== prev.view || follow !== followOf(prev))) $(`#${follow.anchor}`)?.scrollIntoView();
   paintList(s);
   paintCellMark(s);
   paintRun(s);
@@ -927,6 +984,7 @@ themeButton.addEventListener('click', () => {
   try { localStorage.setItem('theme', next); } catch {}
   paintTheme();
 });
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change', paintTheme);
 paintTheme();
 
 function prepare(doc) {
@@ -944,12 +1002,12 @@ function prepare(doc) {
       const k = `${g}.${r.library}.${r.prefix}/${r.wording}`;
       (two.cells.get(k) ?? two.cells.set(k, []).get(k)).push(r);
     }
-    if (doc.study2b) {
-      const follow = doc.study2b;
+    for (const [study, follow] of [[S2B, doc.study2b], [S2C, doc.study2c]]) {
+      if (!follow) continue;
       follow.runs = decode(follow.runCols, follow.runs, follow.levels);
       for (const r of follow.runs) {
         two.byId.set(r.id, r);
-        const k = `b.${r.library}/${r.wording}`;
+        const k = `${study.sheet}.${study.cellRow(r)}/${r.wording}`;
         (two.cells.get(k) ?? two.cells.set(k, []).get(k)).push(r);
       }
     }

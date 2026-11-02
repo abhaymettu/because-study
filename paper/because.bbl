@@ -1,9 +1,23 @@
-\begin{thebibliography}{19}
+\begin{thebibliography}{23}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
   \providecommand{\doi}[1]{doi: #1}\else
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[{Anthropic}({\natexlab{a}})]{anthropicprompting}
+{Anthropic}.
+\newblock Prompting best practices.
+\newblock Claude Platform documentation, current page,
+  \url{https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices},
+  read 2 November 2026, {\natexlab{a}}.
+
+\bibitem[{Anthropic}({\natexlab{b}})]{anthropicskills}
+{Anthropic}.
+\newblock Extend {Claude} with skills.
+\newblock Claude Code documentation, current page,
+  \url{https://code.claude.com/docs/en/skills}, read 2 November 2026,
+  {\natexlab{b}}.
 
 \bibitem[Clark(1973)]{clark1973}
 Herbert~H. Clark.
@@ -69,6 +83,11 @@ Damon McMillan.
   factorial study of four file-structure variables.
 \newblock arXiv:2605.10039, 2026.
 
+\bibitem[Razmara et~al.(2026)Razmara, Azizi, and Aryashad]{razmara2026}
+Parsa Razmara, Seyedarmin Azizi, and Ardalan Aryashad.
+\newblock One skill takes over: Clashing agent skills and a one-file fix.
+\newblock arXiv:2610.25064, 2026.
+
 \bibitem[Schuirmann(1987)]{schuirmann1987}
 Donald~J. Schuirmann.
 \newblock A comparison of the two one-sided tests procedure and the power
@@ -102,6 +121,12 @@ Xiaonan Xu and Wenjing Wu.
 \newblock Stale instruction files override the code in coding agents: A
   one-sentence fix.
 \newblock arXiv:2610.30571, 2026.
+
+\bibitem[{yurukusa}(2026)]{yurukusa2026}
+{yurukusa}.
+\newblock {CLAUDE.md} under test: What {Claude Code} rules actually do.
+\newblock Leanpub book, public description only,
+  \url{https://leanpub.com/claude-md-under-test}, read 2 November 2026, 2026.
 
 \bibitem[Zarzycki(2026)]{zarzycki2026}
 Pawel Zarzycki.

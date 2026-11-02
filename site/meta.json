@@ -1,27 +1,28 @@
 {
   "kind": "project",
   "title": "because",
-  "gist": "I ran preregistered experiments on what makes Claude Code follow its instructions. In an exploratory comparison, which rule you write and whether you write it at all matter far more than how you word it, and past a fixed budget the skill listing drops long descriptions before the model reads them.",
-  "summary": "Tells you which edits to a CLAUDE.md or a skill description change what Claude Code does, with the data and the checkers to rerun every number.",
+  "gist": "I ran preregistered experiments on what makes Claude Code follow its instructions. Reasons came back inconclusive, no wording factor survives correction on average, and for skills the deciding thing is whether the description reaches the model, which the listing budget in the Claude Code docs controls.",
+  "summary": "Tells you which edits to a CLAUDE.md or a skill description change what Claude Code does, with the data, the checkers and the harness to rerun them.",
   "repo": "https://github.com/abhaymettu/because",
   "hero_image": {
     "light": "docs/hero.png",
-    "alt": "Forest plot of wording effects on compliance, on an axis from -30 to +30 points. All estimates sit within 4.3 points of zero."
+    "alt": "Line chart of skill load rate at 300 skills with late names. At the CLI's own budget, the minimal description loads at 53% [38, 68] and the long trigger list at 29% [12, 46]. With the budget raised to 100,000 characters, minimal loads at 82% [67, 98] and the trigger list at 99% [97, 100]."
   },
   "headline_numbers": [
-    {"label": "points of compliance from having a rule at all, exploratory", "value": "+54.2 [+33.1, +75.2]", "command": "make reproduce"},
-    {"label": "points from a real reason against filler, registered reading inconclusive", "value": "+0.2 [-5.2, +5.7]", "command": "make reproduce"},
-    {"label": "points of skill loading from a trigger list over one sentence, description in view", "value": "+17.6 [+6.3, +29.0]", "command": "make reproduce"},
-    {"label": "points from an early name over a late one at 300 skills", "value": "+51.3 [+37.7, +64.8]", "command": "make reproduce"},
-    {"label": "points from a short plain description over a long trigger list at 300 skills", "value": "+29.8 [+19.2, +40.3]", "command": "make reproduce"},
-    {"label": "points from a short trigger over a long trigger list at 50 skills", "value": "+2.1 [-2.5, +6.7]", "command": "make reproduce"}
+    {"label": "points of skill loading for a long trigger list when the listing budget is raised, 300 skills, late name, registered reading: the budget causes the reversal", "value": "+69.8 [+53.7, +85.8]", "command": "make reproduce"},
+    {"label": "points from a real reason against filler across nine rules, registered reading inconclusive", "value": "+0.2 [-5.2, +5.7]", "command": "make reproduce"},
+    {"label": "points of interaction between the budget and the wording at 300 skills", "value": "+40.6 [+22.7, +58.6]", "command": "make reproduce"},
+    {"label": "points from a short plain description over a long trigger list at 300 skills, late name, no usage", "value": "+29.8 [+19.2, +40.3]", "command": "make reproduce"},
+    {"label": "points from a short trigger over a long trigger list at 50 skills, registered reading: costs under 10 points below the budget, near the ceiling", "value": "+2.1 [-2.5, +6.7]", "command": "make reproduce"},
+    {"label": "runs where the listing rule predicts whether the target kept its description, no agent, a check nobody registered", "value": "1,519 of 1,519", "command": "make setup && .venv/bin/python -m analysis.listing_check data/study2 data/study2b data/study2c"}
   ],
   "links": [
-    {"label": "Explorer", "href": "https://abhaymettu.github.io/because/"}
+    {"label": "Explorer", "href": "https://abhaymettu.github.io/because/"},
+    {"label": "Paper", "href": "https://github.com/abhaymettu/because/blob/main/paper/because.pdf"}
   ],
   "site": {
-    "eyebrow": "Preregistered experiments · three studies · Claude Code 2.1.303 · MIT",
-    "blurb": "I ran three preregistered experiments on what makes Claude Code follow its instructions. In an exploratory comparison, which rule you write and whether you write it at all matter far more than wording, and past a 30,000 character budget the skill listing drops long descriptions, so a short one beats a long trigger list by 29.8 points at 300 skills. Giving a reason, the question I went in for, reads as inconclusive at +0.2 points [-5.2, +5.7].",
+    "eyebrow": "Preregistered experiments · four studies · Claude Code 2.1.303 · MIT",
+    "blurb": "Anyone who writes a CLAUDE.md or a skill gets plenty of advice about wording, and I ran four preregistered experiments on Claude Code to see which of it changes anything. A reason written for the rule reads as inconclusive at +0.2 points [-5.2, +5.7], and no wording factor survives correction on average, though single rules do move in a post hoc look. For skills, a long description on a never-used skill that sorts after the listing budget is spent doesn't reach the model, and raising the budget the docs describe moved that skill by +69.8 points [+53.7, +85.8], at $0.134 per run against $0.060.",
     "field": "ml",
     "group": "ml"
   }

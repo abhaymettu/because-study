@@ -24,6 +24,7 @@ reproduce: setup
 	$(PY) -m analysis.study2 data/study2 --out results/study2.json
 	$(PY) -m analysis.study2b data/study2b --out results/study2b.json
 	$(PY) -m analysis.study2c data/study2c --out results/study2c.json
+	$(PY) -m analysis.study1 data/study1haiku --perms 200 --out results/study1haiku.json
 	$(PY) -m analysis.exploratory
 	$(PY) -m analysis.listing_check data/study2 data/study2b data/study2c
 	$(PY) -m analysis.figures
