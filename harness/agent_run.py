@@ -21,7 +21,7 @@ USER = os.environ.get("USER", "")
 CLAUDE_BIN = os.environ.get("BECAUSE_CLAUDE") or shutil.which("claude") or "claude"
 # Generic setup strings, plus your own names and projects from an untracked harness/needles.local (one per line).
 _local_needles = Path(__file__).with_name("needles.local")
-LEAK_NEEDLES = ("agent-memory", ".claude-accounts", "mcp__", "/users/", USER.lower()) + (
+LEAK_NEEDLES = ("agent-memory/", ".claude-accounts", "mcp__", "/users/", USER.lower()) + (
     tuple(l.strip().lower() for l in _local_needles.read_text().splitlines() if l.strip()) if _local_needles.exists() else ()
 )
 
@@ -177,10 +177,11 @@ def sanitize(text, email=None):
     return text
 
 
-def scan_captures(capture_dir, keep_first_to=None, email=None):
+def scan_captures(capture_dir, keep_first_to=None, email=None, probe=None):
     """Leak scan over every request the agent sent. Bodies are deleted after the scan unless one is kept as a sample."""
     records = sorted(capture_dir.glob("*.json"))
     leaks, system_hashes, tool_sets, models = set(), set(), set(), set()
+    probe_hit = False
     ratelimit = {}
     for rec_path in records:
         rec = json.loads(rec_path.read_text())
@@ -189,6 +190,7 @@ def scan_captures(capture_dir, keep_first_to=None, email=None):
         blob = re.sub(r'"signature": "[^"]*"', "", json.dumps(body)).lower()
         if email:
             blob = blob.replace(email.lower(), "")
+        probe_hit = probe_hit or bool(probe and probe.lower() in blob)
         for needle in LEAK_NEEDLES:
             if needle in blob:
                 leaks.add(needle)
@@ -208,7 +210,7 @@ def scan_captures(capture_dir, keep_first_to=None, email=None):
         rec_path.unlink()
     return {
         "requests": len(records), "leaks": sorted(leaks), "system_hashes": sorted(system_hashes),
-        "tool_sets": sorted(tool_sets), "request_models": sorted(models), "ratelimit": ratelimit,
+        "tool_sets": sorted(tool_sets), "request_models": sorted(models), "ratelimit": ratelimit, "probe_hit": probe_hit,
     }
 
 
@@ -221,7 +223,7 @@ def _status(timed_out, result):
     return "ok" if result and not result.get("is_error") else "error"
 
 
-def run_agent(run_id, repo_name, instruction_text, prompt, opts, proxy_port, capture_dir, out_dir, keep_capture=False, setup=None):
+def run_agent(run_id, repo_name, instruction_text, prompt, opts, proxy_port, capture_dir, out_dir, keep_capture=False, setup=None, probe=None):
     """One run. Writes the transcript and the trace; the returned record holds what scoring and costing need."""
     RUN_ROOT.mkdir(parents=True, exist_ok=True)
     # The agent sees this path, so it names neither the study nor the run.
@@ -264,7 +266,7 @@ def run_agent(run_id, repo_name, instruction_text, prompt, opts, proxy_port, cap
     with gzip.open(out_dir / "raw" / f"{run_id}.jsonl.gz", "wt") as f:
         f.write(sanitize(raw, email))
     keep = out_dir / "captures" / f"{run_id}.json.gz" if keep_capture else None
-    capture = scan_captures(capture_dir, keep, email)
+    capture = scan_captures(capture_dir, keep, email, probe)
     init = next((e for e in stream if e.get("type") == "system" and e.get("subtype") == "init"), {})
     record = {
         "run_id": run_id,

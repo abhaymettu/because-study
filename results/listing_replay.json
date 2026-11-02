@@ -1,0 +1,416 @@
+{
+ "pilot": [
+  {
+   "run": "s2pilot-00000",
+   "library": 50,
+   "target": "aa-license-scan",
+   "wording": "padded",
+   "usage": 0,
+   "target_kept": true,
+   "left_at_target": null,
+   "target_cost": null,
+   "skills": 65,
+   "wrong": [],
+   "wrong_without_usage": []
+  },
+  {
+   "run": "s2pilot-00001",
+   "library": 50,
+   "target": "zz-ledger-reconcile",
+   "wording": "minimal",
+   "usage": 0,
+   "target_kept": true,
+   "left_at_target": null,
+   "target_cost": null,
+   "skills": 65,
+   "wrong": [],
+   "wrong_without_usage": []
+  },
+  {
+   "run": "s2pilot-00002",
+   "library": 300,
+   "target": "aa-csv-dedupe",
+   "wording": "minimal",
+   "usage": 0,
+   "target_kept": true,
+   "left_at_target": 17260,
+   "target_cost": 26,
+   "skills": 315,
+   "wrong": [],
+   "wrong_without_usage": [
+    "compliance-os",
+    "confluence-expert",
+    "month-end-close"
+   ]
+  },
+  {
+   "run": "s2pilot-00003",
+   "library": 0,
+   "target": "aa-flaky-finder",
+   "wording": "trigger",
+   "usage": 0,
+   "target_kept": true,
+   "left_at_target": null,
+   "target_cost": null,
+   "skills": 15,
+   "wrong": [],
+   "wrong_without_usage": []
+  },
+  {
+   "run": "s2pilot-00004",
+   "library": 50,
+   "target": "aa-cron-explain",
+   "wording": "trigger",
+   "usage": 0,
+   "target_kept": true,
+   "left_at_target": null,
+   "target_cost": null,
+   "skills": 65,
+   "wrong": [],
+   "wrong_without_usage": []
+  },
+  {
+   "run": "s2pilot-00005",
+   "library": 50,
+   "target": "zz-status-report",
+   "wording": "trigger",
+   "usage": 0,
+   "target_kept": true,
+   "left_at_target": null,
+   "target_cost": null,
+   "skills": 65,
+   "wrong": [],
+   "wrong_without_usage": []
+  },
+  {
+   "run": "s2pilot-00006",
+   "library": 300,
+   "target": "zz-timezone-audit",
+   "wording": "minimal",
+   "usage": 0,
+   "target_kept": false,
+   "left_at_target": 5,
+   "target_cost": 20,
+   "skills": 315,
+   "wrong": [],
+   "wrong_without_usage": [
+    "competitor-alternatives",
+    "confluence-expert",
+    "cro-review",
+    "eval",
+    "month-end-close",
+    "zz-timezone-audit"
+   ]
+  },
+  {
+   "run": "s2pilot-00007",
+   "library": 50,
+   "target": "aa-env-diff",
+   "wording": "trigger_not",
+   "usage": 0,
+   "target_kept": true,
+   "left_at_target": null,
+   "target_cost": null,
+   "skills": 65,
+   "wrong": [],
+   "wrong_without_usage": []
+  },
+  {
+   "run": "s2pilot-00008",
+   "library": 300,
+   "target": "zz-log-triage",
+   "wording": "trigger_not",
+   "usage": 0,
+   "target_kept": false,
+   "left_at_target": 35,
+   "target_cost": 209,
+   "skills": 315,
+   "wrong": [],
+   "wrong_without_usage": [
+    "copy-editing",
+    "copywriting",
+    "month-end-close"
+   ]
+  },
+  {
+   "run": "s2pilot-00009",
+   "library": 300,
+   "target": "aa-schema-drift",
+   "wording": "directive",
+   "usage": 0,
+   "target_kept": true,
+   "left_at_target": 17309,
+   "target_cost": 230,
+   "skills": 315,
+   "wrong": [],
+   "wrong_without_usage": [
+    "content-production",
+    "content-strategy",
+    "month-end-close"
+   ]
+  },
+  {
+   "run": "s2pilot-00010",
+   "library": 0,
+   "target": "zz-sql-review",
+   "wording": "trigger_not",
+   "usage": 0,
+   "target_kept": true,
+   "left_at_target": null,
+   "target_cost": null,
+   "skills": 15,
+   "wrong": [],
+   "wrong_without_usage": []
+  },
+  {
+   "run": "s2pilot-00011",
+   "library": 300,
+   "target": "zz-release-notes",
+   "wording": "minimal",
+   "usage": 0,
+   "target_kept": true,
+   "left_at_target": 60,
+   "target_cost": 23,
+   "skills": 315,
+   "wrong": [],
+   "wrong_without_usage": [
+    "copywriting",
+    "coverage",
+    "cpo-advisor",
+    "cpo-review",
+    "month-end-close"
+   ]
+  },
+  {
+   "run": "s2pilot-00012",
+   "library": 0,
+   "target": "zz-license-scan",
+   "wording": "trigger",
+   "usage": 0,
+   "target_kept": true,
+   "left_at_target": null,
+   "target_cost": null,
+   "skills": 15,
+   "wrong": [],
+   "wrong_without_usage": []
+  },
+  {
+   "run": "s2pilot-00013",
+   "library": 300,
+   "target": "aa-release-notes",
+   "wording": "trigger_not",
+   "usage": 0,
+   "target_kept": true,
+   "left_at_target": 17305,
+   "target_cost": 186,
+   "skills": 315,
+   "wrong": [],
+   "wrong_without_usage": [
+    "competitive-teardown",
+    "compliance-readiness",
+    "content-creator",
+    "init",
+    "month-end-close"
+   ]
+  },
+  {
+   "run": "s2pilot-00014",
+   "library": 0,
+   "target": "zz-flaky-finder",
+   "wording": "minimal",
+   "usage": 0,
+   "target_kept": true,
+   "left_at_target": null,
+   "target_cost": null,
+   "skills": 15,
+   "wrong": [],
+   "wrong_without_usage": []
+  },
+  {
+   "run": "s2pilot-00015",
+   "library": 300,
+   "target": "zz-ledger-reconcile",
+   "wording": "padded",
+   "usage": 1,
+   "target_kept": true,
+   "left_at_target": 18063,
+   "target_cost": 126,
+   "skills": 315,
+   "wrong": [],
+   "wrong_without_usage": [
+    "context-engine",
+    "cpo-review",
+    "zz-ledger-reconcile"
+   ]
+  }
+ ],
+ "usage_after_pilot": {
+  "zz-ledger-reconcile": 2,
+  "month-end-close": 1,
+  "aa-flaky-finder": 1,
+  "aa-cron-explain": 1,
+  "zz-log-triage": 1,
+  "aa-schema-drift": 1,
+  "zz-release-notes": 1,
+  "zz-license-scan": 1,
+  "aa-release-notes": 1,
+  "zz-flaky-finder": 1
+ },
+ "listing_budget": [
+  {
+   "library": 10,
+   "model": "claude-sonnet-5-5",
+   "kept": 10,
+   "observed": 10,
+   "prefix": true,
+   "observed_prefix": true
+  },
+  {
+   "library": 25,
+   "model": "claude-sonnet-5-5",
+   "kept": 25,
+   "observed": 25,
+   "prefix": true,
+   "observed_prefix": true
+  },
+  {
+   "library": 50,
+   "model": "claude-sonnet-5-5",
+   "kept": 50,
+   "observed": 50,
+   "prefix": true,
+   "observed_prefix": true
+  },
+  {
+   "library": 75,
+   "model": "claude-sonnet-5-5",
+   "kept": 75,
+   "observed": 75,
+   "prefix": true,
+   "observed_prefix": true
+  },
+  {
+   "library": 100,
+   "model": "claude-sonnet-5-5",
+   "kept": 100,
+   "observed": 100,
+   "prefix": true,
+   "observed_prefix": true
+  },
+  {
+   "library": 150,
+   "model": "claude-sonnet-5-5",
+   "kept": 97,
+   "observed": 97,
+   "prefix": true,
+   "observed_prefix": true
+  },
+  {
+   "library": 200,
+   "model": "claude-sonnet-5-5",
+   "kept": 92,
+   "observed": 92,
+   "prefix": false,
+   "observed_prefix": false
+  },
+  {
+   "library": 300,
+   "model": "claude-sonnet-5-5",
+   "kept": 83,
+   "observed": 83,
+   "prefix": true,
+   "observed_prefix": true
+  },
+  {
+   "library": 388,
+   "model": "claude-sonnet-5-5",
+   "kept": 79,
+   "observed": 79,
+   "prefix": false,
+   "observed_prefix": false
+  },
+  {
+   "library": 10,
+   "model": "claude-haiku-5-5",
+   "kept": 10,
+   "observed": 10,
+   "prefix": true,
+   "observed_prefix": true
+  },
+  {
+   "library": 25,
+   "model": "claude-haiku-5-5",
+   "kept": 25,
+   "observed": 25,
+   "prefix": true,
+   "observed_prefix": true
+  },
+  {
+   "library": 50,
+   "model": "claude-haiku-5-5",
+   "kept": 50,
+   "observed": 50,
+   "prefix": true,
+   "observed_prefix": true
+  },
+  {
+   "library": 75,
+   "model": "claude-haiku-5-5",
+   "kept": 75,
+   "observed": 75,
+   "prefix": true,
+   "observed_prefix": true
+  },
+  {
+   "library": 100,
+   "model": "claude-haiku-5-5",
+   "kept": 100,
+   "observed": 100,
+   "prefix": true,
+   "observed_prefix": true
+  },
+  {
+   "library": 150,
+   "model": "claude-haiku-5-5",
+   "kept": 97,
+   "observed": 97,
+   "prefix": true,
+   "observed_prefix": true
+  },
+  {
+   "library": 200,
+   "model": "claude-haiku-5-5",
+   "kept": 92,
+   "observed": 92,
+   "prefix": false,
+   "observed_prefix": false
+  },
+  {
+   "library": 300,
+   "model": "claude-haiku-5-5",
+   "kept": 83,
+   "observed": 83,
+   "prefix": true,
+   "observed_prefix": true
+  },
+  {
+   "library": 388,
+   "model": "claude-haiku-5-5",
+   "kept": 79,
+   "observed": 79,
+   "prefix": false,
+   "observed_prefix": false
+  }
+ ],
+ "listing_rule": {
+  "rows": 40,
+  "with_usage": {
+   "target": 40,
+   "distractors": 40
+  },
+  "without_usage": {
+   "target": 22,
+   "distractors": 22
+  }
+ }
+}

@@ -101,7 +101,7 @@ def main():
                 if row.get("study") == 2:
                     work_plan = study2_plan(row)
                     rec = run_agent(row["run_id"], None, None, work_plan["prompt"], opts, port, capture, out,
-                                    keep_capture=n % a.keep_capture_every == 0, setup=lambda d, e: study2_repo(work_plan, d, e))
+                                    keep_capture=n % a.keep_capture_every == 0, setup=lambda d, e: study2_repo(work_plan, d, e), probe=work_plan["probe"])
                 else:
                     text, _, _ = render_file(row)
                     task = next(t for t in json.loads((FIXTURES / "tasks.json").read_text()) if t["id"] == row["task"])

@@ -1,0 +1,185 @@
+{
+ "tag": "92421",
+ "builtins": {
+  "dataviz": 1447,
+  "update-config": 707,
+  "keybindings-help": 248,
+  "code-review": 1030,
+  "simplify": 188,
+  "fewer-permission-prompts": 191,
+  "loop": 344,
+  "schedule": 381,
+  "claude-api": 1080,
+  "workflow-authoring": 252,
+  "run": 368,
+  "plugin-authoring": 268,
+  "init": 67,
+  "security-review": 90
+ },
+ "base": {
+  "listed": 315,
+  "kept": 93,
+  "predicted": 93,
+  "wrong": [],
+  "probe": false,
+  "used_in_sample": []
+ },
+ "variant:repeat": {
+  "same_set": true,
+  "diff": [],
+  "probe": false,
+  "same_order": true
+ },
+ "variant:prompt_names_the_skill": {
+  "same_set": true,
+  "diff": [],
+  "probe": false,
+  "same_order": true
+ },
+ "variant:pilot_tools": {
+  "same_set": true,
+  "diff": [],
+  "probe": false,
+  "same_order": true
+ },
+ "variant:sonnet": {
+  "same_set": true,
+  "diff": [],
+  "probe": false,
+  "same_order": true
+ },
+ "variant:sonnet_pilot_tools": {
+  "same_set": true,
+  "diff": [],
+  "probe": false,
+  "same_order": true
+ },
+ "variant:reverse_creation": {
+  "same_set": true,
+  "diff": [],
+  "probe": false,
+  "same_order": true
+ },
+ "variant:probe_newest_mtime": {
+  "same_set": true,
+  "diff": [],
+  "probe": false,
+  "same_order": true
+ },
+ "variant:probe_oldest_mtime": {
+  "same_set": true,
+  "diff": [],
+  "probe": false,
+  "same_order": true
+ },
+ "sample:120:s1": {
+  "listed": 134,
+  "kept": 112,
+  "predicted": 112,
+  "wrong": []
+ },
+ "sample:200:s2": {
+  "listed": 214,
+  "kept": 103,
+  "predicted": 103,
+  "wrong": []
+ },
+ "sample:300:s3": {
+  "listed": 314,
+  "kept": 97,
+  "predicted": 97,
+  "wrong": []
+ },
+ "sample:300:s4": {
+  "listed": 314,
+  "kept": 98,
+  "predicted": 98,
+  "wrong": []
+ },
+ "sample:388:s5": {
+  "listed": 402,
+  "kept": 89,
+  "predicted": 89,
+  "wrong": []
+ },
+ "budget:haiku": {
+  "lower": 30000,
+  "upper": 30002,
+  "kept_100": 197,
+  "kept_3": 20
+ },
+ "budget:sonnet": {
+  "lower": 30000,
+  "upper": 30002,
+  "kept_100": 197,
+  "kept_3": 20
+ },
+ "budget:haiku_pilot_tools": {
+  "lower": 30000,
+  "upper": 30002,
+  "kept_100": 197,
+  "kept_3": 20
+ },
+ "budget:env_12000": {
+  "lower": 12000,
+  "upper": 12002,
+  "kept_100": 17,
+  "kept_3": 20
+ },
+ "budget:env_20000": {
+  "lower": 20000,
+  "upper": 20002,
+  "kept_100": 97,
+  "kept_3": 20
+ },
+ "budget:older_model": {
+  "below": 10240,
+  "kept_100": 0,
+  "kept_3": 0
+ },
+ "usage:before": {
+  "a": false,
+  "b": false,
+  "c": false
+ },
+ "usage:invoke": {
+  "a": 1,
+  "c1": 1,
+  "c2": 1,
+  "b": 1
+ },
+ "usage:after": {
+  "a": true,
+  "b": true,
+  "c": true,
+  "listed": 317,
+  "kept": 89,
+  "predicted": 89,
+  "wrong": [],
+  "scores": {
+   "zz-mech-92421-a": 1.0,
+   "zz-mech-92421-b": 1.0,
+   "zz-mech-92421-c": 2.0
+  }
+ },
+ "usage:after_base_library": {
+  "a": true,
+  "listed": 315,
+  "kept": 92,
+  "predicted": 92,
+  "wrong": [],
+  "lost_from_base": [
+   "content-production",
+   "content-strategy",
+   "contract-and-proposal-writer"
+  ]
+ },
+ "usage:one_slot": {
+  "a": false,
+  "b": false,
+  "c": true,
+  "kept_outside_fixed": [
+   "zz-mech-92421-c"
+  ]
+ }
+}

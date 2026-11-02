@@ -34,7 +34,9 @@ def description(target, wording):
 
 
 def target_name(row):
-    return f"{row['name_prefix']}-{row['stem']}"
+    """Unique per run: the CLI ranks skills by past invocations on the account, so a reused name would carry usage
+    from earlier runs into this one's listing."""
+    return f"{row['name_prefix']}-{row['stem']}-{row['run_id'].rsplit('-', 1)[1]}"
 
 
 def _skill_file(name, desc, body):
@@ -55,7 +57,7 @@ def plan(row):
     skills[name] = _skill_file(name, description(target, row["wording"]), f"Follow these steps.\n\n{target['steps']}")
     for d in row["distractors"]:
         skills[d] = _skill_file(d, next(x["description"] for x in DISTRACTORS if x["name"] == d), "Follow the usual procedure for this kind of work.")
-    return {"files": files, "skills": skills, "prompt": target[row["prompt_type"]], "target": name}
+    return {"files": files, "skills": skills, "prompt": target[row["prompt_type"]], "target": name, "probe": f"- {name}: "}
 
 
 def assign(study, n_runs):
