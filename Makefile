@@ -15,6 +15,10 @@ test: setup
 reproduce: setup
 	$(PY) -m analysis.study1 data/study1 --perms 2000 --out results/study1.json
 	$(PY) -m analysis.study2 data/study2 --out results/study2.json
+	$(PY) -m analysis.study2b data/study2b --out results/study2b.json
+	$(PY) -m analysis.exploratory
+	$(PY) -m analysis.figures
+	$(PY) -m analysis.numbers > results/NUMBERS.md
 
 # The harness, the checkers and the analyses with a stand-in agent, for a check in under a minute.
 replay: setup

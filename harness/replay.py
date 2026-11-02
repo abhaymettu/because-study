@@ -13,7 +13,7 @@ import sys
 import tempfile
 from pathlib import Path
 
-from analysis import study1, study2
+from analysis import study1, study2, study2b
 from study1.rules import POOL_FINAL, score
 from study1.trace import Trace
 
@@ -82,11 +82,11 @@ def main():
     a = p.parse_args()
     data, results = Path(a.data).resolve(), Path(a.results)
     failed = False
-    for name, compare, n in (("study1", compare_study1, a.runs), ("study2", compare_study2, a.runs // 2)):
+    for name, compare, n in (("study1", compare_study1, a.runs), ("study2", compare_study2, a.runs // 2), ("study2b", compare_study2, a.runs // 2)):
         runs, agree, total = replay_runs(data / name, n, compare)
         print(f"{name}: replayed {runs} runs through the harness, {agree} of {total} verdicts match the committed traces")
         failed |= agree != total
-    for name, analyze in (("study1", lambda b: study1.analyze(b, perms=100)), ("study2", study2.analyze)):
+    for name, analyze in (("study1", lambda b: study1.analyze(b, perms=100)), ("study2", study2.analyze), ("study2b", study2b.analyze)):
         path = results / f"{name}.json"
         if not path.exists():
             print(f"{name}: no committed results yet")
@@ -94,7 +94,7 @@ def main():
         res = analyze(data / name)
         same, total, wrong = compare_results(res, path)
         print(f"{name}: reran the registered analysis, {same} of {total} estimates match {path.name}")
-        if name == "study1":
+        if "reading" in res:
             print(f"reading: {res['reading']}")
         failed |= bool(wrong)
         for k in wrong[:5]:
