@@ -1,0 +1,20 @@
+{
+ "isolated": {
+  "requests": 1,
+  "instruction_and_memory_lines_found": 0,
+  "instruction_and_memory_lines_checked": 231,
+  "skill_names_found": 1,
+  "skill_names_checked": 85,
+  "tools": 6,
+  "mcp_tools": 0
+ },
+ "plain_claude_p": {
+  "requests": 2,
+  "instruction_and_memory_lines_found": 219,
+  "instruction_and_memory_lines_checked": 231,
+  "skill_names_found": 73,
+  "skill_names_checked": 85,
+  "tools": 181,
+  "mcp_tools": 150
+ }
+}

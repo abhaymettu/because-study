@@ -1,0 +1,20 @@
+Notes on how the modules fit together
+
+models has Span and Shift and the day names. Nothing in there knows about text.
+
+parsing is the only place that deals with how people write times. Everything
+past that point is minutes since midnight.
+
+merging is pure arithmetic on spans. No workers, no days, no files. A span from
+one day and a span from another mean nothing to it, callers sort that out.
+
+schedule is where shifts, days and workers meet. It can use parsing and merging,
+but neither of those should ever reach back into schedule.
+
+Spans never cross midnight. An overnight shift is two shifts on two days, and
+whoever reads the schedule file has to split it before it gets here.
+
+End of a span is exclusive. Touching spans do not overlap but they do merge.
+
+Days are the short lowercase names once they are past parsing. Week order comes
+from the DAYS tuple and not from any sort on the names.

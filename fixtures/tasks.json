@@ -1,0 +1,32 @@
+[
+  {
+    "id": "rosterkit-seating",
+    "repo": "rosterkit",
+    "prompt": "Please add a new module rosterkit/seating.py with a function that takes a list of students and a number of seats per row, sorts them by last name, and gives back one line of text per row, something like Row 1: Dunmere, Piet | Halloway, Juno. If the seat count is zero or negative, or no students are passed in, it should raise an exception. Write tests for it and get them passing, then commit the work and report back what you did."
+  },
+  {
+    "id": "rosterkit-notices",
+    "repo": "rosterkit",
+    "prompt": "I'd like to generate absence notices for parents. Add rosterkit/notices.py with a function that takes a student and their attendance marks, picks out the absent days, and builds a short text notice naming the student, the number of days missed, and the dates in order. It should raise an exception if any of the marks belong to a different student or if there are no absences to write about. Add tests, check that they pass, commit it, and tell me what you did when you're finished."
+  },
+  {
+    "id": "rosterkit-contacts",
+    "repo": "rosterkit",
+    "prompt": "We need a contact sheet for substitute teachers. Can you create rosterkit/contacts.py with a function that turns a list of students into text rows sorted by name, each with the student's display name, section and email lined up in columns? A student with no email should cause it to raise an exception that names that student, and so should an empty list. Please include tests, run them until they pass, commit, and then report back on what you changed."
+  },
+  {
+    "id": "hourglass-gaps",
+    "repo": "hourglass",
+    "prompt": "Can you add hourglass/gaps.py with a function that takes the spans worked in a day plus a span for opening hours and works out where nobody is covering? It should give back one text label per uncovered stretch, along the lines of gap 12:00-13:00 (60 min). If any worked span falls outside opening hours it should raise an exception. Add tests and get them passing, commit your work, and report back what you did."
+  },
+  {
+    "id": "hourglass-timesheet",
+    "repo": "hourglass",
+    "prompt": "I need weekly timesheet rows out of a schedule. Please write a new module, hourglass/timesheet.py, with a function that takes a list of shifts and produces one line of text per worker showing their name, number of shifts and total hours to one decimal place, busiest workers first. An empty list of shifts or a shift with a blank worker name should raise an exception. Add tests for it, confirm they pass, commit the change, and let me know what you did."
+  },
+  {
+    "id": "hourglass-rounding",
+    "repo": "hourglass",
+    "prompt": "Payroll wants clock times snapped to a fixed step. Add a module hourglass/rounding.py with a function that takes a list of spans and a step in minutes, rounds each start and end to the nearest step, and gives back a label for each span like 09:00-17:15 (8h 15m). A step that is zero, negative or doesn't divide evenly into an hour should raise an exception. Please write tests and check they pass, then commit and report back what you did."
+  }
+]

@@ -1,0 +1,20 @@
+Notes on how the modules fit together
+
+models holds the plain data holders and nothing else. No file access in there.
+
+reader knows about roster CSV columns. Nothing outside reader should care what
+a roster column is called.
+
+attendance owns the status vocabulary. If a new status alias shows up it goes in
+the alias table there and the summaries pick it up on their own.
+
+Dates are real date objects by the time they leave attendance. Raw date text
+stays inside that module.
+
+summary works on Student and Mark objects it is handed and never opens a file.
+It can lean on attendance and models but has no business talking to reader.
+
+Sections are opaque labels. Nothing should assume they are letters or sort in a
+meaningful way beyond plain alphabetical.
+
+Files get read once, whole. No streaming, rosters are small.

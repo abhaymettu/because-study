@@ -1,0 +1,20 @@
+{
+ "runs=500 effect=0.03 slope_sd=0.03": 0.3125,
+ "runs=500 effect=0.03 slope_sd=0.06": 0.2025,
+ "runs=500 effect=0.05 slope_sd=0.03": 0.6675,
+ "runs=500 effect=0.05 slope_sd=0.06": 0.4575,
+ "runs=500 effect=0.08 slope_sd=0.03": 0.9525,
+ "runs=500 effect=0.08 slope_sd=0.06": 0.8575,
+ "runs=1000 effect=0.03 slope_sd=0.03": 0.4425,
+ "runs=1000 effect=0.03 slope_sd=0.06": 0.23,
+ "runs=1000 effect=0.05 slope_sd=0.03": 0.89,
+ "runs=1000 effect=0.05 slope_sd=0.06": 0.6075,
+ "runs=1000 effect=0.08 slope_sd=0.03": 1.0,
+ "runs=1000 effect=0.08 slope_sd=0.06": 0.9525,
+ "runs=1500 effect=0.03 slope_sd=0.03": 0.595,
+ "runs=1500 effect=0.03 slope_sd=0.06": 0.3075,
+ "runs=1500 effect=0.05 slope_sd=0.03": 0.9675,
+ "runs=1500 effect=0.05 slope_sd=0.06": 0.68,
+ "runs=1500 effect=0.08 slope_sd=0.03": 1.0,
+ "runs=1500 effect=0.08 slope_sd=0.06": 0.9675
+}

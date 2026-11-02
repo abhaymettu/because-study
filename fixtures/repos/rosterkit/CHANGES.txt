@@ -1,0 +1,15 @@
+## Unreleased
+
+## 0.4.2 (2026-08-19)
+- Trim stray whitespace from roster cells before checking required values.
+- Tolerate a BOM at the start of spreadsheet exports.
+
+## 0.4.1 (2026-06-03)
+- Accept single letter status codes and "tardy" in attendance files.
+
+## 0.4.0 (2026-02-11)
+- Add section summaries and chronic_absentees.
+- Excused days no longer count against the attendance rate.
+
+## 0.3.0 (2025-10-27)
+- Read attendance files alongside rosters.

@@ -1,0 +1,39 @@
+[
+  {
+    "subject": "Initial packaging and a syntax check script",
+    "paths": ["pyproject.toml", ".gitignore", "VERSION", "Makefile", "tools/lint.py"]
+  },
+  {
+    "subject": "Span model and parsing for clock times",
+    "paths": [
+      "hourglass/errors.py",
+      "hourglass/models.py",
+      "hourglass/parsing.py",
+      "tests/__init__.py",
+      "tests/test_parsing.py"
+    ]
+  },
+  {
+    "subject": "merge and intersect spans",
+    "paths": ["hourglass/merging.py", "tests/test_merging.py"]
+  },
+  {
+    "subject": "Read shift schedules from CSV and add per-day coverage",
+    "paths": [
+      "hourglass/schedule.py",
+      "hourglass/__init__.py",
+      "tests/support.py",
+      "tests/test_schedule.py",
+      "tests/data/schedule.csv",
+      "README.md"
+    ]
+  },
+  {
+    "subject": "Notes on module layout and a list of public functions",
+    "paths": ["docs/conventions.txt", "docs/api.txt"]
+  },
+  {
+    "subject": "Backfill the change list",
+    "paths": ["CHANGES.txt"]
+  }
+]

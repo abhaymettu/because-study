@@ -1,0 +1,43 @@
+[
+  {
+    "subject": "Start rosterkit, packaging and a syntax check script",
+    "paths": ["pyproject.toml", ".gitignore", "VERSION", "Makefile", "tools/lint.py"]
+  },
+  {
+    "subject": "Read roster CSV files into Student objects",
+    "paths": [
+      "rosterkit/errors.py",
+      "rosterkit/models.py",
+      "rosterkit/reader.py",
+      "tests/__init__.py",
+      "tests/support.py",
+      "tests/test_reader.py",
+      "tests/data/roster.csv"
+    ]
+  },
+  {
+    "subject": "attendance files and status aliases",
+    "paths": [
+      "rosterkit/attendance.py",
+      "tests/test_attendance.py",
+      "tests/data/attendance.csv"
+    ]
+  },
+  {
+    "subject": "Section summaries and chronic absentee list",
+    "paths": [
+      "rosterkit/summary.py",
+      "rosterkit/__init__.py",
+      "tests/test_summary.py",
+      "README.md"
+    ]
+  },
+  {
+    "subject": "Write down how the modules fit together and the public functions",
+    "paths": ["docs/conventions.txt", "docs/api.txt"]
+  },
+  {
+    "subject": "Catch up the change list",
+    "paths": ["CHANGES.txt"]
+  }
+]

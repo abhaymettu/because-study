@@ -1,0 +1,15 @@
+hourglass.parsing.parse_clock(text): read a clock time as minutes since midnight
+hourglass.parsing.format_clock(minutes): minutes since midnight as HH:MM
+hourglass.parsing.parse_span(text): read a range such as 09:00-17:30
+hourglass.parsing.format_span(span): a span as start-end text
+hourglass.parsing.normalize_day(text): short lowercase day name
+hourglass.merging.spans_overlap(first, second): whether two spans share any time
+hourglass.merging.intersect_spans(first, second): the part two spans share
+hourglass.merging.merge_spans(spans): collapse overlaps into a sorted list
+hourglass.merging.total_minutes(spans): minutes covered, overlaps counted once
+hourglass.schedule.parse_schedule_text(text): parse schedule CSV held in memory
+hourglass.schedule.load_schedule(path): read a schedule CSV from disk
+hourglass.schedule.shifts_for_worker(shifts, worker): all shifts for one worker
+hourglass.schedule.worker_minutes(shifts): scheduled minutes per worker
+hourglass.schedule.day_coverage(shifts, day): merged spans for a day
+hourglass.schedule.format_day_line(shifts, day): one text line for a day

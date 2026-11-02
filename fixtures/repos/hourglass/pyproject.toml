@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hourglass"
+description = "Parse and merge time ranges and shift schedules"
+readme = "README.md"
+requires-python = ">=3.9"
+dynamic = ["version"]
+
+[tool.setuptools]
+packages = ["hourglass"]
+
+[tool.setuptools.dynamic]
+version = {file = "VERSION"}

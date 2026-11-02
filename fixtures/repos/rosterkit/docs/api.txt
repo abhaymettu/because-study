@@ -1,0 +1,17 @@
+rosterkit.reader.parse_student_row(row): build a Student from one CSV row
+rosterkit.reader.parse_roster_text(text): parse roster CSV content held in memory
+rosterkit.reader.read_roster(path): load a roster CSV from disk
+rosterkit.reader.find_student(students, student_id): look a student up by id
+rosterkit.reader.section_names(students): sorted unique section labels
+rosterkit.attendance.normalize_status(raw): map typed text onto a known status
+rosterkit.attendance.parse_day(text): read an ISO or M/D/YYYY date
+rosterkit.attendance.read_attendance(path): load an attendance CSV from disk
+rosterkit.attendance.marks_by_student(marks): group marks by student id
+rosterkit.attendance.tally_statuses(marks): count marks per status
+rosterkit.attendance.days_missed(marks): absent days, oldest first
+rosterkit.summary.attendance_rate(counts): share of countable meetings attended
+rosterkit.summary.summarize_student(student, marks): summary for one student
+rosterkit.summary.summarize_section(students, marks, section): summaries for a section
+rosterkit.summary.chronic_absentees(summaries, threshold): students below a rate
+rosterkit.summary.format_summary_row(summary): one text row for a summary
+rosterkit.summary.render_section(summaries, section): printable block for a section
