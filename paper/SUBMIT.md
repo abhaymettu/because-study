@@ -4,7 +4,7 @@ A checklist for the author, for arXiv and then Zenodo.
 
 ## Before anything goes out
 
-1. **Make the repository public at or before submission.** The paper cites `https://github.com/abhaymettu/because`, the tags `prereg-study1`, `prereg-study2`, `prereg-study2b` and `prereg-study2c`, and in Section 9 a repository creation time and a GitHub Actions run. A reader can check those only once the repository is public.
+1. **Check the repository is public.** The paper cites `https://github.com/abhaymettu/because-study` and the tags `prereg-study1`, `prereg-study2`, `prereg-study2b` and `prereg-study2c`. Section 9 says GitHub's activity log and Actions times for the Study 2c freeze can't be inspected publicly and that `docs/TIMING.md` is a self-reported copy.
 2. **Rerun what the paper names.** `make test` and `make replay` should pass, and `make reproduce` should leave `results/` unchanged in `git status`.
 3. **Read the final PDF page by page**.
 
@@ -15,7 +15,7 @@ A checklist for the author, for arXiv and then Zenodo.
 - **Endorsement may be needed.** arXiv's help page, read on 2 November 2026, says, "arXiv requires that users be endorsed before submitting their first paper to arXiv or a new category." Whether the submitting account qualifies shows up when the submission form opens. See `https://info.arxiv.org/help/endorsement.html`.
 - **Author:** Abhay Mettu. The repository states no affiliation or email, and the paper gives none.
 - **Title:** Because: preregistered randomized tests of what makes a coding agent follow its instructions
-- **Comments:** 12 pages, 2 figures, 10 tables. Preregistered at git tags prereg-study1, prereg-study2, prereg-study2b and prereg-study2c. Code and data: https://github.com/abhaymettu/because. Not peer reviewed.
+- **Comments:** 12 pages, 2 figures, 10 tables. Registrations frozen at git tags prereg-study1, prereg-study2, prereg-study2b and prereg-study2c. Timing is self-reported, see Section 9. Code and data: https://github.com/abhaymettu/because-study. Not peer reviewed.
 - **License:** the author chooses on the form.
 
 **Abstract** (1,819 characters, plain ASCII; arXiv's limit is 1,920 characters and its metadata fields take ASCII only):
@@ -50,8 +50,8 @@ Deposit the preprint after the repository is public, and only a version the auth
 - **Language:** English
 - **License:** The repository's code and data are under MIT (`LICENSE`). Choose the preprint's license at deposit, and match it to arXiv's.
 - **Keywords:** coding agents; instruction files; CLAUDE.md; AGENTS.md; agent skills; preregistration; randomized experiment; instruction following
-- **Related identifier:** Is supplemented by `https://github.com/abhaymettu/because`
+- **Related identifier:** Is supplemented by `https://github.com/abhaymettu/because-study`
 - **Related identifier:** Is identical to the arXiv identifier, once one exists
-- **Notes:** Preprint, not peer reviewed. Frozen registrations: `PREREG.md`, `PREREG-STUDY2.md`, `PREREG-STUDY2B.md` and `PREREG-STUDY2C.md`, at the tags above. The git history was rewritten once before public release, as Section 9 of the paper discloses, so the first three tags' hashes changed and the registration files' blob hashes did not.
+- **Notes:** Preprint, not peer reviewed. Frozen registrations: `PREREG.md`, `PREREG-STUDY2.md`, `PREREG-STUDY2B.md` and `PREREG-STUDY2C.md`, at the tags above. The git history was rewritten once before public release, as Section 9 of the paper discloses, so the first three tags' hashes changed and, by the author's own check, the registration files' blob hashes did not.
 
 Files to deposit: `because.pdf`. A separate software record for a tagged release of the repository is optional.

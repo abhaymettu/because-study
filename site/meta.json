@@ -1,9 +1,10 @@
 {
   "kind": "project",
   "title": "because",
+  "slug": "because",
   "gist": "I ran preregistered experiments on what makes Claude Code follow its instructions. Reasons came back inconclusive, no wording factor survives correction on average, and for skills the listing budget in the Claude Code docs controls whether a description reaches the model.",
   "summary": "Tells you which edits to a CLAUDE.md or a skill description change what Claude Code does, with the data, the checkers and the harness to rerun them.",
-  "repo": "https://github.com/abhaymettu/because",
+  "repo": "https://github.com/abhaymettu/because-study",
   "hero_image": {
     "light": "docs/hero.png",
     "alt": "Line chart of skill load rate at 300 skills with late names. At the CLI's own budget, the minimal description loads at 53% [38, 68] and the long trigger list at 29% [12, 46]. With the budget raised to 100,000 characters, minimal loads at 82% [67, 98] and the trigger list at 99% [97, 100]."
@@ -17,8 +18,8 @@
     {"label": "runs where the listing rule predicts whether the target kept its description, no agent, a check nobody registered", "value": "1,519 of 1,519", "command": "make setup && .venv/bin/python -m analysis.listing_check data/study2 data/study2b data/study2c"}
   ],
   "links": [
-    {"label": "Explorer", "href": "https://abhaymettu.github.io/because/"},
-    {"label": "Paper", "href": "https://github.com/abhaymettu/because/blob/main/paper/because.pdf"}
+    {"label": "Explorer", "href": "https://abhaymettu.github.io/because-study/"},
+    {"label": "Paper", "href": "https://github.com/abhaymettu/because-study/blob/main/paper/because.pdf"}
   ],
   "site": {
     "eyebrow": "Preregistered experiments · four studies · Claude Code 2.1.303 · MIT",

@@ -8,7 +8,9 @@ code run on that shuffled data.
 """
 
 import argparse
+import base64
 import gzip
+import hashlib
 import inspect
 import json
 import math
@@ -33,7 +35,7 @@ from study1.rules import BY_ID as RULES
 from study2 import design as D2
 
 ROOT = Path(__file__).resolve().parent.parent
-SOURCE = "https://github.com/abhaymettu/because/blob/main/"
+SOURCE = "https://github.com/abhaymettu/because-study/blob/main/"
 TRIM = 6000
 PRIVATE = re.compile(
     r"/Users/[^/\s\"'\\]+|(?<!github\.com/)abhay\w*|(?<!github\.com/abhay)mettu|account_uuid|device_id", re.I
@@ -270,8 +272,18 @@ def build(out, dev):
             studies["study2b"] = study2(ROOT / "data" / "study2b", ROOT / "results" / "study2b.json", out, None, LEVELS_2B)
             studies["study2c"] = study2(ROOT / "data" / "study2c", ROOT / "results" / "study2c.json", out, None, LEVELS_2C)
     write(out / "data" / "summary.json", {"dev": dev, "budget": {"own": CLI_BUDGET, "raised": D2.RAISED_BUDGET}, **studies})
-    shutil.copy(Path(__file__).parent / "index.html", out / "index.html")
+    (out / "index.html").write_text(with_policy((Path(__file__).parent / "index.html").read_text()))
     return studies
+
+
+def with_policy(page):
+    """Other sites on this origin hold keys and this page renders transcripts, so only its own scripts may run."""
+    scripts = " ".join(
+        f"'sha256-{base64.b64encode(hashlib.sha256(s.encode()).digest()).decode()}'"
+        for s in re.findall(r"<script>(.*?)</script>", page, re.S)
+    )
+    policy = f"default-src 'none'; script-src {scripts}; style-src 'unsafe-inline'; img-src data:; connect-src 'self'; base-uri 'none'; form-action 'none'"
+    return page.replace("<head>", f'<head>\n<meta http-equiv="Content-Security-Policy" content="{policy}">', 1)
 
 
 def main():

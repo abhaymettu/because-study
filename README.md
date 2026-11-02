@@ -8,7 +8,7 @@ Giving a reason for a rule came back inconclusive. No wording factor survives co
 
 Points are percentage points, of compliance in Study 1 and of skill loading in Studies 2, 2b and 2c. Brackets are 95% intervals. Every result on this page is in [`results/NUMBERS.md`](results/NUMBERS.md), except the listing, audit, pool and review figures, which link to their own reports. Anything exploratory or post hoc says so where it appears.
 
-The [explorer](https://abhaymettu.github.io/because/) shows the rules, arms and transcripts behind the numbers, and the [paper](paper/because.pdf) has the full methods.
+The [explorer](https://abhaymettu.github.io/because-study/) shows the rules, arms and transcripts behind the numbers, and the [paper](paper/because.pdf) has the full methods.
 
 ## What the studies found
 
@@ -178,7 +178,7 @@ opts = {**opts, "command": my_command, "read_stream": my_read_stream}
 
 **Blind audit.** Before any contrast was computed, three fresh model readers with no arm labels checked 100 focal observations against the checkers. Each item showed the checker's verdict, as the registration allows, so the agreement figure is anchored. Their job is to find checker faults, and they decide no outcome. They agree on 92 of 100, a count that includes item 5, which one reader flagged. Seven are unclear, and one disagrees. Those eight turn on one scope question, whether a rule's "you write" reaches throwaway code that never lands in the repo. I wrote that decision down before any contrast ([`docs/audit/report.md`](docs/audit/report.md)). An exploratory sensitivity scores `write_tool` on repo paths only. That changes 41 verdicts, with real at +0.0 [-5.3, +5.3] and placebo at +0.9 [-1.4, +3.1]. An earlier blind audit found one checker fault, which I fixed before rescoring every run.
 
-**Frozen before the runs.** The git tags `prereg-study1`, `prereg-study2`, `prereg-study2b` and `prereg-study2c` mark each preregistration, and `reading()` in the code applies each decision table.
+**Frozen before the runs, by my own record.** The git tags `prereg-study1`, `prereg-study2`, `prereg-study2b` and `prereg-study2c` mark each preregistration, and `reading()` in the code applies each decision table. [Deviations and timing](#deviations-and-timing) says what you can and can't check about that order.
 
 ## Limits
 
@@ -199,9 +199,11 @@ opts = {**opts, "command": my_command, "read_stream": my_read_stream}
 
 Everything that changed after a freeze is in [`docs/DEVIATIONS.md`](docs/DEVIATIONS.md) with its date and reason. The registered analysis is still what I report.
 
-The strongest timing evidence in the repo is for Study 2c. GitHub's activity log records the push of the tagged commit `c22f089` at 2026-11-02T07:46:29Z, and GitHub Actions created a run on it at 07:46:31Z, both before the first run, which you can verify once the repo is public. That run failed at its Pages step, and its time still stands. The tag came after the history rewrite below, so that commit hash is stable. [`data/study2c/batch.log`](data/study2c/batch.log) shows the runs after it. Its first line is at 01:46:48 CST, or 07:46:48 UTC, and the earliest start, by finish time minus duration, is about 07:46:40 UTC. That log is my own record. For Study 1, GitHub reports the repo created at 03:52:50 UTC, one second after the freeze commit date. The rest of the order of events rests on commit dates and push history, which you cannot fully verify from outside, and I used no timestamping service.
+You can inspect the git record here: the tags, the commit dates and the data committed after each tag. A tag fixes the text of a registration but not when it was written, and an author can set commit and tag dates. I used no timestamping service.
 
-The history was rewritten once, before the repo went public, to remove account and device identifiers from the sample captures. `git filter-repo` removed one `metadata` field from every kept capture, so commit and tag hashes changed. The preregistration files hash to the same git blobs at the new tags as at the old ones.
+The work ran in a private repo, and that repo's old commits still hold identifiers awaiting removal. So GitHub's activity log and Actions times for the Study 2c freeze can't be inspected publicly, and this repo, created on 2026-11-02 after every run, holds no outside record of the order of events. [`docs/TIMING.md`](docs/TIMING.md) has a self-reported copy of those entries. By that copy, the tagged commit `c22f089` was pushed at 07:46:29 UTC on 2026-11-02. The first line of [`data/study2c/batch.log`](data/study2c/batch.log), also my own record, is at 07:46:48 UTC.
+
+The history was rewritten once, before this repo existed, to remove account and device identifiers from the sample captures. `git filter-repo` removed one `metadata` field from every kept capture, so the hashes of the first three tags changed. I checked that the preregistration files hash to the same git blobs at the new tags as at the old ones. You can't repeat that check, since the old tags aren't public. This repo was created from that rewritten history with the same hashes, which you also can't compare.
 
 Other deviations you should know about:
 
