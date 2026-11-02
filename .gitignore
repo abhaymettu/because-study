@@ -10,3 +10,4 @@ results/power.txt.tmp
 harness/needles.local
 data/*/batch.log
 data/*/out.txt
+explorer/dist/

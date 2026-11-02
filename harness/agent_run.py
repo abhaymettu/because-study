@@ -1,6 +1,7 @@
 """Run one agent in a clean room: neutral repo, scrubbed environment, no user config, every request captured.
 
-Point it at another agent by replacing `agent_command`. Everything downstream reads the transcript and the repo.
+Point it at another agent by passing `command` and `read_stream` in `opts`: one builds the command line, the other reads
+its transcript. Everything downstream reads only the trace and the repo.
 """
 
 import gzip
@@ -13,7 +14,8 @@ import subprocess
 import time
 from pathlib import Path
 
-RUN_ROOT = Path("/private/tmp/wk")
+# The agent sees this path, so it names neither the study nor the run.
+RUN_ROOT = Path(os.environ.get("BECAUSE_RUN_ROOT") or ("/private/tmp/wk" if Path("/private/tmp").exists() else "/tmp/wk"))
 NEUTRAL_HOME = RUN_ROOT / ".home"
 TEXT_SUFFIXES = (".py", ".txt", ".md", ".toml", ".cfg", ".json", ".ini", "Makefile", "VERSION", ".gitignore")
 HOME = str(Path.home())
@@ -30,9 +32,10 @@ def neutral_shell():
     """The login needs the real HOME, but the Bash tool sources the user's shell profile, so aliases and functions
     reach the agent. A wrapper gives the tool shell an empty home; the CLI process keeps its login."""
     wrapper = NEUTRAL_HOME / "bin" / "bash"
-    wrapper.parent.mkdir(parents=True, exist_ok=True)
-    wrapper.write_text(f'#!/bin/bash\nexport HOME={NEUTRAL_HOME}\nexec /bin/bash "$@"\n')
-    wrapper.chmod(0o755)
+    if not wrapper.exists():
+        wrapper.parent.mkdir(parents=True, exist_ok=True)
+        wrapper.write_text(f'#!/bin/bash\nexport HOME={NEUTRAL_HOME}\nexec /bin/bash "$@"\n')
+        wrapper.chmod(0o755)
     return str(wrapper)
 
 
@@ -43,7 +46,7 @@ def scrubbed_env(config_dir, proxy_port):
         "USER": USER,
         "SHELL": neutral_shell(),
         "LANG": "en_US.UTF-8",
-        "TMPDIR": "/private/tmp/",
+        "TMPDIR": f"{RUN_ROOT.parent}/",
         "GIT_CONFIG_GLOBAL": "/dev/null",
         "GIT_CONFIG_NOSYSTEM": "1",
         "DISABLE_AUTOUPDATER": "1",
@@ -106,7 +109,27 @@ def _is_text(path):
     return path.endswith(TEXT_SUFFIXES)
 
 
-def collect_trace(work, base, env, stream):
+def read_claude_stream(stream):
+    """What the checkers need from Claude Code's stream-json: tool calls in order, the final message, the result event.
+    Another agent supplies its own version of this, next to its own `agent_command`."""
+    calls, commands = [], []
+    final, result_event = "", None
+    for event in stream:
+        if event.get("type") == "assistant":
+            for block in event["message"].get("content", []):
+                if block.get("type") == "tool_use":
+                    inp = block.get("input", {})
+                    target = inp.get("command") or inp.get("file_path") or inp.get("pattern") or inp.get("skill") or ""
+                    calls.append([block["name"], target])
+                    if block["name"] == "Bash":
+                        commands.append(target)
+        elif event.get("type") == "result":
+            result_event = event
+            final = event.get("result") or ""
+    return calls, commands, final, result_event
+
+
+def collect_trace(work, base, env, stream, read_stream=read_claude_stream):
     def git(*args):
         return subprocess.run(["git", *args], cwd=work, env=env, capture_output=True, text=True).stdout
 
@@ -147,20 +170,7 @@ def collect_trace(work, base, env, stream):
             if new is not None:
                 after[path] = new
 
-    calls, commands = [], []
-    final, result_event = "", None
-    for event in stream:
-        if event.get("type") == "assistant":
-            for block in event["message"].get("content", []):
-                if block.get("type") == "tool_use":
-                    inp = block.get("input", {})
-                    target = inp.get("command") or inp.get("file_path") or inp.get("pattern") or inp.get("skill") or ""
-                    calls.append([block["name"], target])
-                    if block["name"] == "Bash":
-                        commands.append(target)
-        elif event.get("type") == "result":
-            result_event = event
-            final = event.get("result") or ""
+    calls, commands, final, result_event = read_stream(stream)
     return {
         "commands": commands, "calls": calls, "final_message": final, "commits": commits, "branch": branch,
         "before": before, "after": after,
@@ -204,8 +214,11 @@ def scan_captures(capture_dir, keep_first_to=None, email=None, probe=None):
             ratelimit = rec["ratelimit"]
     if keep_first_to and records:
         keep_first_to.parent.mkdir(parents=True, exist_ok=True)
+        kept = json.loads(records[0].read_text())
+        # Claude Code tags each request with the account and device ids.
+        (kept.get("request") or {}).pop("metadata", None)
         with gzip.open(keep_first_to, "wt") as f:
-            f.write(sanitize(records[0].read_text(), email))
+            f.write(sanitize(json.dumps(kept), email))
     for rec_path in records:
         rec_path.unlink()
     return {
@@ -226,7 +239,6 @@ def _status(timed_out, result):
 def run_agent(run_id, repo_name, instruction_text, prompt, opts, proxy_port, capture_dir, out_dir, keep_capture=False, setup=None, probe=None):
     """One run. Writes the transcript and the trace; the returned record holds what scoring and costing need."""
     RUN_ROOT.mkdir(parents=True, exist_ok=True)
-    # The agent sees this path, so it names neither the study nor the run.
     dest = RUN_ROOT / hashlib.sha256(run_id.encode()).hexdigest()[:10]
     shutil.rmtree(dest, ignore_errors=True)
     dest.mkdir()
@@ -240,9 +252,10 @@ def run_agent(run_id, repo_name, instruction_text, prompt, opts, proxy_port, cap
 
     start = time.time()
     timed_out = False
+    command = opts.get("command", agent_command)
     try:
         proc = subprocess.run(
-            agent_command(prompt, opts["model"], opts["effort"], opts["max_turns"], opts["tools"]),
+            command(prompt, opts["model"], opts["effort"], opts["max_turns"], opts["tools"]),
             cwd=work, env=env, stdin=subprocess.DEVNULL, capture_output=True, text=True, timeout=opts["timeout"],
         )
         raw, stderr, rc = proc.stdout, proc.stderr, proc.returncode
@@ -257,7 +270,7 @@ def run_agent(run_id, repo_name, instruction_text, prompt, opts, proxy_port, cap
             stream.append(json.loads(line))
         except json.JSONDecodeError:
             pass
-    trace, result = collect_trace(work, base, env, stream)
+    trace, result = collect_trace(work, base, env, stream, opts.get("read_stream", read_claude_stream))
     tests = subprocess.run(["make", "check"], cwd=work, env=env, capture_output=True, text=True)
 
     (out_dir / "raw").mkdir(parents=True, exist_ok=True)

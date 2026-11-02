@@ -109,7 +109,8 @@ def by_rule(estimates):
     g = len(estimates)
     mean = float(np.mean(estimates))
     se = float(np.std(estimates, ddof=1) / np.sqrt(g))
-    t = mean / se if se else float("nan")
+    # All rules agreeing exactly gives a zero SE, which happens at a floor or ceiling. NaN here would break Holm.
+    t = mean / se if se else (0.0 if mean == 0 else float("inf"))
     q = stats.t.ppf(0.975, g - 1)
     return {
         "estimate": mean, "se": se, "ci": [mean - q * se, mean + q * se],

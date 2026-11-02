@@ -49,6 +49,16 @@ def start_proxy(capture_dir):
     return proc, int(proc.stdout.readline())
 
 
+def run_row(row, opts, port, capture, out, keep_capture=False):
+    if row.get("study") == 2:
+        work_plan = study2_plan(row)
+        return run_agent(row["run_id"], None, None, work_plan["prompt"], opts, port, capture, out, keep_capture=keep_capture,
+                         setup=lambda d, e: study2_repo(work_plan, d, e), probe=work_plan["probe"])
+    text, _, _ = render_file(row)
+    task = next(t for t in json.loads((FIXTURES / "tasks.json").read_text()) if t["id"] == row["task"])
+    return run_agent(row["run_id"], task["repo"], text, render_prompt(row), opts, port, capture, out, keep_capture=keep_capture)
+
+
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("manifest")
@@ -98,15 +108,7 @@ def main():
                         return
                     row = queue.pop(0)
                 n = int(row["run_id"].rsplit("-", 1)[1])
-                if row.get("study") == 2:
-                    work_plan = study2_plan(row)
-                    rec = run_agent(row["run_id"], None, None, work_plan["prompt"], opts, port, capture, out,
-                                    keep_capture=n % a.keep_capture_every == 0, setup=lambda d, e: study2_repo(work_plan, d, e), probe=work_plan["probe"])
-                else:
-                    text, _, _ = render_file(row)
-                    task = next(t for t in json.loads((FIXTURES / "tasks.json").read_text()) if t["id"] == row["task"])
-                    rec = run_agent(row["run_id"], task["repo"], text, render_prompt(row), opts, port, capture, out,
-                                    keep_capture=n % a.keep_capture_every == 0)
+                rec = run_row(row, opts, port, capture, out, keep_capture=n % a.keep_capture_every == 0)
                 if a.expect_cli and rec["cli"] and rec["cli"] != a.expect_cli:
                     print(f"cli is {rec['cli']}, expected {a.expect_cli}: stopping", flush=True)
                     stop.set()

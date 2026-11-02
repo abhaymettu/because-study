@@ -14,10 +14,11 @@ test: setup
 # Every number from the raw traces. No subscription needed.
 reproduce: setup
 	$(PY) -m analysis.study1 data/study1 --perms 2000 --out results/study1.json
+	$(PY) -m analysis.study2 data/study2 --out results/study2.json
 
-# The same pipeline on a committed sample of runs, for a check in under a minute.
+# The harness, the checkers and the analyses with a stand-in agent, for a check in under a minute.
 replay: setup
-	$(PY) -m analysis.study1 data/study1 --perms 100
+	$(PY) -m harness.replay
 
 # Repeats the runs themselves. Needs Claude Code and a subscription.
 rerun: setup

@@ -1,0 +1,879 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Because explorer</title>
+<link rel="icon" href="data:,">
+<meta name="description" content="Rules, arms and transcripts behind a preregistered randomized study of what makes Claude Code follow its instructions.">
+<script>try { const t = localStorage.getItem('theme'); if (t) document.documentElement.dataset.theme = t; } catch {}</script>
+<style>
+:root {
+  color-scheme: light;
+  --bg: #fbfbf9; --raised: #fff; --tint: #f1f1ed; --tint2: #e7e6e0;
+  --ink: #191917; --ink2: #54544e; --ink3: #6c6c64;
+  --line: #e4e3dd; --line2: #c4c3bb; --tick: #8f8f86;
+  --accent: #1f4db3; --accent-tint: #e6ecf9;
+  --scrim: rgb(24 24 20 / .2); --shadow: rgb(24 24 20 / .16);
+  --r0: #f1f4fa; --r1: #dce5f5; --r2: #bccdec; --r3: #8aa7de; --r4: #3f66ba; --r5: #1d3d87;
+  --t0: #191917; --t1: #191917; --t2: #191917; --t3: #0f121a; --t4: #fff; --t5: #fff;
+  --ease: cubic-bezier(.32, .72, 0, 1);
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+  --list-w: clamp(340px, calc(100vw - 968px), 420px);
+  --run-w: min(860px, calc(100vw - 48px));
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #131312; --raised: #1a1a18; --tint: #242421; --tint2: #2e2e2a;
+    --ink: #efeee9; --ink2: #b7b6ae; --ink3: #9a9990;
+    --line: #2d2d2a; --line2: #4b4b45; --tick: #77766e;
+    --accent: #9cb7ff; --accent-tint: #1f2a47;
+    --scrim: rgb(0 0 0 / .5); --shadow: rgb(0 0 0 / .5);
+    --r0: #191d27; --r1: #212b41; --r2: #2d3f66; --r3: #4763a0; --r4: #86a4e2; --r5: #c6d6f6;
+    --t0: #f2f3f7; --t1: #f2f3f7; --t2: #f2f3f7; --t3: #fff; --t4: #0d1017; --t5: #0d1017;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #131312; --raised: #1a1a18; --tint: #242421; --tint2: #2e2e2a;
+  --ink: #efeee9; --ink2: #b7b6ae; --ink3: #9a9990;
+  --line: #2d2d2a; --line2: #4b4b45; --tick: #77766e;
+  --accent: #9cb7ff; --accent-tint: #1f2a47;
+  --scrim: rgb(0 0 0 / .5); --shadow: rgb(0 0 0 / .5);
+  --r0: #191d27; --r1: #212b41; --r2: #2d3f66; --r3: #4763a0; --r4: #86a4e2; --r5: #c6d6f6;
+  --t0: #f2f3f7; --t1: #f2f3f7; --t2: #f2f3f7; --t3: #fff; --t4: #0d1017; --t5: #0d1017;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font: 400 .9375rem/1.5 var(--sans); letter-spacing: -.003em;
+  font-variant-numeric: tabular-nums; -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3, p, ul, dl, dd { margin: 0; padding: 0; }
+ul { list-style: none; }
+h2 { font-size: 1.0625rem; line-height: 1.3; font-weight: 600; letter-spacing: -.008em; }
+h3 { font-size: .9375rem; line-height: 1.35; font-weight: 600; margin: 1.5rem 0 .5rem; }
+a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: .16em; }
+p + p { margin-top: .5rem; }
+small, .sm { font-size: .8125rem; line-height: 1.45; letter-spacing: .002em; }
+.xs { font-size: .75rem; line-height: 1.4; letter-spacing: .006em; }
+.muted { color: var(--ink2); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
+.title:focus { outline: none; }
+button { font: inherit; letter-spacing: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+.btn {
+  border: 1px solid var(--line2); border-radius: 6px; padding: .3125rem .75rem; min-height: 2rem;
+  font-size: .8125rem; transition: transform 120ms ease-out;
+}
+.btn:active { transform: scale(.97); }
+
+.top {
+  display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1.25rem;
+  padding: 1rem clamp(16px, 3.4vw, 48px); border-bottom: 1px solid var(--line);
+}
+.top .brand { flex: 1 1 18rem; min-width: 0; line-height: 1.35; }
+.top strong { font-weight: 600; letter-spacing: -.008em; }
+.seg { display: inline-flex; gap: 2px; border: 1px solid var(--line2); border-radius: 8px; padding: 2px; }
+.seg > * {
+  padding: .3125rem .75rem; border-radius: 6px; font-size: .8125rem; line-height: 1.3; text-decoration: none;
+  display: inline-flex; align-items: center; gap: .375rem; min-height: 2rem; transition: transform 120ms ease-out;
+}
+.seg > *:active { transform: scale(.97); }
+.seg > [aria-current="true"], .seg > [aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+.dev {
+  padding: .625rem clamp(16px, 3.4vw, 48px); background: var(--ink); color: var(--bg);
+  font-size: .8125rem; line-height: 1.45; letter-spacing: .002em;
+}
+.dev b { font-weight: 600; }
+
+main { padding: 0 clamp(16px, 3.4vw, 48px) 4rem; }
+.sec { padding-top: 2.5rem; }
+.sec > .wide > h2 { margin-bottom: .875rem; }
+.note { color: var(--ink2); margin-top: .875rem; font-size: .8125rem; line-height: 1.5; letter-spacing: .002em; max-width: 42rem; }
+.reading {
+  font-size: 1.5rem; line-height: 1.24; font-weight: 500; letter-spacing: -.017em; max-width: 34em;
+}
+.reading::first-letter { text-transform: uppercase; }
+.lead .sm { max-width: 42rem; margin-top: .75rem; }
+.wide { min-width: 0; max-width: 920px; }
+@media (min-width: 1240px) {
+  main { margin-left: max(0px, calc((100vw - 1440px) / 2)); }
+  .sec { display: grid; grid-template-columns: minmax(0, 920px) 264px; column-gap: 40px; align-items: start; }
+  .note { margin-top: 0; padding-top: .25rem; }
+}
+
+/* Effects plot */
+.plot { margin: 0 -.5rem; }
+.axis, a.row { display: grid; grid-template-columns: 13.25rem minmax(0, 1fr) 13.75rem; column-gap: 1rem; padding: 0 .5rem; align-items: center; }
+.axis { color: var(--ink3); align-items: end; padding-bottom: .125rem; }
+.ticks { position: relative; display: block; height: 1.125rem; }
+.ticks span { position: absolute; bottom: 0; transform: translateX(-50%); font-size: .75rem; letter-spacing: .006em; }
+.ticks .zero { color: var(--ink); font-weight: 600; }
+.nums { display: grid; grid-template-columns: 2.875rem 6.75rem 3.25rem; column-gap: .4375rem; text-align: right; white-space: nowrap; font-size: .8125rem; letter-spacing: .002em; }
+.nums .k { display: none; }
+.nums b { font-weight: 600; }
+.axis .nums { font-size: .75rem; line-height: 1.2; }
+.grp { padding: 1rem .5rem .3125rem; color: var(--ink2); font-size: .75rem; line-height: 1.4; letter-spacing: .006em; }
+a.row { color: inherit; text-decoration: none; min-height: 2.125rem; --halo: var(--bg); border-radius: 3px; }
+a.row .lbl { font-size: .875rem; line-height: 1.25; padding: .3125rem 0; }
+a.row:active { background: var(--tint2); }
+a.row[aria-current="true"] { background: var(--tint); box-shadow: inset 2px 0 0 var(--ink); --halo: var(--tint); }
+a.row[aria-current="true"] .lbl { font-weight: 600; letter-spacing: -.006em; }
+a.row[aria-current="true"] .t { background: var(--ink3); }
+.trk { position: relative; display: block; align-self: stretch; min-height: 2.125rem; }
+.trk i { position: absolute; display: block; }
+.trk .g { top: 0; bottom: 0; width: 1px; background: var(--line); }
+.trk .z { top: 0; bottom: 0; width: 1.5px; margin-left: -.75px; background: var(--ink); }
+.trk .t { top: 50%; height: .625rem; margin-top: -.3125rem; width: 1px; background: var(--tick); }
+.trk .ci { top: 50%; height: 2px; margin-top: -1px; background: var(--accent); }
+.trk .d { top: 50%; width: .6875rem; height: .6875rem; margin: -.34375rem; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 2px var(--halo); }
+.trk .none { position: absolute; left: 50%; top: 50%; transform: translateY(-50%); padding-left: .5rem; color: var(--ink3); font-size: .75rem; white-space: nowrap; }
+.key { display: inline-block; vertical-align: middle; margin-right: .1875rem; }
+.key.dot { width: .625rem; height: .625rem; border-radius: 50%; background: var(--accent); }
+.key.line { width: 1rem; height: 2px; background: var(--accent); }
+.key.tick { width: 1px; height: .625rem; background: var(--tick); }
+
+/* Matrix */
+.scroll { overflow-x: auto; margin-top: .5rem; overscroll-behavior-x: contain; }
+.mx { border-collapse: separate; border-spacing: 3px; width: calc(100% + 3px); margin-left: -3px; }
+.mx th, .mx td { padding: 0; font-weight: 400; }
+.mx thead th { font-size: .8125rem; line-height: 1.25; color: var(--ink2); padding: 0 .25rem .25rem; vertical-align: bottom; text-align: center; min-width: 5.25rem; }
+.mx thead th.hit { color: var(--ink); font-weight: 600; box-shadow: inset 0 -2px 0 var(--ink); }
+.mx thead th.df { min-width: 5.5rem; }
+.mx th.rl {
+  position: sticky; left: 0; z-index: 1; background: var(--bg); text-align: left; min-width: 13rem;
+  padding: .25rem .75rem .25rem 0; font-size: .8125rem; line-height: 1.35; letter-spacing: .002em;
+}
+.c {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; min-height: 2.875rem;
+  border-radius: 3px; transition: transform 120ms ease-out;
+}
+.c b { font-weight: 600; font-size: .9375rem; line-height: 1.15; }
+.c small { font-size: .6875rem; line-height: 1.2; letter-spacing: .01em; }
+.c:active:not(:disabled) { transform: scale(.97); }
+.c:disabled { border: 1px solid var(--line); color: var(--ink3); cursor: default; }
+.c:focus-visible, .c.cmp-a, .c.cmp-b, .c[aria-pressed="true"] { outline-offset: 1px; border-radius: 3px; }
+.c.cmp-a { outline: 2px solid var(--ink); }
+.c.cmp-b { outline: 2px dashed var(--ink); }
+.c[aria-pressed="true"], .c:focus-visible { outline: 3px solid var(--accent); }
+.r0 { background: var(--r0); color: var(--t0); } .r1 { background: var(--r1); color: var(--t1); }
+.r2 { background: var(--r2); color: var(--t2); } .r3 { background: var(--r3); color: var(--t3); }
+.r4 { background: var(--r4); color: var(--t4); } .r5 { background: var(--r5); color: var(--t5); }
+.df { text-align: right; font-size: .8125rem; padding-left: .5rem !important; white-space: nowrap; }
+.foot th, .foot td { border-top: 1px solid var(--line2); padding-top: .375rem !important; padding-bottom: .375rem !important; }
+.foot .f { text-align: center; font-size: .8125rem; font-weight: 600; }
+.foot th.rl { font-weight: 600; }
+.fold-row th { padding: .625rem 0 .25rem; text-align: left; }
+.fold { position: sticky; left: 3px; display: inline-flex; align-items: center; gap: .5rem; font-size: .8125rem; min-height: 2rem; text-align: left; }
+.fold::before, summary::before {
+  content: ""; flex: none; width: .375rem; height: .375rem; border-right: 1.5px solid; border-bottom: 1.5px solid; transform: rotate(-45deg);
+}
+.fold[aria-expanded="true"]::before, [open] > summary::before { transform: rotate(45deg); }
+.ramp { display: flex; gap: 2px; margin-top: .625rem; }
+.ramp span { flex: 1; text-align: center; padding: .1875rem 0; font-size: .6875rem; border-radius: 2px; }
+.gridgroup + .gridgroup { margin-top: 1.75rem; }
+.gridgroup h3 { margin: 0 0 .25rem; }
+
+/* Marks: filled for followed, hollow for lapsed, always with a word nearby */
+.mark { display: inline-block; flex: none; width: .625rem; height: .625rem; border-radius: 50%; border: 1.5px solid currentColor; vertical-align: -.04em; }
+.mark.on { background: currentColor; }
+
+/* Arms */
+.clauses { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem 1.75rem; }
+.clauses h3 { margin-top: 0; }
+.clauses li { padding: .375rem 0; border-top: 1px solid var(--line); font-size: .8125rem; line-height: 1.45; letter-spacing: .002em; }
+.reasons { width: 100%; border-collapse: collapse; font-size: .8125rem; line-height: 1.45; letter-spacing: .002em; }
+.reasons th { font-weight: 600; text-align: left; padding: .375rem 1rem .375rem 0; vertical-align: bottom; }
+.reasons td { padding: .4375rem 1rem .4375rem 0; border-top: 1px solid var(--line); vertical-align: top; }
+.reasons td:last-child, .reasons th:last-child { padding-right: 0; }
+details > summary { display: flex; align-items: center; gap: .5rem; cursor: pointer; list-style: none; min-height: 2rem; }
+details > summary::-webkit-details-marker { display: none; }
+details > summary:active, .fold:active { color: var(--ink2); }
+.target { border-top: 1px solid var(--line); font-size: .8125rem; }
+.target dl { padding: .25rem 0 .75rem 1rem; }
+.target dt { color: var(--ink2); margin-top: .375rem; }
+
+/* Sheets */
+.scrim, .sheet { position: fixed; top: 0; bottom: 0; visibility: hidden; }
+.scrim {
+  left: 0; right: 0; z-index: 10; background: var(--scrim); opacity: 0;
+  transition: opacity 240ms var(--ease), visibility 0s linear 240ms;
+}
+.scrim.open { opacity: 1; visibility: visible; transition: opacity 240ms var(--ease), visibility 0s; }
+.sheet {
+  right: 0; z-index: 20; display: flex; flex-direction: column; background: var(--raised);
+  border-left: 1px solid var(--line2); box-shadow: -10px 0 30px var(--shadow);
+  transform: translateX(100%); transition: transform 240ms var(--ease), visibility 0s linear 240ms;
+}
+.sheet.open { transform: none; visibility: visible; transition: transform 240ms var(--ease), visibility 0s; }
+#list { width: var(--list-w); }
+#run { width: var(--run-w); z-index: 30; }
+@media (min-width: 1320px) {
+  :root { --run-w: min(860px, calc(100vw - var(--list-w))); }
+  #list.open.shift { transform: translateX(calc(-1 * var(--run-w))); }
+}
+:root[data-instant] .sheet, :root[data-instant] .scrim { transition: none; }
+.sh-head { display: flex; gap: 1rem; align-items: flex-start; padding: 1rem 1.25rem .75rem; }
+.sh-head > div { flex: 1; min-width: 0; }
+.sh-head h2 { font-size: .9375rem; line-height: 1.35; letter-spacing: -.003em; }
+.sh-head p { margin-top: .25rem; }
+.sh-tools { padding: 0 1.25rem .75rem; border-bottom: 1px solid var(--line); }
+.sh-body { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 1rem 1.25rem 2.5rem; }
+#lb { padding: 0 0 2rem; }
+.item { display: block; width: 100%; text-align: left; padding: .5625rem 1.25rem; border-bottom: 1px solid var(--line); }
+.item:active { background: var(--tint2); }
+.item[aria-current="true"] { background: var(--tint); box-shadow: inset 2px 0 0 var(--ink); }
+.item:focus-visible { outline-offset: -2px; }
+.item .l1 { display: flex; align-items: baseline; gap: .5rem; font-size: .875rem; }
+.item .l1 > :nth-child(2) { flex: 1; }
+.item .l2 { display: block; color: var(--ink2); font-size: .75rem; line-height: 1.4; letter-spacing: .006em; margin-top: .0625rem; padding-left: 1.125rem; }
+.item .v { font-size: .8125rem; color: var(--ink2); }
+.empty { padding: 1.5rem 1.25rem; color: var(--ink2); font-size: .875rem; }
+.more { padding: .875rem 1.25rem; }
+.tabs { display: flex; gap: 1.25rem; padding: 0 1.25rem; border-bottom: 1px solid var(--line); }
+.tabs a { padding: .5rem 0; margin-bottom: -1px; border-bottom: 2px solid transparent; font-size: .8125rem; line-height: 1.3; color: var(--ink2); text-decoration: none; transition: transform 120ms ease-out; }
+.tabs a:active { transform: scale(.97); }
+.tabs a[aria-current="true"] { color: var(--ink); border-color: var(--ink); }
+
+/* Run panes */
+.md, pre, code { font-family: var(--mono); letter-spacing: 0; }
+.md { font-size: .75rem; line-height: 1.55; background: var(--tint); border-radius: 4px; padding: .625rem .75rem; }
+.md > div { white-space: pre-wrap; overflow-wrap: anywhere; }
+.md .tg { margin: .125rem -.75rem; padding: .1875rem .75rem .1875rem calc(.75rem - 2px); border-left: 2px dotted var(--line2); background: var(--raised); }
+.md .tg small { display: block; font: 400 .6875rem/1.4 var(--sans); letter-spacing: .01em; color: var(--ink3); white-space: normal; }
+.md .sel { border-left: 3px solid var(--accent); padding-left: calc(.75rem - 3px); background: var(--accent-tint); font-weight: 600; scroll-margin: 6rem; }
+.md .sel small { color: var(--ink); font-weight: 600; }
+pre { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; font-size: .75rem; line-height: 1.5; }
+.say { white-space: pre-wrap; overflow-wrap: anywhere; padding: .25rem 0; font-size: .9375rem; line-height: 1.5; }
+.steps { display: flex; flex-direction: column; gap: .25rem; }
+.call, .fold-step { border: 1px solid var(--line); border-radius: 4px; }
+.call > summary, .fold-step > summary { padding: .3125rem .625rem; font-size: .8125rem; }
+.call summary .tool { font-weight: 600; flex: none; }
+.call summary code { flex: 1; min-width: 0; font-size: .75rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--ink2); }
+.call .err { flex: none; font-size: .75rem; font-weight: 600; }
+.step-body { padding: .25rem .625rem .625rem; border-top: 1px solid var(--line); }
+.step-body .k { color: var(--ink2); font-size: .75rem; letter-spacing: .006em; margin: .5rem 0 .125rem; }
+.step-body pre.res { background: var(--tint); padding: .375rem .5rem; border-radius: 3px; }
+.verdict { display: flex; align-items: center; gap: .5rem; font-size: 1.1875rem; line-height: 1.3; font-weight: 600; letter-spacing: -.011em; }
+.verdict .mark { width: .875rem; height: .875rem; border-width: 2px; }
+.shuffled { margin-bottom: 1rem; padding: .5rem .75rem; border: 1px dashed var(--ink2); border-radius: 4px; font-size: .8125rem; line-height: 1.45; letter-spacing: .002em; }
+.rule-big { margin-top: .625rem; font-size: .9375rem; }
+.final { white-space: pre-wrap; overflow-wrap: anywhere; font-size: .875rem; line-height: 1.5; background: var(--tint); padding: .5rem .75rem; border-radius: 4px; }
+.diff { background: var(--tint); border-radius: 4px; padding: .5rem 0; }
+.diff span { display: block; padding: 0 .75rem; min-height: 1.5em; }
+.diff .da { background: var(--accent-tint); font-weight: 500; }
+.diff .dd { background: var(--tint2); color: var(--ink2); }
+.diff .dh { color: var(--ink3); }
+.vlist li { display: flex; gap: .5rem; align-items: baseline; padding: .375rem 0; border-top: 1px solid var(--line); font-size: .8125rem; line-height: 1.4; letter-spacing: .002em; }
+.vlist .word { flex: none; width: 3.75rem; }
+.vlist .text { flex: 1; min-width: 0; }
+.vlist .where { flex: none; color: var(--ink3); font-size: .75rem; }
+.facts { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: .375rem 1rem; font-size: .875rem; }
+.facts dt { color: var(--ink2); }
+.foot-note { color: var(--ink3); padding: 0 clamp(16px, 3.4vw, 48px) 2.5rem; font-size: .75rem; letter-spacing: .006em; }
+
+@media (hover: hover) and (pointer: fine) {
+  .btn:hover, .seg > :not([aria-current="true"]):not([aria-pressed="true"]):hover { background: var(--tint); }
+  a.row:hover:not([aria-current="true"]) { background: var(--tint); --halo: var(--tint); }
+  .c:hover:not(:disabled):not([aria-pressed="true"]):not(:focus-visible):not(.cmp-a):not(.cmp-b) { outline: 1.5px solid var(--ink); outline-offset: 1px; }
+  .item:hover:not([aria-current="true"]) { background: var(--tint); }
+  .tabs a:hover { color: var(--ink); }
+  .fold:hover, details > summary:hover { color: var(--ink); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .16em; }
+  .call summary:hover code { text-decoration: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scrim, .scrim.open { transition: opacity 140ms linear, visibility 0s linear 140ms; }
+  .sheet { transform: none; opacity: 0; transition: opacity 140ms linear, visibility 0s linear 140ms; }
+  .sheet.open { opacity: 1; transition: opacity 140ms linear, visibility 0s; }
+  .btn, .seg > *, .c, .tabs a { transition: none; }
+  .btn:active, .seg > *:active, .c:active:not(:disabled), .tabs a:active { transform: none; }
+}
+@media (max-width: 720px) {
+  :root { --list-w: 100%; --run-w: 100%; }
+  .sheet { border-left: 0; box-shadow: none; }
+  .top { display: grid; grid-template-columns: minmax(0, 1fr) auto; padding-top: .75rem; padding-bottom: .75rem; }
+  .top .seg { grid-column: 1 / -1; grid-row: 2; }
+  .top .seg > * { flex: 1; justify-content: center; text-align: center; }
+  #theme { align-self: start; }
+  .ticks .minor { display: none; }
+  .ticks, .trk { margin-inline: .75rem; }
+  .sec { padding-top: 2rem; }
+  .reading { font-size: 1.3125rem; letter-spacing: -.014em; }
+  .axis { grid-template-columns: minmax(0, 1fr); }
+  .axis > :not(.ticks) { display: none; }
+  a.row { grid-template-columns: minmax(0, 1fr); padding-top: .4375rem; padding-bottom: .375rem; row-gap: .1875rem; }
+  .trk { min-height: 1.5rem; }
+  .nums { display: flex; flex-wrap: wrap; gap: 0 .75rem; text-align: left; font-size: .75rem; letter-spacing: .006em; }
+  .nums .k { display: inline; color: var(--ink2); }
+  .mx th.rl { min-width: 9.75rem; max-width: 9.75rem; font-size: .75rem; padding-right: .5rem; }
+  .mx thead th { min-width: 4.5rem; font-size: .75rem; }
+  .clauses { grid-template-columns: minmax(0, 1fr); }
+  .sh-head { padding: .875rem 1rem .625rem; }
+  .sh-tools { padding: 0 1rem .625rem; }
+  .sh-body { padding: .875rem 1rem 2.5rem; }
+  .item { padding: .625rem 1rem; }
+  .tabs { padding: 0 1rem; gap: 1rem; }
+  .tabs a { padding: .625rem 0; }
+  .btn { min-height: 2.5rem; }
+  .seg > * { min-height: 2.5rem; }
+  .fold { min-height: 2.5rem; }
+  details > summary { min-height: 2.5rem; }
+  .vlist .where { display: none; }
+  .facts { grid-template-columns: minmax(0, 1fr); row-gap: .125rem; }
+  .facts dd { margin-bottom: .5rem; overflow-wrap: anywhere; }
+}
+</style>
+</head>
+<body>
+<div id="dev" class="dev" hidden></div>
+<header class="top">
+  <div class="brand"><strong>Because</strong> <span class="sm muted">A preregistered randomized study of what makes Claude Code follow its instructions.</span></div>
+  <nav class="seg" aria-label="Study">
+    <a id="v1" href="#s1">Study 1, instruction wording</a>
+    <a id="v2" href="#s2">Study 2, skill loading</a>
+  </nav>
+  <button id="theme" class="btn" type="button"></button>
+</header>
+<main id="main"><p class="sec muted" id="boot">Loading the study data.</p></main>
+<p class="foot-note">Rules, checkers and analysis code are in the <a href="https://github.com/abhaymettu/because">repository</a>.</p>
+
+<div id="scrim" class="scrim"></div>
+<aside id="list" class="sheet" role="dialog" aria-labelledby="lt">
+  <div class="sh-head">
+    <div><h2 id="lt" class="title" tabindex="-1"></h2><p id="ls" class="sm muted"></p></div>
+    <button class="btn" type="button" data-close="list">Close</button>
+  </div>
+  <div class="sh-tools"><div id="lf" class="seg" role="group" aria-label="Filter runs"></div></div>
+  <div id="lb" class="sh-body"></div>
+</aside>
+<aside id="run" class="sheet" role="dialog" aria-labelledby="rt">
+  <div class="sh-head">
+    <div><h2 id="rt" class="title" tabindex="-1"></h2><p id="rs" class="sm muted"></p></div>
+    <button class="btn" type="button" data-close="run">Close</button>
+  </div>
+  <nav class="tabs" aria-label="About this run">
+    <a data-pane="told">What it was told</a><a data-pane="did">What it did</a><a data-pane="checker">What the checker decided</a>
+  </nav>
+  <div id="rb" class="sh-body"></div>
+</aside>
+
+<script>
+'use strict';
+const $ = (q, root = document) => root.querySelector(q);
+const $$ = (q, root = document) => [...root.querySelectorAll(q)];
+const esc = v => String(v ?? '').replace(/[&<>"']/g, c => `&#${c.charCodeAt(0)};`);
+const MINUS = '−';
+const signed = (x, digits = 1) => `${x < 0 ? MINUS : x > 0 ? '+' : ''}${Math.abs(x).toFixed(digits)}`;
+const pts = x => x == null ? 'n/a' : signed(x * 100);
+const pct = x => x == null ? 'n/a' : `${Math.round(x * 100)}%`;
+const pval = p => p == null ? 'n/a' : p < 0.001 ? '<0.001' : p.toFixed(3);
+const int = n => Number(n).toLocaleString('en-US');
+const avg = xs => { const v = xs.filter(x => x != null); return v.length ? v.reduce((a, b) => a + b, 0) / v.length : null; };
+const rate = (items, y = o => o.y) => items?.length ? avg(items.map(y)) : null;
+const plural = (n, word) => `${n} ${word}${n === 1 ? '' : 's'}`;
+const mark = on => `<span class="mark${on ? ' on' : ''}" aria-hidden="true"></span>`;
+const fold = (head, body, cls = 'fold-step') => `<details class="${cls}"><summary>${head}</summary><div class="step-body">${body}</div></details>`;
+const decode = (cols, rows, levels) => rows.map(r => Object.fromEntries(cols.map((c, i) => [c, levels[c] ? levels[c][r[i]] : r[i]])));
+const ramp = p => `r${Math.round(p * 5)}`;
+const RAMP_KEY = `<div class="ramp" aria-hidden="true">${['0', '20', '40', '60', '80', '100'].map((t, i) => `<span class="r${i}">${t}</span>`).join('')}</div>`;
+
+let D;
+
+/* A route is the only state that survives navigation: #view/contrast/row/col/run/pane. */
+const PANES = { told: 1, did: 1, checker: 1 };
+const route = () => {
+  const part = location.hash.slice(1).split('/').map(x => { try { return decodeURIComponent(x); } catch { return x; } });
+  const view = part[0] === 's2' ? 's2' : 's1', rows = STUDY[view].rows, blind = !STUDY[view].doc();
+  return {
+    view, contrast: rows.some(c => c.k === part[1]) ? part[1] : rows[0].k,
+    row: blind ? undefined : part[2], col: blind ? undefined : part[3], run: blind ? undefined : part[4], pane: PANES[part[5]] ? part[5] : 'told',
+  };
+};
+const link = (s, over = {}) => {
+  const o = { ...s, ...over };
+  return '#' + [o.view, o.contrast, o.row, o.col, o.run, o.run && o.pane !== 'told' && o.pane].filter(Boolean).map(encodeURIComponent).join('/');
+};
+const parent = s => s.run ? link(s, { run: null, pane: 'told' }) : s.col ? link(s, { row: null, col: null }) : null;
+
+/* Effects plot, shared by both studies */
+function plot(study) {
+  const rows = study.rows.map(c => ({ ...c, r: study.result(c.k) }));
+  let m = 0;
+  for (const { r } of rows) for (const v of [r?.estimate, ...(r?.ci ?? []), ...(r?.per_rule ?? [])]) if (Number.isFinite(v)) m = Math.max(m, Math.abs(v));
+  const max = Math.min(100, Math.max(10, Math.ceil(m * 10) * 10));
+  const step = max <= 20 ? 5 : max <= 60 ? 10 : 25;
+  const x = v => Math.max(0, Math.min(100, 50 + v * 100 / max * 50));
+  const marks = [];
+  for (let t = -Math.floor(max / step) * step; t <= max; t += step) marks.push(t);
+  const grid = marks.map(t => `<i class="${t === 0 ? 'z' : 'g'}" style="left:${x(t / 100)}%"></i>`).join('');
+  const row = c => {
+    const r = c.r, est = r?.estimate;
+    const interval = r?.ci?.[0] != null;
+    const track = est == null ? `${grid}<span class="none">Not estimable on this data</span>` : grid +
+      (r.per_rule ?? []).map(v => `<i class="t" style="left:${x(v)}%"></i>`).join('') +
+      (interval ? `<i class="ci" style="left:${x(r.ci[0])}%;width:${x(r.ci[1]) - x(r.ci[0])}%"></i>` : '') +
+      `<i class="d" style="left:${x(est)}%"></i>`;
+    const said = est == null ? 'not estimable' : `estimate ${pts(est)} points${interval ? `, interval ${pts(r.ci[0])} to ${pts(r.ci[1])}` : ''}`;
+    return `<a class="row" href="#${study.key}/${encodeURIComponent(c.k)}" data-k="${esc(c.k)}">
+      <span class="lbl">${esc(c.l)}</span>
+      <span class="trk" role="img" aria-label="${esc(said)}">${track}</span>
+      <span class="nums"><b>${pts(est)}</b><span><span class="k">95% </span>${interval ? `${pts(r.ci[0])} to ${pts(r.ci[1])}` : 'n/a'}</span><span><span class="k">${r?.p_holm != null ? 'Holm p ' : 'p '}</span>${interval ? pval(r.p_holm ?? r.p) : 'n/a'}</span></span>
+    </a>`;
+  };
+  return `<div class="plot">
+    <div class="axis" aria-hidden="true"><span></span>
+      <span class="ticks">${marks.map(t => `<span class="${t === 0 ? 'zero' : t / step % 2 ? 'minor' : ''}" style="left:${x(t / 100)}%">${t === 0 ? '0' : signed(t, 0)}</span>`).join('')}</span>
+      <span class="nums"><span>Points</span><span>95% interval</span><span>Holm p</span></span>
+    </div>
+    ${study.groups.map((g, i) => `<div class="grp">${esc(g)}</div>${rows.filter(c => c.g === i).map(row).join('')}`).join('')}
+  </div>`;
+}
+
+function cell(s, row, col, items, y, name, cmp = '') {
+  const n = items?.length ?? 0;
+  if (!n) return `<td><button class="c ${cmp}" type="button" disabled aria-label="${esc(name)}, no runs"><small>n 0</small></button></td>`;
+  const p = rate(items, y);
+  return `<td><button class="c ${ramp(p)} ${cmp}" type="button" data-go="${esc(link(s, { row, col, run: null }))}" data-cell="${esc(`${row}/${col}`)}" aria-label="${esc(name)}, ${Math.round(p * 100)} percent of ${n} runs"><b>${Math.round(p * 100)}%</b><small>n ${n}</small></button></td>`;
+}
+
+/* Study 1 */
+const FACTOR = {
+  reason: ['reason clause', { none: 'no clause', filler: 'filler', placebo: 'placebo', norm: 'norm', real: 'real reason' }],
+  modal: ['modal', { plain: 'plain', must: 'You must' }],
+  prefix: ['prefix', { none: 'no prefix', important: 'IMPORTANT:' }],
+  case: ['case', { normal: 'normal', upper: 'upper case' }],
+  example: ['worked example', { absent: 'no example', present: 'example' }],
+  position: ['position in the file', { top: 'top', middle: 'middle', bottom: 'bottom' }],
+  length: ['file length', { short: 'short', long: 'long' }],
+  pressure: ['time pressure', { none: 'no hurry', urgent: 'in a hurry' }],
+};
+const level = (f, l) => FACTOR[f][1][l] ?? l;
+const armLine = t => `Reason ${t.reason}, modal ${t.modal}, prefix ${t.prefix}, case ${t.case}, example ${t.example}, position ${t.position}.`;
+const groups1 = new Map();
+function grouped(f) {
+  if (!groups1.has(f)) {
+    const m = new Map();
+    for (const o of D.study1.obs) {
+      const k = `${o.rule}/${o[f] ?? o.run[f]}`;
+      (m.get(k) ?? m.set(k, []).get(k)).push(o);
+    }
+    groups1.set(f, m);
+  }
+  return groups1.get(f);
+}
+const S1 = {
+  key: 's1',
+  rows: [
+    { g: 0, k: 'real_vs_filler', l: 'H1, real reason vs filler', f: 'reason', a: 'real', b: 'filler' },
+    { g: 0, k: 'placebo_vs_filler', l: 'H2, placebo vs filler', f: 'reason', a: 'placebo', b: 'filler' },
+    { g: 0, k: 'real_minus_placebo', l: 'real reason vs placebo', f: 'reason', a: 'real', b: 'placebo' },
+    { g: 1, k: 'norm_vs_filler', l: 'norm vs filler', f: 'reason', a: 'norm', b: 'filler' },
+    { g: 1, k: 'none_vs_filler', l: 'no clause vs filler', f: 'reason', a: 'none', b: 'filler' },
+    { g: 1, k: 'must_vs_plain', l: 'You must vs plain', f: 'modal', a: 'must', b: 'plain' },
+    { g: 1, k: 'important_vs_none', l: 'IMPORTANT: vs none', f: 'prefix', a: 'important', b: 'none' },
+    { g: 1, k: 'upper_vs_normal', l: 'upper case vs normal', f: 'case', a: 'upper', b: 'normal' },
+    { g: 1, k: 'example_vs_absent', l: 'worked example vs none', f: 'example', a: 'present', b: 'absent' },
+    { g: 1, k: 'top_vs_bottom', l: 'top of file vs bottom', f: 'position', a: 'top', b: 'bottom' },
+    { g: 1, k: 'long_vs_short', l: 'long file vs short', f: 'length', a: 'long', b: 'short' },
+    { g: 1, k: 'urgent_vs_none', l: 'user in a hurry vs not', f: 'pressure', a: 'urgent', b: 'none' },
+  ],
+  groups: ['Registered tests. H1 and H2 are Holm adjusted together. Real reason vs placebo sits outside that family, so its p is unadjusted.', 'Family 2, Holm adjusted across these nine.'],
+  plotTitle: 'Effects on compliance, in points',
+  words: ['Followed', 'Lapsed'],
+  doc: () => D.study1,
+  result(k) { const r = D.study1.results; return { ...r.family_2, ...r.confirmatory, real_minus_placebo: r.real_minus_placebo }[k]; },
+  lead() {
+    const { results: r, fixed: f } = D.study1, c = r.positive_control, x = r.runs;
+    const lost = [['missing', x.missing], ['error', x.error], ['flagged by the leak scan', x.leak]].filter(e => e[1]).map(e => `${e[1]} ${e[0]}`);
+    return `<section class="sec lead"><div class="wide">
+      <p class="reading">${esc(r.reading)}.</p>
+      <p class="sm">${int(x.used)} runs, ${int(r.observations)} focal observations. Positive control, named in the prompt ${pct(c.named_in_prompt)} (n ${int(c.n_named)}) versus no rule ${pct(c.no_rule)} (n ${int(c.n_no_rule)}).${lost.length ? ` Not used: ${lost.join(', ')}.` : ''}${x.timeout + x.max_turns ? ` Used, though cut short: ${x.timeout} timed out, ${x.max_turns} hit the turn limit.` : ''}</p>
+    </div>
+    <p class="note">Held fixed in every run: ${esc(r.cost.models.join(', '))} at medium effort, Claude Code ${esc(r.cost.cli.join(', '))}, the tools ${esc(f.tools.join(', '))}, and one of ${f.tasks} coding tasks. Each CLAUDE.md shows ${f.k} of ${f.pool} rules among ${f.fillers[0]} or ${f.fillers[1]} filler rules, with every wording factor drawn independently for each rule in each run.</p></section>`;
+  },
+  noteFor: () => `<span class="key dot"></span> the estimate, each rule's own effect averaged with equal weight. <span class="key line"></span> its 95 percent interval across rules. <span class="key tick"></span> the nine rules one by one. Select a row to see the plain means behind it.`,
+  detail(s) {
+    const c = S1.rows.find(x => x.k === s.contrast), levels = D.study1.levels[c.f], g = grouped(c.f), rules = D.study1.rules;
+    const focal = rules.filter(r => r.focal), ballast = rules.filter(r => r.pool && !r.focal);
+    const diffOf = (a, b) => a == null || b == null ? 'n/a' : signed((a - b) * 100);
+    const line = r => {
+      const items = l => g.get(`${r.id}/${l}`);
+      return `<tr><th scope="row" class="rl">${esc(r.text)}</th>${levels.map(l => cell(s, r.id, l, items(l), o => o.y, `${r.id}, ${level(c.f, l)}`)).join('')}<td class="df">${diffOf(rate(items(c.a)), rate(items(c.b)))}</td></tr>`;
+    };
+    const eq = l => avg(focal.map(r => rate(g.get(`${r.id}/${l}`))));
+    const ballastOpen = ballast.some(r => r.id === s.row);
+    return `<div class="wide"><h2>By rule and ${esc(FACTOR[c.f][0])}</h2>
+      <div class="scroll"><table class="mx">
+        <thead><tr><th class="rl" scope="col"><span class="xs muted">Share of runs that followed the rule</span></th>${levels.map(l => `<th scope="col" class="${l === c.a || l === c.b ? 'hit' : ''}">${esc(level(c.f, l))}</th>`).join('')}<th scope="col" class="df">${esc(level(c.f, c.a))} minus ${esc(level(c.f, c.b))}</th></tr></thead>
+        <tbody>${focal.map(line).join('')}</tbody>
+        <tbody class="foot"><tr><th scope="row" class="rl">All ${focal.length}, equal weight</th>${levels.map(l => `<td class="f">${pct(eq(l))}</td>`).join('')}<td class="df"><b>${diffOf(eq(c.a), eq(c.b))}</b></td></tr></tbody>
+        <tbody><tr class="fold-row"><th colspan="${levels.length + 2}"><button type="button" class="fold" aria-expanded="${ballastOpen}" data-toggle="ballast">Rules at the ceiling, ${ballast.length} ballast rules outside the claims</button></th></tr></tbody>
+        <tbody id="ballast" ${ballastOpen ? '' : 'hidden'}>${ballast.map(line).join('')}</tbody>
+      </table></div>
+      <p class="note" style="margin-top:.75rem">These are plain means of the observation table, computed in your browser. The plot's estimates are adjusted for run and for the other factors, so they will differ a little from these raw means.</p></div>
+      <div class="note"><p>Darker in light mode and lighter in dark mode means more runs followed the rule. Every cell prints its percent and its n. Open a cell to read the runs behind it.</p>${RAMP_KEY}</div>`;
+  },
+  arms() {
+    const { clauses: c, rules } = D.study1;
+    const list = (title, xs) => `<div><h3>${title}</h3><ul>${xs.map(x => `<li>${esc(x)}</li>`).join('')}</ul></div>`;
+    return `<div class="wide"><h2>The arms</h2>
+      <div class="clauses">${list('Filler', c.filler)}${list('Placebo', c.placebo)}${list('Norm', c.norm)}</div>
+      <h3>Each rule's real reason and worked example</h3>
+      <div class="scroll"><table class="reasons" style="min-width:36rem"><thead><tr><th>Rule</th><th>Real reason</th><th>Worked example</th></tr></thead><tbody>
+      ${rules.filter(r => r.pool).map(r => `<tr><td>${esc(r.text)}</td><td>${esc(r.real)}</td><td>${esc(r.example)}</td></tr>`).join('')}</tbody></table></div>
+      <h3>The other factors</h3>
+      <p class="sm">Modal makes the lead "You must" or "You must not". Prefix puts "IMPORTANT:" in front. Case sets the lead in capitals. Length is ${D.study1.fixed.fillers[0]} or ${D.study1.fixed.fillers[1]} filler rules. Pressure adds this to the prompt: "${esc(c.urgent)}"</p></div>`;
+  },
+  cell(s) {
+    const c = S1.rows.find(x => x.k === s.contrast), rule = D.study1.rules.find(r => r.id === s.row);
+    if (!rule) return null;
+    const items = grouped(c.f).get(`${rule.id}/${s.col}`) ?? [];
+    return {
+      title: rule.text,
+      sub: `${FACTOR[c.f][0][0].toUpperCase()}${FACTOR[c.f][0].slice(1)}, ${level(c.f, s.col)}.${s.col === 'real' && c.f === 'reason' ? ` The clause: "${rule.real}".` : ''}`,
+      items: items.map(o => ({ id: o.run.id, ok: !!o.y, meta: `${o.run.task}, ${o.run.length} file, ${o.run.pressure === 'urgent' ? 'in a hurry' : 'no hurry'}, status ${o.run.status}` })),
+    };
+  },
+  runLine(id) { const r = D.study1.byId.get(id); return r ? `${r.task}, ${r.length} file, ${r.pressure === 'urgent' ? 'in a hurry' : 'no hurry'}, status ${r.status}, ${r.turns} turns` : ''; },
+  told(b, s) {
+    const by = new Map(b.targets.map(t => [`- ${t.text}`, t]));
+    const lines = b.file.split('\n').map(text => {
+      const t = by.get(text);
+      if (!t) return `<div>${esc(text) || ' '}</div>`;
+      const on = t.rule === s.row;
+      return `<div class="tg${on ? ' sel' : ''}">${esc(text)}<small>${on ? 'Selected rule. ' : 'Target rule. '}${armLine(t)}</small></div>`;
+    }).join('');
+    const named = b.control_rule && D.study1.rules.find(r => r.id === b.control_rule);
+    return `<p class="sm muted">The file as rendered for this run, then the prompt. The selected rule has a solid bar, the other ${b.targets.length - 1} target rules a dotted one, and everything else is filler.</p>
+      <h3>CLAUDE.md</h3><div class="md">${lines}</div>
+      <h3>The prompt</h3><div class="md"><div>${esc(b.prompt)}</div></div>
+      ${named ? `<p class="sm" style="margin-top:.5rem">This run is a positive control. Its prompt also names a rule the file does not show: ${esc(named.text)}</p>` : ''}`;
+  },
+  checker(b, s) {
+    const rules = D.study1.rules, rule = rules.find(r => r.id === s.row), v = b.verdicts[s.row], t = b.targets.find(x => x.rule === s.row);
+    const entry = (r, followed, lapsed) => {
+      const ok = b.verdicts[r.id]?.[0];
+      return `<li>${mark(ok)}<span class="word">${ok ? followed : lapsed}</span><span class="text">${esc(r.text)}</span><a class="where" href="${esc(r.link)}" target="_blank" rel="noopener" aria-label="Checker source for ${esc(r.id)}">checker</a></li>`;
+    };
+    const others = rules.filter(r => r.id !== s.row);
+    const shown = others.filter(r => b.verdicts[r.id]?.[1]);
+    const unshown = others.filter(r => r.pool && !b.verdicts[r.id]?.[1]);
+    const rest = others.filter(r => !r.pool);
+    return `${D.dev ? '<p class="shuffled">Development build. Every verdict here was shuffled within its rule, so it may not match what this transcript shows.</p>' : ''}
+      ${rule && v ? `<p class="verdict">${mark(v[0])}${v[0] ? 'Followed' : 'Lapsed'}</p>
+      <p class="rule-big">${esc(rule.text)}</p>
+      ${t ? `<p class="sm muted">${armLine(t)}</p>` : ''}
+      <p class="sm"><a href="${esc(rule.link)}" target="_blank" rel="noopener">Read this rule's checker in study1/rules.py</a></p>` : ''}
+      <h3>Final message</h3>${b.final ? `<div class="final">${esc(b.final)}</div>` : '<p class="sm muted">This run ended without a final message.</p>'}
+      <h3>Diff against the base</h3>${diffHtml(b.diff)}
+      <h3>The other ${shown.length} rules in this file</h3><ul class="vlist">${shown.map(r => entry(r, 'followed', 'lapsed')).join('')}</ul>
+      <h3>In the pool, not in this file</h3><p class="sm muted">What each checker says about a run with no such rule. This is the no-rule baseline.</p><ul class="vlist" style="margin-top:.375rem">${unshown.map(r => entry(r, 'met', 'not met')).join('')}</ul>
+      <h3>Checkers outside this study</h3>${fold(`${rest.length} other checkers in rules.py, never shown in this study`, `<ul class="vlist">${rest.map(r => entry(r, 'met', 'not met')).join('')}</ul>`)}`;
+  },
+};
+const diffHtml = text => !text ? '<p class="sm muted">No changes against the base.</p>' : `<pre class="diff">${text.split('\n').map(l => {
+  const kind = l.startsWith('+++') || l.startsWith('---') || l.startsWith('@@') ? 'dh' : l[0] === '+' ? 'da' : l[0] === '-' ? 'dd' : '';
+  return `<span class="${kind}">${esc(l)}</span>`;
+}).join('')}</pre>`;
+
+/* Study 2 */
+const LIBRARIES = [0, 50, 300], PREFIXES = ['aa', 'zz'];
+const WORD = { minimal: 'minimal', padded: 'padded', trigger: 'trigger', trigger_not: 'trigger, not for', directive: 'directive' };
+const visible = (l, p) => l < 300 || p === 'aa';
+const is = w => (l, p, x) => x === w;
+const both = (where, what) => (l, p, x) => where(l, p, x) && what(l, p, x);
+const at300 = l => l === 300;
+const gone = (l, p) => l === 300 && p === 'zz';
+const GRID = {
+  load: { title: 'Load rate on prompts that want the skill', note: 'Keyword, generic and indirect prompts.', keep: r => r.prompt !== 'decoy', y: r => r.loaded, words: ['Loaded', 'Not loaded'] },
+  false: { title: 'False loads on decoy prompts', note: 'The skill does not fit a decoy prompt, so a load here is a false load.', keep: r => r.prompt === 'decoy', y: r => r.loaded, words: ['Loaded', 'Not loaded'] },
+  reach: { title: 'Runs whose description reached the model', note: 'All prompts. Past the listing budget a skill keeps only its name.', keep: r => r.described != null, y: r => r.described, words: ['Reached', 'Did not reach'] },
+};
+const S2 = {
+  key: 's2',
+  rows: [
+    { g: 0, k: 'C1_trigger_vs_minimal_visible', l: 'C1, trigger vs minimal, description visible', grid: 'load', a: both(visible, is('trigger')), b: both(visible, is('minimal')), read: 'trigger against minimal, where the description is visible' },
+    { g: 0, k: 'C2_directive_vs_trigger_visible', l: 'C2, directive vs trigger, description visible', grid: 'load', a: both(visible, is('directive')), b: both(visible, is('trigger')), read: 'directive against trigger, where the description is visible' },
+    { g: 0, k: 'C3_not_clause_false_loads_visible', l: 'C3, not clause vs trigger, false loads', grid: 'false', a: both(visible, is('trigger_not')), b: both(visible, is('trigger')), read: 'the not clause against plain trigger, on decoy prompts where the description is visible' },
+    { g: 0, k: 'C4_aa_vs_zz_at_300', l: 'C4, aa vs zz at 300 skills', grid: 'load', a: (l, p) => at300(l) && p === 'aa', b: (l, p) => at300(l) && p === 'zz', read: 'an early name against a late one at 300 skills' },
+    { g: 0, k: 'C5_trigger_vs_minimal_described_gone', l: 'C5, trigger vs minimal, description gone', grid: 'load', a: both(gone, is('trigger')), b: both(gone, is('minimal')), read: 'trigger against minimal, where the budget has dropped the description' },
+  ],
+  groups: ['The registered family of five, Holm adjusted together. Each contrast is the per target difference, averaged with equal weight.'],
+  plotTitle: 'Effects on loading, in points',
+  doc: () => D.study2,
+  result: k => D.study2.results.family[k],
+  lead() {
+    const r = D.study2.results, x = r.runs, by = Object.entries(r.by_prompt ?? {});
+    return `<section class="sec lead"><div class="wide">
+      <p class="reading">Does a skill's description decide whether it loads, and when can it no longer matter?</p>
+      <p class="sm">${int(x.used)} runs. Claude Code lists skills alphabetically within a character budget, and past that budget a skill keeps only its name, so the target's place in the alphabet is randomized along with its wording.${by.length ? ` Load rate by prompt type: ${by.map(([k, v]) => `${esc(k)} ${pct(v)}`).join(', ')}.` : ''}</p>
+    </div></section>`;
+  },
+  noteFor: () => `<span class="key dot"></span> the estimate. <span class="key line"></span> its 95 percent interval across targets. <span class="key tick"></span> the targets one by one. Select a row to mark the cells it compares.`,
+  detail(s) {
+    const c = S2.rows.find(x => x.k === s.contrast), m = D.study2.cells;
+    const table = g => {
+      const G = GRID[g];
+      const hasAny = D.study2.runs.some(G.keep);
+      const rows = LIBRARIES.flatMap(l => PREFIXES.map(p => `<tr><th scope="row" class="rl">${l} skills, ${p} name</th>${D.study2.levels.wording.map(w => {
+        const cmp = g === c.grid ? (c.a(l, p, w) ? 'cmp-a' : c.b(l, p, w) ? 'cmp-b' : '') : '';
+        return cell(s, `${g}.${l}.${p}`, w, m.get(`${g}.${l}.${p}/${w}`), G.y, `${l} skills, ${p}, ${WORD[w]}`, cmp);
+      }).join('')}</tr>`)).join('');
+      return `<div class="gridgroup"><h3>${G.title}</h3><p class="sm muted">${G.note}${hasAny ? '' : ' This data did not record it, so the cells are empty.'}</p>
+        <div class="scroll"><table class="mx"><thead><tr><th class="rl" scope="col"></th>${D.study2.levels.wording.map(w => `<th scope="col">${WORD[w]}</th>`).join('')}</tr></thead><tbody>${rows}</tbody></table></div></div>`;
+    };
+    return `<div class="wide"><h2>By library, name and wording</h2>
+      <p class="sm" style="margin-bottom:1rem">${esc(c.l.split(',')[0])} compares ${esc(c.read)}. <span aria-hidden="true">Solid outlines</span> mark the first side, dashed outlines the second.</p>
+      ${['load', 'false', 'reach'].map(table).join('')}
+      <p class="note" style="margin-top:.875rem">These are plain means computed in your browser. The plot's estimates are per target differences, so they will differ a little from these raw means.</p></div>
+      <div class="note"><p>Darker in light mode and lighter in dark mode means a higher rate. Every cell prints its percent and its n, and an empty cell has no runs.</p>${RAMP_KEY}</div>`;
+  },
+  arms() {
+    return `<div class="wide"><h2>The arms</h2>
+      <p class="sm" style="margin-bottom:.75rem">${D.study2.targets.length} targets, each with five description wordings and four prompts. The wordings are exact.</p>
+      ${D.study2.targets.map(t => `<div class="target">${fold(esc(t.stem), `<dl>${Object.entries(t.wordings).map(([k, v]) => `<dt>${esc(WORD[k])}</dt><dd>${esc(v)}</dd>`).join('')}${Object.entries(t.prompts).map(([k, v]) => `<dt>${esc(k)} prompt</dt><dd>${esc(v)}</dd>`).join('')}</dl>`, '')}</div>`).join('')}</div>`;
+  },
+  cell(s) {
+    const [g, l, p] = String(s.row).split('.');
+    const G = GRID[g];
+    if (!G) return null;
+    return {
+      title: `${l} skills, ${p} name, ${WORD[s.col] ?? s.col} wording`, sub: G.title + '.', words: G.words,
+      items: (D.study2.cells.get(`${g}.${l}.${p}/${s.col}`) ?? []).map(r => ({
+        id: r.id, ok: !!G.y(r), meta: `${r.stem}, ${r.prompt} prompt, ${r.turns} turns`,
+      })),
+    };
+  },
+  runLine(id) { const r = D.study2.byId.get(id); return r ? `${r.stem}, ${WORD[r.wording]} wording, ${r.library} skills, ${r.prefix} name, ${r.prompt} prompt, ${r.turns} turns` : ''; },
+  told(b) {
+    const reach = b.reached == null ? 'Not recorded for this run.' : b.reached ? 'Yes. The target appeared with its description in the listing.' : 'No. Past the budget the listing keeps only the name.';
+    return `<h3 style="margin-top:0">The prompt</h3><div class="md"><div>${esc(b.prompt)}</div></div>
+      <h3>The target skill</h3>
+      <dl class="facts"><dt>Name</dt><dd><code>${esc(b.name)}</code></dd><dt>Description</dt><dd>${esc(b.description)}</dd><dt>Wording arm</dt><dd>${esc(WORD[b.wording] ?? b.wording)}</dd><dt>Library size</dt><dd>${esc(b.library)} other skills</dd><dt>Description reached the model</dt><dd>${reach}</dd></dl>`;
+  },
+  checker(b) {
+    const callText = b.call ? `<dl class="facts"><dt>Tool</dt><dd><code>${esc(b.call[0])}</code></dd><dt>Target</dt><dd><code>${esc(b.call[1])}</code></dd></dl>` : '';
+    return `${D.dev ? '<p class="shuffled">Development build. This verdict was shuffled within its target, so it may not match what this transcript shows.</p>' : ''}
+      <p class="verdict">${mark(b.loaded)}${b.loaded ? 'Loaded' : 'Not loaded'}</p>
+      <p class="sm" style="margin-top:.5rem"><a href="${esc(D.study2.checker)}" target="_blank" rel="noopener">Read the checker in analysis/study2.py</a></p>
+      <h3>Which call</h3>${callText || `<p class="sm muted">${b.loaded ? 'No matching call is recorded for this shuffled verdict.' : `No call named ${esc(b.name)}, through the Skill tool or by reading its SKILL.md.`}</p>`}
+      <h3>Final message</h3>${b.final ? `<div class="final">${esc(b.final)}</div>` : '<p class="sm muted">This run ended without a final message.</p>'}
+      ${b.diff ? `<h3>Diff against the base</h3>${diffHtml(b.diff)}` : ''}`;
+  },
+};
+const STUDY = { s1: S1, s2: S2 };
+
+/* What it did */
+const SUMMARY_KEYS = ['command', 'file_path', 'pattern', 'skill', 'path'];
+const STEP = {
+  text: x => `<div class="say">${esc(x.text)}</div>`,
+  thinking: x => fold('Thinking', `<div class="say muted">${esc(x.text)}</div>`),
+  context: x => fold('Added to the conversation', `<pre>${esc(x.text)}</pre>`),
+  result: x => x.of == null ? fold('Tool result', `<pre class="res">${esc(x.text)}</pre>`) : '',
+  call(x, res) {
+    const key = SUMMARY_KEYS.find(k => x.input[k] != null);
+    const line = String(key ? x.input[key] : JSON.stringify(x.input)).split('\n')[0];
+    const inputs = Object.entries(x.input).map(([k, v]) => `<div class="k">${esc(k)}</div><pre>${esc(typeof v === 'string' ? v : JSON.stringify(v, null, 1))}</pre>`).join('');
+    const result = res ? `<div class="k">result${res.error ? ', an error' : ''}</div><pre class="res">${esc(res.text) || 'Empty.'}</pre>` : '<div class="k">no result recorded</div>';
+    return fold(`<span class="tool">${esc(x.name)}</span><code>${esc(line)}</code>${res?.error ? '<span class="err">error</span>' : ''}`, inputs + result, 'call');
+  },
+};
+function didPane(b) {
+  if (!b.steps?.length) return '<p class="sm muted">No transcript was recorded for this run.</p>';
+  const results = new Map(b.steps.filter(x => x.kind === 'result').map(x => [x.of, x]));
+  const calls = b.steps.filter(x => x.kind === 'call').length, says = b.steps.filter(x => x.kind === 'text').length;
+  return `<p class="sm muted" style="display:flex;align-items:center;gap:.75rem;justify-content:space-between;margin-bottom:.75rem"><span>${plural(calls, 'tool call')} and ${plural(says, 'message')}, in order.</span><button class="btn" type="button" data-expand>Expand all</button></p>
+    <div class="steps">${b.steps.map((x, i) => STEP[x.kind]?.(x, results.get(i)) ?? '').join('')}</div>`;
+}
+
+/* Painting. Everything below reads the route and writes the page; nothing else holds navigation state. */
+const narrow = matchMedia('(max-width: 720px)'), roomy = matchMedia('(min-width: 1320px)');
+const main = $('#main'), listEl = $('#list'), runEl = $('#run');
+let prev = {}, list = {};
+const CAP = 50;
+
+function paintView(s) {
+  const study = STUDY[s.view];
+  $('#v1').setAttribute('aria-current', s.view === 's1');
+  $('#v2').setAttribute('aria-current', s.view === 's2');
+  if (!study.doc()) {
+    main.innerHTML = `<section class="sec"><p class="reading">${s.view === 's1' ? 'Study 1' : 'Study 2'} is still running.</p><p class="sm" style="margin-top:.75rem">The preregistration rules out interim contrasts, so this page shows nothing from a study until its registered analysis has been run.</p></section>`;
+    return;
+  }
+  main.innerHTML = `${study.lead()}
+    <section class="sec"><div class="wide"><h2>${study.plotTitle}</h2>${plot(study)}</div><p class="note">${study.noteFor()}</p></section>
+    <section class="sec" id="detail"></section>
+    <section class="sec" id="arms">${study.arms()}</section>`;
+}
+function paintContrast(s) {
+  const study = STUDY[s.view];
+  if (!study.doc()) return;
+  $$('a.row').forEach(a => a.setAttribute('aria-current', a.dataset.k === s.contrast));
+  $('#detail').innerHTML = study.detail(s);
+}
+function paintCellMark(s) {
+  $$('.c[aria-pressed]').forEach(b => b.removeAttribute('aria-pressed'));
+  if (s.col) $(`[data-cell="${CSS.escape(`${s.row}/${s.col}`)}"]`)?.setAttribute('aria-pressed', 'true');
+}
+function paintRows(s, c) {
+  const words = c.words ?? STUDY[s.view].words;
+  const kept = list.filter === 'all' ? c.items : c.items.filter(i => i.ok === (list.filter === 'yes'));
+  const shown = kept.slice(0, list.cap);
+  const body = $('#lb');
+  body.innerHTML = !kept.length
+    ? `<p class="empty">${c.items.length ? `No runs in this cell were marked ${esc(words[list.filter === 'yes' ? 0 : 1].toLowerCase())}.` : 'No runs in this cell.'}</p>`
+    : shown.map(i => `<button class="item" type="button" data-go="${esc(link(s, { run: i.id, pane: s.pane }))}" data-run="${esc(i.id)}"><span class="l1">${mark(i.ok)}<span>${esc(i.id)}</span><span class="v">${esc(words[i.ok ? 0 : 1])}</span></span><span class="l2">${esc(i.meta)}</span></button>`).join('')
+      + (kept.length > shown.length ? `<div class="more"><button class="btn" type="button" data-more>Show ${Math.min(100, kept.length - shown.length)} more, ${kept.length - shown.length} left</button></div>` : '');
+  $$('#lf button').forEach(b => b.setAttribute('aria-pressed', b.dataset.filter === list.filter));
+}
+function paintList(s) {
+  listEl.classList.toggle('open', !!s.col);
+  if (!s.col) { list = {}; return; }
+  const key = [s.view, s.contrast, s.row, s.col].join('/');
+  const c = STUDY[s.view].cell(s);
+  if (key !== list.key) {
+    list = { key, filter: 'all', cap: CAP };
+    $('#lb').scrollTop = 0;
+    $('#lt').textContent = c ? c.title : 'This cell does not exist';
+    const items = c?.items ?? [], n = items.length, yes = items.filter(i => i.ok).length, words = c?.words ?? STUDY[s.view].words ?? ['Yes', 'No'];
+    $('#ls').textContent = c ? `${c.sub} ${n ? `${Math.round(yes / n * 100)}% of ${n} runs.` : ''}` : '';
+    $('#lf').innerHTML = [['all', 'All', n, ''], ['yes', words[0], yes, mark(true)], ['no', words[1], n - yes, mark(false)]]
+      .map(([f, word, count, m]) => `<button type="button" data-filter="${f}">${m}${esc(word)} ${count}</button>`).join('');
+    if (c) paintRows(s, c); else $('#lb').innerHTML = '<p class="empty">No runs match this link.</p>';
+  }
+  $$('.item').forEach(b => b.dataset.run === s.run ? b.setAttribute('aria-current', 'true') : b.removeAttribute('aria-current'));
+}
+
+const bundles = new Map();
+const bundle = id => {
+  if (!bundles.has(id)) bundles.set(id, fetch(`runs/${encodeURIComponent(id)}.json`).then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); }).catch(e => { bundles.delete(id); throw e; }));
+  return bundles.get(id);
+};
+let runKey = null, runToken = 0;
+function paintRun(s) {
+  const open = !!s.run;
+  runEl.classList.toggle('open', open);
+  $('#scrim').classList.toggle('open', open);
+  listEl.classList.toggle('shift', open);
+  main.inert = open || (!!s.col && narrow.matches);
+  listEl.inert = open && !roomy.matches;
+  if (!open) { runKey = null; runToken++; return; }
+  $('#rt').textContent = s.run;
+  $('#rs').textContent = STUDY[s.view].runLine(s.run);
+  $$('.tabs a').forEach(a => { a.href = link(s, { pane: a.dataset.pane }); a.setAttribute('aria-current', a.dataset.pane === s.pane); });
+  const key = [s.run, s.pane, s.row].join('/');
+  if (key === runKey) return;
+  runKey = key;
+  const mine = ++runToken, body = $('#rb');
+  body.innerHTML = `<p class="sm muted">Loading ${esc(s.run)}.</p>`;
+  bundle(s.run).then(b => {
+    if (mine !== runToken) return;
+    const study = STUDY[s.view];
+    body.innerHTML = s.pane === 'did' ? didPane(b) : study[s.pane](b, s);
+    body.scrollTop = 0;
+    if (s.pane === 'told') $('.sel', body)?.scrollIntoView({ block: 'center' });
+  }).catch(e => {
+    if (mine !== runToken) return;
+    body.innerHTML = `<p>Could not load ${esc(s.run)}. ${esc(e.message)}.</p><p class="sm" style="margin-top:.75rem"><button class="btn" type="button" data-retry>Try again</button></p>`;
+  });
+}
+function moveFocus(p, s) {
+  if (s.run && s.run !== p.run) $('#rt').focus();
+  else if (!s.col && p.col) $(`[data-cell="${CSS.escape(`${p.row}/${p.col}`)}"]`)?.focus();
+  else if (!s.run && p.run) ($(`[data-run="${CSS.escape(p.run)}"]`) ?? $('#lt')).focus();
+  else if (s.col && (s.row !== p.row || s.col !== p.col) && !s.run) $('#lt').focus();
+}
+function render() {
+  const s = route();
+  if (s.view !== prev.view) { paintView(s); if (prev.view) scrollTo(0, 0); }
+  if (s.view !== prev.view || s.contrast !== prev.contrast) paintContrast(s);
+  paintList(s);
+  paintCellMark(s);
+  paintRun(s);
+  if (prev.view) moveFocus(prev, s); else if (s.run) $('#rt').focus(); else if (s.col) $('#lt').focus();
+  prev = s;
+}
+
+addEventListener('hashchange', render);
+narrow.addEventListener('change', () => paintRun(route()));
+roomy.addEventListener('change', () => paintRun(route()));
+addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    const up = parent(route());
+    if (up) { document.documentElement.dataset.instant = ''; location.hash = up; e.preventDefault(); }
+    return;
+  }
+  if (e.key.length > 1 || e.metaKey || e.ctrlKey) document.documentElement.dataset.instant = '';
+  const row = e.target.closest?.('a.row');
+  if (row && (e.key === 'ArrowDown' || e.key === 'ArrowUp')) {
+    const rows = $$('a.row'), next = rows[rows.indexOf(row) + (e.key === 'ArrowDown' ? 1 : -1)];
+    if (next) { e.preventDefault(); next.focus(); next.click(); }
+  }
+}, true);
+addEventListener('pointerdown', () => delete document.documentElement.dataset.instant, true);
+addEventListener('click', e => {
+  const t = e.target;
+  const go = t.closest('[data-go]');
+  if (go) { location.hash = go.dataset.go; return; }
+  const close = t.closest('[data-close]');
+  if (close || t.id === 'scrim') { const s = route(), up = close?.dataset.close === 'list' ? link(s, { row: null, col: null, run: null, pane: 'told' }) : parent(s); if (up) location.hash = up; return; }
+  const filter = t.closest('[data-filter]');
+  if (filter) { list.filter = filter.dataset.filter; list.cap = CAP; $('#lb').scrollTop = 0; const s = route(); paintRows(s, STUDY[s.view].cell(s)); paintList(s); return; }
+  if (t.closest('[data-more]')) { list.cap += 100; const s = route(); const top = $('#lb').scrollTop; paintRows(s, STUDY[s.view].cell(s)); paintList(s); $('#lb').scrollTop = top; $('[data-more]')?.focus(); return; }
+  if (t.closest('[data-retry]')) { runKey = null; paintRun(route()); return; }
+  const expand = t.closest('[data-expand]');
+  if (expand) { const open = expand.textContent === 'Expand all'; $$('details', $('#rb')).forEach(d => { d.open = open; }); expand.textContent = open ? 'Collapse all' : 'Expand all'; return; }
+  const toggle = t.closest('[data-toggle]');
+  if (toggle) { const on = toggle.getAttribute('aria-expanded') !== 'true'; toggle.setAttribute('aria-expanded', on); $(`#${toggle.dataset.toggle}`).hidden = !on; }
+});
+
+const themeButton = $('#theme');
+const theme = () => document.documentElement.dataset.theme ?? (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+const paintTheme = () => { themeButton.textContent = theme() === 'dark' ? 'Light' : 'Dark'; themeButton.setAttribute('aria-label', `Switch to ${theme() === 'dark' ? 'light' : 'dark'} colors`); };
+themeButton.addEventListener('click', () => {
+  const next = theme() === 'dark' ? 'light' : 'dark';
+  document.documentElement.dataset.theme = next;
+  try { localStorage.setItem('theme', next); } catch {}
+  paintTheme();
+});
+paintTheme();
+
+function prepare(doc) {
+  const one = doc.study1, two = doc.study2;
+  if (one) {
+    one.runs = decode(one.runCols, one.runs, one.levels);
+    one.byId = new Map(one.runs.map(r => [r.id, r]));
+    one.obs = decode(one.obsCols, one.obs, { ...one.levels, rule: one.rules.map(r => r.id), run: one.runs });
+  }
+  if (two) {
+    two.runs = decode(two.runCols, two.runs, two.levels);
+    two.byId = new Map(two.runs.map(r => [r.id, r]));
+    two.cells = new Map();
+    for (const r of two.runs) for (const g in GRID) if (GRID[g].keep(r)) {
+      const k = `${g}.${r.library}.${r.prefix}/${r.wording}`;
+      (two.cells.get(k) ?? two.cells.set(k, []).get(k)).push(r);
+    }
+  }
+  return doc;
+}
+
+document.documentElement.dataset.instant = '';
+fetch('data/summary.json').then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); }).then(doc => {
+  D = prepare(doc);
+  if (D.dev) {
+    const banner = $('#dev');
+    banner.hidden = false;
+    banner.innerHTML = '<b>Development build, outcomes shuffled.</b> Built from the pilots with each outcome shuffled within its rule (Study 1) or target (Study 2). The results are the real analysis code run on that shuffled data, so no number here is a finding.';
+    document.title = 'Because explorer, development build';
+  }
+  render();
+}).catch(e => {
+  main.innerHTML = `<section class="sec"><p class="reading">The study data did not load.</p><p class="sm" style="margin-top:.75rem">${esc(e.message)}. This page reads files next to it, so serve the folder instead of opening it from disk, for example with python3 -m http.server.</p></section>`;
+});
+</script>
+</body>
+</html>

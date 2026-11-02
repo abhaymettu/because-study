@@ -7,19 +7,30 @@ stays out of the file the reader sees.
 """
 
 import argparse
+import difflib
 import json
 import random
 from pathlib import Path
 
 from study1.design import bare_rule
-from study1.rules import BY_ID, score
+from study1.rules import BY_ID, FOCAL, score
 from study1.trace import Trace
+
+
+def diff(trace):
+    """Many rules apply only to lines the agent added, and the reader has to be able to see which those are."""
+    out = []
+    for path in sorted(set(trace["before"]) | set(trace["after"])):
+        old, new = trace["before"].get(path, ""), trace["after"].get(path, "")
+        out.extend(difflib.unified_diff(old.splitlines(), new.splitlines(), f"a/{path}", f"b/{path}", lineterm=""))
+    return "\n".join(out)
 
 
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("batch")
     p.add_argument("--n", type=int, default=100)
+    p.add_argument("--seed", default="audit")
     p.add_argument("--out", required=True)
     a = p.parse_args()
     batch = Path(a.batch)
@@ -31,8 +42,9 @@ def main():
             continue
         s = score(Trace.from_json(json.loads(path.read_text())["trace"]))
         for t in row["targets"]:
-            strata.setdefault((t["rule"], s[t["rule"]]), []).append((row["run_id"], t["reason"]))
-    rng = random.Random("audit")
+            if t["rule"] in FOCAL:
+                strata.setdefault((t["rule"], s[t["rule"]]), []).append((row["run_id"], t["reason"]))
+    rng = random.Random(a.seed)
     keys = sorted(strata)
     picks = []
     while len(picks) < a.n and any(strata.values()):
@@ -48,7 +60,7 @@ def main():
         items.append({
             "item": i, "rule_requirement": bare_rule(BY_ID[rule]), "checker_verdict": verdict,
             "commands": tr["commands"], "final_message": tr["final_message"], "commits": tr["commits"],
-            "branch": tr["branch"], "tool_calls": tr["calls"], "new_or_changed_files": tr["after"],
+            "branch": tr["branch"], "tool_calls": tr["calls"], "new_or_changed_files": tr["after"], "diff": diff(tr),
         })
         key.append({"item": i, "rule": rule, "run_id": run_id, "reason": reason, "checker_verdict": verdict})
     out = Path(a.out)

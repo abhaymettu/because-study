@@ -235,6 +235,17 @@ class Checkers(unittest.TestCase):
         t = Trace(calls=(("Write", "a.py"), ("Read", "docs/conventions.txt")))
         self.assertFalse(BY_ID["read_conventions"].check(t))
 
+    def test_a_redirect_onto_a_file_the_repo_already_had_is_not_creating_one(self):
+        wrote = (("Write", "pkg/new.py"),)
+        t = Trace(calls=wrote, commands=("cat >> pkg/errors.py <<'EOF'\nclass E(Exception): ...\nEOF",), before={"pkg/errors.py": "x\n"})
+        self.assertTrue(BY_ID["write_tool"].check(t))
+        t = Trace(calls=wrote, commands=("cat > pkg/other.py <<'EOF'\nx = 1\nEOF",), before={"pkg/errors.py": "x\n"})
+        self.assertFalse(BY_ID["write_tool"].check(t))
+        t = Trace(calls=wrote, commands=("echo x | tee pkg/other.py",))
+        self.assertFalse(BY_ID["write_tool"].check(t))
+        t = Trace(commands=("cat >> pkg/errors.py <<'EOF'\nx\nEOF",), before={"pkg/errors.py": "x\n"})
+        self.assertFalse(BY_ID["write_tool"].check(t))
+
     def test_bumping_minor_instead_of_patch_fails(self):
         t = Trace(before={"VERSION": "0.4.2\n"}, after={"VERSION": "0.5.0\n"})
         self.assertFalse(BY_ID["version_bump"].check(t))

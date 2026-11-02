@@ -1,0 +1,40 @@
+{
+ "sims": 1000,
+ "observations": 7072,
+ "no_effect": {
+  "p_under_05": 0.053,
+  "p_holm_under_05": 0.031,
+  "mean_estimate": -0.0005959207050393741
+ },
+ "run_level_no_effect_p_under_05": 0.0,
+ "effect=0.03 slope_sd=0.03": {
+  "p_under_05": 0.234,
+  "p_holm_under_05": 0.144,
+  "mean_estimate": 0.02528401183867497
+ },
+ "effect=0.03 slope_sd=0.06": {
+  "p_under_05": 0.12,
+  "p_holm_under_05": 0.072,
+  "mean_estimate": 0.02320687552901309
+ },
+ "effect=0.05 slope_sd=0.03": {
+  "p_under_05": 0.558,
+  "p_holm_under_05": 0.41,
+  "mean_estimate": 0.04297086620207289
+ },
+ "effect=0.05 slope_sd=0.06": {
+  "p_under_05": 0.342,
+  "p_holm_under_05": 0.202,
+  "mean_estimate": 0.040618269164646226
+ },
+ "effect=0.08 slope_sd=0.03": {
+  "p_under_05": 0.912,
+  "p_holm_under_05": 0.812,
+  "mean_estimate": 0.0683625590204449
+ },
+ "effect=0.08 slope_sd=0.06": {
+  "p_under_05": 0.678,
+  "p_holm_under_05": 0.53,
+  "mean_estimate": 0.06590525392199426
+ }
+}

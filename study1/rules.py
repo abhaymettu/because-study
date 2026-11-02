@@ -650,8 +650,14 @@ def _no_chain(t):
 
 def _write_tool(t):
     wrote = any(tool == "Write" and str(target).endswith(".py") for tool, target in t.calls)
-    shell_write = re.compile(r">>?\s*[\w./-]+\.py\b|\btee\b[^\n|]*\.py\b")
-    return wrote and not any(shell_write.search(c) for c in t.commands)
+    shell_write = re.compile(r">>?\s*([\w./-]+\.py)\b|\btee\b[^\n|]*?([\w./-]+\.py)\b")
+
+    def existed_at_base(path):
+        # The rule covers new files. A redirect onto a file the repo already had is an edit.
+        return any(path == old or path.endswith("/" + old) for old in t.before)
+
+    targets = [a or b for c in t.commands for a, b in shell_write.findall(c)]
+    return wrote and all(existed_at_base(x.removeprefix("./")) for x in targets)
 
 
 def _commit_body(t):
